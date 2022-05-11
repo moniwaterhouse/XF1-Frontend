@@ -8,15 +8,19 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatOptionModule } from '@angular/material/core';
 
 import {HttpClientModule} from '@angular/common/http';
 import { CampeonatosComponent } from './campeonatos/campeonatos.component';
+import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CampeonatosComponent
+    CampeonatosComponent,
+    CrearCampeonatoComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,9 @@ import { CampeonatosComponent } from './campeonatos/campeonatos.component';
     HttpClientModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
+    
   ],
   exports:[
 
