@@ -38,12 +38,12 @@
                   <li class="nav-item">
                     <a class="nav-link" routerLink="/crear-campeonato">Crear Campeonato</a>
                   </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="#">Carreras</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Crear carrera</a>
-                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/carreras">Carreras</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/crear-carrera">Crear carrera</a>
+                  </li>
               </ul>
             </div>
           </nav>
@@ -53,7 +53,7 @@
         <form class="row g-3">
             <div class="col-md-6">
               <label for="inputEmail4" class="form-label">Nombre del campeonato*</label>
-              <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}">
+              <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" maxlength="30">
             </div>
             <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">Presupuesto (millones de $)</label>

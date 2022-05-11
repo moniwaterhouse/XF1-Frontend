@@ -14,13 +14,17 @@ import {HttpClientModule} from '@angular/common/http';
 import { CampeonatosComponent } from './campeonatos/campeonatos.component';
 import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.component';
 import { FormsModule } from '@angular/forms';
+import { CrearCarreraComponent } from './crear-carrera/crear-carrera.component';
+import { CarrerasComponent } from './carreras/carreras.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CampeonatosComponent,
-    CrearCampeonatoComponent
+    CrearCampeonatoComponent,
+    CrearCarreraComponent,
+    CarrerasComponent
   ],
   imports: [
     BrowserModule,
