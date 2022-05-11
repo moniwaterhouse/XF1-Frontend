@@ -53,46 +53,93 @@
         <form class="row g-3">
             <div class="col-md-6">
               <label for="inputEmail4" class="form-label">Nombre del campeonato*</label>
-              <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" maxlength="30">
+              <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" maxlength="30" required>
             </div>
             <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Presupuesto (millones de $)</label>
-                <input type="email" class="form-control" [(ngModel)]="presupuesto" [ngModelOptions]="{standalone: true}">
+                <label class="form-label" style="margin-right: 20px;">Presupuesto*</label>
+                <mat-form-field appearance="fill">
+                    <mat-label>millones de $</mat-label>
+                    <mat-select [(ngModel)]="presupuesto" name="presupuesto">
+                      <mat-option *ngFor="let numero of opcionesPresupuesto" [value]="numero">
+                        {{numero}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                 
               </div>
             
             <div class="col-md-6">
                 
               <label for="inputCity" class="form-label" style="margin-right: 20px">Fecha de inicio*</label>
-              <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}">
+              <mat-form-field appearance="outline">
+                <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}" style="width: 200px;">
                 <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
                 <mat-datepicker #inicio></mat-datepicker>
+              </mat-form-field>
+            
             </div>
 
             
+             
+              <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Hora de inicio*</label>
+                <mat-form-field appearance="fill" style="width: 100px;">
+                    <mat-label>h</mat-label>
+                    <mat-select [(ngModel)]="horaInicio" name="horaInicio">
+                      <mat-option *ngFor="let numero of opcionesHora" [value]="numero">
+                        {{numero}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <a> : </a>
+                  <mat-form-field appearance="fill" style="width: 70px;">
+                    <mat-label>min</mat-label>
+                    <mat-select [(ngModel)]="minInicio" name="presupuesto">
+                      <mat-option *ngFor="let numero of opcionesMinutos" [value]="numero">
+                        {{numero}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+
               <div class="col-md-6">
                 
-                <label for="inputCity" class="form-label" style="margin-right: 20px">Fecha de inicio*</label>
-                <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}">
+                <label for="inputCity" class="form-label" style="margin-right: 20px">Fecha de fin*</label>
+                <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px; border-color: blue;">
                   <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
                   <mat-datepicker #fin></mat-datepicker>
-              </div>
-              <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Hora de inicio*</label>
-                <input type="email" class="form-control" [(ngModel)]="horaInicio" [ngModelOptions]="{standalone: true}">
-              </div>
-              <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Hora de fin*</label>
-                  <input type="email" class="form-control" [(ngModel)]="horaFin" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                
                 </div>
+                <div class="col-md-4">
+                    <label for="inputEmail4" class="form-label" style="width: 200px;">Hora de fin*     </label>
+                    <mat-form-field appearance="fill" style="width: 100px;">
+                        <mat-label>h</mat-label>
+                        <mat-select [(ngModel)]="horaFin" name="horaInicio">
+                          <mat-option *ngFor="let numero of opcionesHora" [value]="numero">
+                            {{numero}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <a> : </a>
+                      <mat-form-field appearance="fill" style="width: 70px;">
+                        <mat-label>min</mat-label>
+                        <mat-select [(ngModel)]="minFin" name="presupuesto">
+                          <mat-option *ngFor="let numero of opcionesMinutos" [value]="numero">
+                            {{numero}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
                 <div class="col-md-12">
                     <label for="inputEmail4" class="form-label">Descrpción</label>
-                    <input type="email" class="form-control" [(ngModel)]="reglasPuntuacion" [ngModelOptions]="{standalone: true}">
-                  </div>
-            
-                  
+                    <input type="email" class="form-control" [(ngModel)]="reglasPuntuacion" [ngModelOptions]="{standalone: true}" maxlength="1000">
+                  </div>                 
 
-            <div class="col-12">
-              <button type="button" class="btn btn-primary" (click)="crearCampeonato()">Sign in</button>
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>
+              <button type="submit" class="btn btn-primary" style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
             </div>
           </form>
     </div>
