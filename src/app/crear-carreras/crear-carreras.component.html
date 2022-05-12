@@ -49,23 +49,41 @@
           </nav>
     </div>
     <div class="col-9 form-position">
-        <h1 style="margin-bottom: 50px;">Crear campeonato</h1>
+        <h1 style="margin-bottom: 50px;">Crear carrera</h1>
         <form class="row g-3">
             <div class="col-md-6">
-              <label for="inputEmail4" class="form-label">Nombre del campeonato*</label>
+              <label for="inputEmail4" class="form-label">Nombre de la carrera*</label>
               <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" maxlength="30" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label" style="margin-right: 20px;">Presupuesto*</label>
+                <label class="form-label" style="margin-right: 20px;">Campeonato*</label>
                 <mat-form-field appearance="fill">
-                    <mat-label>millones de $</mat-label>
-                    <mat-select [(ngModel)]="presupuesto" name="presupuesto">
-                      <mat-option *ngFor="let numero of opcionesPresupuesto" [value]="numero">
-                        {{numero}}
+                    <mat-label>Campeonatos existentes</mat-label>
+                    <mat-select [(ngModel)]="campeonato" name="presupuesto">
+                      <mat-option *ngFor="let opcionCampeonato of campeonatosExistentes" [value]="opcionCampeonato.id">
+                        {{opcionCampeonato.nombre}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                  
+              </div>
+            
+              <div class="col-md-6">
+                <label class="form-label" style="margin-right: 20px; width: 200px;">Pais*</label>
+                <mat-form-field appearance="fill">
+                    <mat-label>Paises</mat-label>
+                    <mat-select [(ngModel)]="pais" name="presupuesto">
+                      <mat-option *ngFor="let pais of listaPaises" [value]="pais">
+                        {{pais}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                 
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Pista*</label>
+                <input type="email" class="form-control" [(ngModel)]="pista" [ngModelOptions]="{standalone: true}" maxlength="30" required>
               </div>
             
             <div class="col-md-6">
@@ -114,7 +132,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="inputEmail4" class="form-label" style="width: 200px;">Hora de fin (PST)*</label>
-                    <mat-form-field appearance="fill" style="width: 70px;">
+                    <mat-form-field appearance="fill" style="width:70px;">
                         <mat-label>h</mat-label>
                         <mat-select [(ngModel)]="horaFin" name="horaInicio">
                           <mat-option *ngFor="let numero of opcionesHora" [value]="numero">
@@ -131,11 +149,7 @@
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
-                  </div>
-                <div class="col-md-12">
-                    <label for="inputEmail4" class="form-label">Descrpción</label>
-                    <input type="email" class="form-control" [(ngModel)]="reglasPuntuacion" [ngModelOptions]="{standalone: true}" maxlength="1000">
-                  </div>                 
+                  </div>               
 
             <div class="col-6">
               <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>

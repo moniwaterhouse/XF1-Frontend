@@ -42,18 +42,30 @@ export class CrearCampeonatoComponent implements OnInit {
 
   i = 1;
 
+  fechasOcupadas = [];
+
   campeonato!: Campeonato;
   opcionesPresupuesto = new Array(101).fill(0).map((x, i)=> i);
   opcionesHora = new Array(25).fill(0).map((x, i)=> i);
   opcionesMinutos = new Array(61).fill(0).map((x, i)=> i);
   
   selectedFW = new FormControl();
-  frameworks: string[] = ['Angular', 'Reactjs', 'Vue'];
 
+  minDate!: Date;
+  maxDate!: Date;
+
+  currentYear = new Date().getFullYear();
+myDateFilter = (d: Date | null): boolean => {
+  const year = (d || new Date()).getFullYear();
+  return year >= this.currentYear -1 && year <= this.currentYear + 1;
+} 
   constructor(private campeonatoSrv: CampeonatosService) { }
 
   ngOnInit(): void {
     this.opcionesPresupuesto.shift();
+    
+ 
+    
   }
 
   validarCamposRequeridos(){
