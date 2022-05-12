@@ -1,6 +1,10 @@
+/**
+ * CarrerasService brinda las funciones para hacer los http requests a la base de datos de los datos relacionados con las carreras.
+ * @author Mónica Waterhouse
+ * @version V1.0
+ */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Carrera } from '../_interfaces/carreras'
 import { environment } from '@environments/environment';
 
@@ -9,7 +13,7 @@ import { environment } from '@environments/environment';
 })
 export class CarrerasService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   getCarreras() {
     return this.http.get<Carrera[]>(`${environment.apiUrl}/Carrera`);

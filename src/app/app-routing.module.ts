@@ -1,3 +1,9 @@
+/**
+ * AppRoutingModule sirve para cargar y configurar las rutas de cada una de las páginas.
+ * @author Mónica Waterhouse
+ * @version V1.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CampeonatosComponent } from './campeonatos/campeonatos.component';

@@ -1,3 +1,8 @@
+/**
+ * CampeonatosService brinda las funciones para hacer los http requests a la base de datos de los datos relacionados con los campeonatos.
+ * @author Mónica Waterhouse
+ * @version V1.0
+ */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Campeonato} from '../_interfaces/campeonatos'

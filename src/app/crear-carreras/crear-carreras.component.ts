@@ -1,3 +1,14 @@
+/**
+ * CrearCarrera es un companente que proporciona en el UI un formulario para la creación de las carreras. Utiliza diferentes banderas para poder verificar
+ * que los campos requeridos estén completados y que se cumpla con el mínimo de caracteres de los campos que así lo ameritan. Además, proporciona la lógica para
+ * evitar que los usuarios selecciones fechas anteriores a la actual, así como lógica para que la fecha de fin sea posterior a la fecha de inicio y para estas. Además,
+ * permite al usuario cancelar la creación del formulario de creacion de carrera en caso de que lo requiera.
+ * 
+ * @author Mónica Waterhouse
+ * @version V1.0
+ * 
+ */
+
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -17,7 +28,7 @@ import { ThisReceiver } from '@angular/compiler';
 
 export class CrearCarrerasComponent implements OnInit {
 
-  
+   // Declaración de variables para la asignacion de los valores de los inputs
   nombre!: string;
   campeonato!: any;
   pais!: string;
@@ -28,10 +39,10 @@ export class CrearCarrerasComponent implements OnInit {
   fechaFin!: Date;
   horaFin!: number;
   minFin!: number;
-
   tiempoInicio!: string;
   tiempoFin!: string;
 
+  // Declaración de banderas para validaciones del UI
   missingName !: boolean;
   missingCampeonato !: boolean;
   missingPais !: boolean;
@@ -42,36 +53,30 @@ export class CrearCarrerasComponent implements OnInit {
   missingMinInicio !: boolean;
   missingHoraFin !: boolean;
   missingMinFin !: boolean;
-
   missingMessage !: boolean;
-
   errorMinNombre !: boolean;
   errorMinPista !: boolean;
   campeonatoSeleccionado !: boolean;
 
+  // Declaracion de variables relacionadas la validacion de fechas y formato de fechas
   formatoFechaInicio : any;
   formatoFechaFin : any;
-
-
-  i = 1;
-
   fechasOcupadas = [];
-
-  carrera!: Carrera;
+  fechaMin!: Date;
+  fechaMax!: Date;
+  fechasCampeonato : any;
   
+  // Este grupo de variables de tipo Array son utilizadas como insumo de los dropdowns.
   opcionesHora = new Array(25).fill(0).map((x, i)=> i);
   opcionesMinutos = new Array(61).fill(0).map((x, i)=> i);
   
-  selectedFW = new FormControl();
 
-  fechaMin!: Date;
-  fechaMax!: Date;
+  campeonatosExistentes : any; // Variable para utilizar como insumo en el dropdown of 
+  
 
-  currentYear = new Date().getFullYear();
+  carrera!: Carrera; // Variable que va a ser posteriormente utilizada como body para realizar el post request de una carrera
 
-  campeonatosExistentes : any;
-  fechasCampeonato : any;
-
+  // Variable para ser utilizada como insumo del dropdown de países
   listaPaises = [
 
     "Argentina",
@@ -142,11 +147,6 @@ export class CrearCarrerasComponent implements OnInit {
     "Venezuela",
   ];
 
-myDateFilter = (d: Date | null): boolean => {
-  const year = (d || new Date()).getFullYear();
-  return year >= this.currentYear -1 && year <= this.currentYear + 1;
-} 
-
   constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router) {
     this.campeonatoSeleccionado = false;
    }
@@ -156,6 +156,13 @@ myDateFilter = (d: Date | null): boolean => {
       {this.campeonatosExistentes = response;});
   }
 
+   /**
+   * <p> Este método permite verificar que todos los espacios requeridos estén completados y que el espacio 
+   * de nombre contenga la cantidad mínima de caracteres requerida. Si las validaciones pasan, se transforman
+   * las fechas ingresadas al formato requerido por la base de datos (YYYY-MM-dd) y se hace un llamado al método
+   * crearCarrera()</p>
+   *  
+   */
   validarCamposRequeridos(){
     this.restaurarBanderas();
     console.log(this.campeonato.id);
@@ -215,6 +222,13 @@ myDateFilter = (d: Date | null): boolean => {
     }    
   }
 
+  /**
+   * <p> Este método asigna los valores correspondientes a cada uno de los atributos de la variable carrera de acuerdo
+   * a lo ingresado por el usuario en los inputs y posteriormente esta se pasa como parámtro al método de crearCarrera del servicio de 
+   * Carreras para hacer el post de este registro en la tabla Carrera en la base de datos. Cuando termina, hace un rerouting a la
+   * página de visualización de las carreras</p>
+   *  
+   */
   crearCarrera(){
     this.carrera = 
       {nombre: this.nombre, idCampeonato: this.campeonato.id, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
@@ -225,10 +239,18 @@ myDateFilter = (d: Date | null): boolean => {
     
   }
 
+  /**
+   * <p> Este método hace un rerouting a la página de visualizacion de los carrerass cuando el usuario quiere cancelar la 
+   * creación de una nueva carrera</p>
+   *  
+   */
   cancelar(){
     this.route.navigate(['/carreras']);
   }
 
+  /**
+   * <p> Restaura las banderas al valor original que tenían antes de hacer las validaciones </p>
+   */
   restaurarBanderas(){
     this.missingName = false;
 
@@ -248,13 +270,16 @@ myDateFilter = (d: Date | null): boolean => {
   this.errorMinPista = false;
   }
 
+  /**
+   *<p> Este método permite que se muestren los inputs de fechas y horas (de inicio y fin) una vez
+   que un campeonato se seleccione del dropdown y se deshabilitan las fechas que no están dentro de ese 
+   campeonato para qe no puedan ser seleccionadas. </p>
+   */
   onCampeonatoSeleccionado(){
     this.campeonatoSeleccionado = true;
     this.fechaMin = this.campeonato.fechaInicio;
     this.fechaMax = this.campeonato.fechaFin;
       
-    
-
   }
 
 }
