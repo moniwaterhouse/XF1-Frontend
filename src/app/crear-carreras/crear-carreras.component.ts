@@ -5,6 +5,7 @@ import { Carrera } from '@app/_interfaces/carreras';
 import { CarrerasService } from '@app/_services/carreras.service';
 import { first } from 'rxjs';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-carreras',
@@ -30,21 +31,25 @@ export class CrearCarrerasComponent implements OnInit {
   tiempoInicio!: string;
   tiempoFin!: string;
 
-  missingName = false;
-  missingCampeonato = false;
-  missingPais = false;
-  missingPista = false;
-  missingFechaInicio = false;
-  missingFechaFin = false;
-  missingHoraInicio = false;
-  missingMinInicio = false;
-  missingHoraFin = false;
-  missingMinFin = false;
+  missingName !: boolean;
+  missingCampeonato !: boolean;
+  missingPais !: boolean;
+  missingPista !: boolean;
+  missingFechaInicio !: boolean;
+  missingFechaFin !: boolean;
+  missingHoraInicio !: boolean;
+  missingMinInicio !: boolean;
+  missingHoraFin !: boolean;
+  missingMinFin !: boolean;
 
-  missingMessage = false;
+  missingMessage !: boolean;
+
+  errorMinNombre !: boolean;
+  errorMinPista !: boolean;
 
   formatoFechaInicio : any;
   formatoFechaFin : any;
+
 
   i = 1;
 
@@ -138,7 +143,9 @@ myDateFilter = (d: Date | null): boolean => {
   return year >= this.currentYear -1 && year <= this.currentYear + 1;
 } 
 
-  constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService) { }
+  constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router) {
+    
+   }
 
   ngOnInit(): void {
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response =>
@@ -146,47 +153,51 @@ myDateFilter = (d: Date | null): boolean => {
   }
 
   validarCamposRequeridos(){
-    if(this.nombre == ""){
+    this.resetFlags();
+
+    if(this.nombre == null || this.nombre.length < 5){
       this.missingName = true;
       this.missingMessage = true;
     }
-    if(this.pais == ""){
+    if(this.pais == null){
       this.missingPais = true;
       this.missingMessage = true;
     }
-    if(this.pista == ""){
+    if(this.pista == null || this.pista.length < 5){
       this.missingPista = true;
       this.missingMessage = true;
     }
-    else if(this.campeonato == null){
+    if(this.campeonato == null){
       this.missingCampeonato = true;
       this.missingMessage = true;
     }
-    else if(this.fechaInicio == null){
+    if(this.fechaInicio == null){
       this.missingFechaInicio = true;
       this.missingMessage = true;
     }
-    else if(this.horaInicio == null){
+    if(this.horaInicio == null){
       this.missingHoraInicio = true;
       this.missingMessage = true;
     }
-    else if(this.minInicio == null){
+    if(this.minInicio == null){
       this.missingMinInicio = true;
       this.missingMessage = true;
     }
-    else if(this.fechaFin == null){
+    if(this.fechaFin == null){
       this.missingFechaFin = true;
       this.missingMessage = true;
     }
-    else if(this.horaFin == null){
+    if(this.horaFin == null){
       this.missingHoraFin = true;
       this.missingMessage = true;
     }
-    else if(this.minFin == null){
+    if(this.minFin == null){
       this.missingMinFin = true;
       this.missingMessage = true;
     }
-    else{
+    console.log(this.missingName)
+    if(!this.missingMessage){
+
       
       this.tiempoInicio = this.horaInicio.toString()+":"+this.minInicio.toString();
       this.tiempoFin = this.horaFin.toString()+":"+this.minFin.toString();
@@ -202,7 +213,31 @@ myDateFilter = (d: Date | null): boolean => {
       {nombre: this.nombre, idCampeonato: this.campeonato, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
     
     this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe();
+
+    this.route.navigate(['/carreras']);
     
+  }
+
+  cancelar(){
+    this.route.navigate(['/carreras']);
+  }
+
+  resetFlags(){
+    this.missingName = false;
+  this.missingCampeonato = false;
+  this.missingPais = false;
+  this.missingPista = false;
+  this.missingFechaInicio = false;
+  this.missingFechaFin = false;
+  this.missingHoraInicio = false;
+  this.missingMinInicio = false;
+  this.missingHoraFin = false;
+  this.missingMinFin = false;
+
+  this.missingMessage = false;
+
+  this.errorMinNombre = false;
+  this.errorMinPista = false;
   }
 
 }
