@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+
+
+    <title>Crear carrera</title>
+  </head>
+  <body>
+<!-- NavBar - muestra logo de XF1 así como nombre y rol del usuario que está logueado -->
+<nav class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand"><img class="img-responsive" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
+  
+      <div class="topnav-right">
+        <a>Daniel Madriz - Admin</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- SideBar que muestra las diferentes opciones al administrador-->
+  <div class="row">
+    <div class="col-2">
+        <nav class="navbar  bg-light navbar-light">
+            <div class="container-fluid">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/campeonatos">Campeonatos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/crear-campeonato">Crear Campeonato</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/carreras">Carreras</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/crear-carrera">Crear carrera</a>
+                  </li>
+              </ul>
+            </div>
+          </nav>
+    </div>
+
+    <!-- Form para la creación de las carreras. Dependiendo de las banderas de validacion, los colores de los labels de cada uno de los inputs va a cambiar. Además
+    posee la lógica para mostrar los inputs de fechas y horas una vez que se selecciona un campeonato-->
+
+    <div class="col-9 form-position">
+        <h1 >Crear carrera</h1>
+        
+    <h5 style="margin-bottom: 50px;">*Espacios requeridos</h5>
+        <form class="row g-3">
+            <div class="col-md-6">
+              <label  *ngIf="missingName" class="form-label" style="color: red;">Nombre de la carrera*</label>
+              <label  *ngIf="!missingName" class="form-label" style="color: black;">Nombre de la carrera*</label>
+              <mat-form-field hintLabel="5-30 caracteres" appearance="fill">
+                <input matInput #inputName maxlength="30" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" >
+                <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"*ngIf="missingCampeonato"  style="margin-right: 20px; color: red;">Campeonato*</label>
+                <label class="form-label"*ngIf="!missingCampeonato"  style="margin-right: 20px; color: black;">Campeonato*</label>
+                <mat-form-field appearance="fill">
+                    <mat-label>Campeonatos existentes</mat-label>
+                    <mat-select [(ngModel)]="campeonato" name="presupuesto" (selectionChange)="onCampeonatoSeleccionado()">
+                      <mat-option *ngFor="let opcionCampeonato of campeonatosExistentes" [value]="opcionCampeonato">
+                        {{opcionCampeonato.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                 
+              </div>
+            
+              <div class="col-md-6">
+                <label class="form-label" *ngIf="missingPais" style="margin-right: 20px; width: 200px; color: red">Pais*</label>
+                <label class="form-label" *ngIf="!missingPais" style="margin-right: 20px; width: 200px; color: black">Pais*</label>
+                <mat-form-field appearance="fill">
+                    <mat-label>Paises</mat-label>
+                    <mat-select [(ngModel)]="pais" name="pais">
+                      <mat-option *ngFor="let pais of listaPaises" [value]="pais">
+                        {{pais}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                 
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label" *ngIf="missingPista" style="width: 200px; color: red;">Pista*</label>
+                <label for="inputEmail4" class="form-label" *ngIf="!missingPista" style="width: 200px; color: black;">Pista*</label>
+                <mat-form-field hintLabel="5-30 caracteres" appearance="fill">
+                    <input matInput #inputPista maxlength="30" [(ngModel)]="pista" [ngModelOptions]="{standalone: true}">
+                    <mat-hint align="end">{{inputPista.value?.length || 0}}/30</mat-hint>
+                  </mat-form-field>
+              </div>
+            
+            <div class="col-md-6" *ngIf="campeonatoSeleccionado">
+                
+              <label for="inputCity" class="form-label" *ngIf="missingFechaInicio" style="margin-right: 20px; color: red">Fecha de inicio*</label>
+              <label for="inputCity" class="form-label" *ngIf="!missingFechaInicio" style="margin-right: 20px; color: black">Fecha de inicio*</label>
+              <mat-form-field appearance="outline">
+                <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}" style="width: 200px;"  [min]="fechaMin" 
+                [max]="fechaMax">
+                <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
+                <mat-datepicker #inicio></mat-datepicker>
+              </mat-form-field>
+            
+            </div>
+
+            
+             
+              <div class="col-md-4" *ngIf="campeonatoSeleccionado">
+                <label for="inputEmail4" class="form-label" *ngIf="missingHoraInicio || missingMinInicio" style="color: red">Hora de inicio (PST)*</label>
+                <label for="inputEmail4" class="form-label" *ngIf="!missingHoraInicio && !missingMinInicio" style="color: black">Hora de inicio (PST)*</label>
+                <mat-form-field appearance="fill" style="width: 70px;">
+                    <mat-label>h</mat-label>
+                    <mat-select [(ngModel)]="horaInicio" name="horaInicio">
+                      <mat-option *ngFor="let numero of opcionesHora" [value]="numero">
+                        {{numero}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <a> : </a>
+                  <mat-form-field appearance="fill" style="width: 70px;">
+                    <mat-label>min</mat-label>
+                    <mat-select [(ngModel)]="minInicio" name="presupuesto">
+                      <mat-option *ngFor="let numero of opcionesMinutos" [value]="numero">
+                        {{numero}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+
+              <div class="col-md-6" *ngIf="campeonatoSeleccionado">
+                
+                <label for="inputCity" class="form-label" *ngIf="missingHoraFin" style="margin-right: 20px; color: red;">Fecha de fin*</label>
+                <label for="inputCity" class="form-label" *ngIf="!missingHoraFin" style="margin-right: 20px; color: black;">Fecha de fin*</label>
+                <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaInicio" 
+                    [max]="fechaMax">
+                  <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
+                  <mat-datepicker #fin></mat-datepicker>
+                </mat-form-field>
+                
+                </div>
+                <div class="col-md-4" *ngIf="campeonatoSeleccionado">
+                    <label for="inputEmail4" class="form-label"  *ngIf="missingHoraInicio || missingMinInicio" style="color: red; width: 200px;">Hora de fin (PST)*</label>
+                    <label for="inputEmail4" class="form-label"  *ngIf="!missingHoraInicio && !missingMinInicio" style="color: black; width: 200px;">Hora de fin (PST)*</label>
+                    <mat-form-field appearance="fill" style="width:70px;">
+                        <mat-label>h</mat-label>
+                        <mat-select [(ngModel)]="horaFin" name="horaInicio">
+                          <mat-option *ngFor="let numero of opcionesHora" [value]="numero">
+                            {{numero}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <a> : </a>
+                      <mat-form-field appearance="fill" style="width: 70px;">
+                        <mat-label>min</mat-label>
+                        <mat-select [(ngModel)]="minFin" name="presupuesto">
+                          <mat-option *ngFor="let numero of opcionesMinutos" [value]="numero">
+                            {{numero}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>               
+
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>
+              <button type="submit" class="btn btn-primary" (click)="cancelar()"style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
+            </div>
+          </form>
+    </div>
+  </div>
+  </body>
+</html>
