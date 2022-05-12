@@ -16,7 +16,7 @@ export class CarrerasComponent implements OnInit {
 
   ngOnInit(): void {
     this.carrerasSrv.getCarreras().pipe(first()).subscribe(response =>
-      {this.carreras = response});
+      {this.carreras = response;});
   }
 
 }

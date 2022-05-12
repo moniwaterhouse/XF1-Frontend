@@ -20,11 +20,7 @@ export class CarrerasService {
   }
 
   getFechasUtilizadas(id : string){
-    return this.http.get(`${environment.apiUrl}/Campeonato/Fechas/${id}`);
-  }
-
-  getListaPaises(){
-    return this.http.get(`http://country.io/names.json`);
+    return this.http.get(`${environment.apiUrl}/Carrera/Fechas/${id}`);
   }
 
 }

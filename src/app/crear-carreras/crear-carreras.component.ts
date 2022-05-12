@@ -6,6 +6,7 @@ import { CarrerasService } from '@app/_services/carreras.service';
 import { first } from 'rxjs';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { Router } from '@angular/router';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-crear-carreras',
@@ -18,7 +19,7 @@ export class CrearCarrerasComponent implements OnInit {
 
   
   nombre!: string;
-  campeonato!: string;
+  campeonato!: any;
   pais!: string;
   pista!: string;
   fechaInicio!: Date;
@@ -46,6 +47,7 @@ export class CrearCarrerasComponent implements OnInit {
 
   errorMinNombre !: boolean;
   errorMinPista !: boolean;
+  campeonatoSeleccionado !: boolean;
 
   formatoFechaInicio : any;
   formatoFechaFin : any;
@@ -62,12 +64,14 @@ export class CrearCarrerasComponent implements OnInit {
   
   selectedFW = new FormControl();
 
-  minDate!: Date;
-  maxDate!: Date;
+  fechaMin!: Date;
+  fechaMax!: Date;
 
   currentYear = new Date().getFullYear();
 
   campeonatosExistentes : any;
+  fechasCampeonato : any;
+
   listaPaises = [
 
     "Argentina",
@@ -144,7 +148,7 @@ myDateFilter = (d: Date | null): boolean => {
 } 
 
   constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router) {
-    
+    this.campeonatoSeleccionado = false;
    }
 
   ngOnInit(): void {
@@ -195,7 +199,7 @@ myDateFilter = (d: Date | null): boolean => {
       this.missingMinFin = true;
       this.missingMessage = true;
     }
-    console.log(this.missingName)
+   
     if(!this.missingMessage){
 
       
@@ -238,6 +242,15 @@ myDateFilter = (d: Date | null): boolean => {
 
   this.errorMinNombre = false;
   this.errorMinPista = false;
+  }
+
+  onCampeonatoSeleccionado(){
+    this.campeonatoSeleccionado = true;
+    this.fechaMin = this.campeonato.fechaInicio;
+    this.fechaMax = this.campeonato.fechaFin;
+      
+    
+
   }
 
 }
