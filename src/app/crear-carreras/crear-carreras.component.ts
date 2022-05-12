@@ -157,7 +157,8 @@ myDateFilter = (d: Date | null): boolean => {
   }
 
   validarCamposRequeridos(){
-    this.resetFlags();
+    this.restaurarBanderas();
+    console.log(this.campeonato.id);
 
     if(this.nombre == null || this.nombre.length < 5){
       this.missingName = true;
@@ -208,13 +209,15 @@ myDateFilter = (d: Date | null): boolean => {
       const datepipe: DatePipe = new DatePipe('en-US');
       this.formatoFechaInicio = datepipe.transform(this.fechaInicio, 'YYYY-MM-dd');
       this.formatoFechaFin = datepipe.transform(this.fechaFin, 'YYYY-MM-dd');
+      console.log(this.formatoFechaInicio);
+      console.log(this.formatoFechaFin);
       this.crearCarrera();
     }    
   }
 
   crearCarrera(){
     this.carrera = 
-      {nombre: this.nombre, idCampeonato: this.campeonato, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
+      {nombre: this.nombre, idCampeonato: this.campeonato.id, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
     
     this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe();
 
@@ -226,8 +229,9 @@ myDateFilter = (d: Date | null): boolean => {
     this.route.navigate(['/carreras']);
   }
 
-  resetFlags(){
+  restaurarBanderas(){
     this.missingName = false;
+
   this.missingCampeonato = false;
   this.missingPais = false;
   this.missingPista = false;

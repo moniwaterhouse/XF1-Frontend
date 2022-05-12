@@ -4,6 +4,7 @@ import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { first, range } from 'rxjs';
 import { DatePipe } from '@angular/common'
 import { Campeonato} from '../_interfaces/campeonatos'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-campeonato',
@@ -26,16 +27,16 @@ export class CrearCampeonatoComponent implements OnInit {
   tiempoInicio!: string;
   tiempoFin!: string;
 
-  missingName = false;
-  missingPresupuesto = false;
-  missingFechaInicio = false;
-  missingFechaFin = false;
-  missingHoraInicio = false;
-  missingMinInicio = false;
-  missingHoraFin = false;
-  missingMinFin = false;
+  missingName!: boolean;
+  missingPresupuesto!: boolean;
+  missingFechaInicio!: boolean;
+  missingFechaFin!: boolean;
+  missingHoraInicio!: boolean;
+  missingMinInicio!: boolean;
+  missingHoraFin!: boolean;
+  missingMinFin!: boolean;
 
-  missingMessage = false;
+  missingMessage !: boolean;
 
   formatoFechaInicio : any;
   formatoFechaFin : any;
@@ -51,17 +52,14 @@ export class CrearCampeonatoComponent implements OnInit {
   
   selectedFW = new FormControl();
 
-  minDate!: Date;
-  maxDate!: Date;
+  fechaMin!: Date;
+  fechaMax!: Date;
 
   currentYear = new Date().getFullYear();
-myDateFilter = (d: Date | null): boolean => {
-  const year = (d || new Date()).getFullYear();
-  return year >= this.currentYear -1 && year <= this.currentYear + 1;
-} 
-  constructor(private campeonatoSrv: CampeonatosService) { }
+  constructor(private campeonatoSrv: CampeonatosService, private route : Router) { }
 
   ngOnInit(): void {
+    this.fechaMin = new Date();
     this.opcionesPresupuesto.shift();
     
  
@@ -69,56 +67,59 @@ myDateFilter = (d: Date | null): boolean => {
   }
 
   validarCamposRequeridos(){
-    if(this.nombre == ""){
+    this.restaurarBanderas();
+    if(this.nombre == null || this.nombre.length < 5){
       this.missingName = true;
       this.missingMessage = true;
     }
-    else if(this.presupuesto == null){
+    if(this.presupuesto == null){
       this.missingPresupuesto = true;
       this.missingMessage = true;
     }
-    else if(this.fechaInicio == null){
+    if(this.fechaInicio == null){
       this.missingFechaInicio = true;
       this.missingMessage = true;
     }
-    else if(this.horaInicio == null){
+    if(this.horaInicio == null){
       this.missingHoraInicio = true;
       this.missingMessage = true;
     }
-    else if(this.minInicio == null){
+    if(this.minInicio == null){
       this.missingMinInicio = true;
       this.missingMessage = true;
     }
-    else if(this.fechaFin == null){
+    if(this.fechaFin == null){
       this.missingFechaFin = true;
       this.missingMessage = true;
     }
-    else if(this.horaFin == null){
+    if(this.horaFin == null){
       this.missingHoraFin = true;
       this.missingMessage = true;
     }
-    else if(this.minFin == null){
+    if(this.minFin == null){
       this.missingMinFin = true;
       this.missingMessage = true;
     }
-    else{
-      if(this.reglasPuntuacion == null){
-        this.reglasPuntuacion = "";
-      }
-      this.tiempoInicio = this.horaInicio.toString()+":"+this.minInicio.toString();
-      this.tiempoFin = this.horaFin.toString()+":"+this.minFin.toString();
-      const datepipe: DatePipe = new DatePipe('en-US');
-      this.formatoFechaInicio = datepipe.transform(this.fechaInicio, 'YYYY-MM-dd');
-      this.formatoFechaFin = datepipe.transform(this.fechaFin, 'YYYY-MM-dd');
-      console.log(this.nombre);
-      console.log(this.presupuesto);
-      console.log(this.tiempoInicio);
-      console.log(this.formatoFechaInicio);
-      console.log(this.tiempoFin);
-      console.log(this.formatoFechaFin);
-      console.log(this.reglasPuntuacion);
-      this.crearCampeonato();
-    }    
+
+    if(!this.missingMessage){
+        if(this.reglasPuntuacion == null){
+          this.reglasPuntuacion = "";
+        }
+        this.tiempoInicio = this.horaInicio.toString()+":"+this.minInicio.toString();
+        this.tiempoFin = this.horaFin.toString()+":"+this.minFin.toString();
+        const datepipe: DatePipe = new DatePipe('en-US');
+        this.formatoFechaInicio = datepipe.transform(this.fechaInicio, 'YYYY-MM-dd');
+        this.formatoFechaFin = datepipe.transform(this.fechaFin, 'YYYY-MM-dd');
+        console.log(this.nombre);
+        console.log(this.presupuesto);
+        console.log(this.tiempoInicio);
+        console.log(this.formatoFechaInicio);
+        console.log(this.tiempoFin);
+        console.log(this.formatoFechaFin);
+        console.log(this.reglasPuntuacion);
+        this.crearCampeonato();  
+    }
+    
   }
 
   crearCampeonato(){
@@ -127,7 +128,25 @@ myDateFilter = (d: Date | null): boolean => {
     ;
     
     this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe();
+    this.route.navigate(['/campeonatos']);
     
+  }
+
+  cancelar(){
+    this.route.navigate(['/campeonatos']);
+  }
+
+  restaurarBanderas(){
+    this.missingName = false;
+    this.missingPresupuesto = false;
+    this.missingFechaInicio = false;
+    this.missingFechaFin = false;
+    this.missingHoraInicio = false;
+    this.missingMinInicio = false;
+    this.missingHoraFin = false;
+    this.missingMinFin = false;
+  
+    this.missingMessage = false;
   }
 
 }

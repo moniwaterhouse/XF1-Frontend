@@ -49,14 +49,21 @@
           </nav>
     </div>
     <div class="col-9 form-position">
-        <h1 style="margin-bottom: 50px;">Crear campeonato</h1>
+      <h1 >Crear campeonato</h1>
+        
+      <h5 style="margin-bottom: 50px;">*Espacios requeridos</h5>
         <form class="row g-3">
             <div class="col-md-6">
-              <label for="inputEmail4" class="form-label">Nombre del campeonato*</label>
-              <input type="email" class="form-control" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" maxlength="30" required>
+              <label  *ngIf="missingName" class="form-label" style="color: red;">Nombre del campeonato*</label>
+              <label  *ngIf="!missingName" class="form-label" style="color: black;">Nombre del campeonato*</label>
+              <mat-form-field hintLabel="5-30 caracteres" appearance="fill">
+                <input matInput #inputName maxlength="30" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" >
+                <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+              </mat-form-field>
             </div>
             <div class="col-md-6">
-                <label class="form-label" style="margin-right: 20px;">Presupuesto*</label>
+              <label  *ngIf="missingPresupuesto" class="form-label" style="color: red; width: 200px;">Presupuesto*</label>
+              <label  *ngIf="!missingPresupuesto" class="form-label" style="color: black; width: 200px;">Presupuesto*</label>
                 <mat-form-field appearance="fill">
                     <mat-label>millones de $</mat-label>
                     <mat-select [(ngModel)]="presupuesto" name="presupuesto">
@@ -70,9 +77,10 @@
             
             <div class="col-md-6">
                 
-              <label for="inputCity" class="form-label" style="margin-right: 20px">Fecha de inicio*</label>
+              <label  *ngIf="missingFechaInicio" class="form-label" style="color: red;">Fecha de inicio*</label>
+              <label  *ngIf="!missingFechaInicio" class="form-label" style="color: black;">Fecha de inicio*</label>
               <mat-form-field appearance="outline">
-                <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}" style="width: 200px;"  [matDatepickerFilter]="myDateFilter">
+                <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaMin">
                 <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
                 <mat-datepicker #inicio></mat-datepicker>
               </mat-form-field>
@@ -82,7 +90,8 @@
             
              
               <div class="col-md-4">
-                <label for="inputEmail4" class="form-label">Hora de inicio (PST)*</label>
+                <label  *ngIf="missingHoraInicio || missingMinInicio" class="form-label" style="color: red;">Hora de inicio (PST)*</label>
+              <label  *ngIf="!missingHoraInicio && !missingMinInicio" class="form-label" style="color: black;">Hora de inicio (PST)*</label>
                 <mat-form-field appearance="fill" style="width: 70px;">
                     <mat-label>h</mat-label>
                     <mat-select [(ngModel)]="horaInicio" name="horaInicio">
@@ -104,16 +113,18 @@
 
               <div class="col-md-6">
                 
-                <label for="inputCity" class="form-label" style="margin-right: 20px">Fecha de fin*</label>
+                <label  *ngIf="missingFechaFin" class="form-label" style="color: red;">Fecha de fin*</label>
+              <label  *ngIf="!missingFechaFin" class="form-label" style="color: black;">Fecha de fin*</label>
                 <mat-form-field appearance="outline">
-                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px; border-color: blue;">
+                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaInicio">
                   <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
                   <mat-datepicker #fin></mat-datepicker>
                 </mat-form-field>
                 
                 </div>
                 <div class="col-md-4">
-                    <label for="inputEmail4" class="form-label" style="width: 200px;">Hora de fin (PST)*</label>
+                  <label  *ngIf="missingHoraFin || missingMinFin" class="form-label" style="color: red; width: 200px;">Hora de fin (PST)*</label>
+                  <label  *ngIf="!missingHoraFin && !missingMinFin" class="form-label" style="color: black; width: 200px;">Hora de fin (PST)*</label>
                     <mat-form-field appearance="fill" style="width: 70px;">
                         <mat-label>h</mat-label>
                         <mat-select [(ngModel)]="horaFin" name="horaInicio">
@@ -139,7 +150,7 @@
 
             <div class="col-6">
               <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>
-              <button type="submit" class="btn btn-primary" style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
+              <button type="submit" class="btn btn-primary" (click)="cancelar()"style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
             </div>
           </form>
     </div>
