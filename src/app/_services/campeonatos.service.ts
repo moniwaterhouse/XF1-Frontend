@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 import { Campeonato} from '../_interfaces/campeonatos'
 import { environment } from '@environments/environment';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({

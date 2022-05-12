@@ -16,9 +16,6 @@ export class CampeonatosComponent implements OnInit {
 
   ngOnInit(): void {
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response =>
-      {this.campeonatos = response;
-      console.log(this.campeonatos)}); 
-    
-      this.campeonatoSrv.getFechasUtilizadas().pipe(first()).subscribe(response => console.log(response))
+      {this.campeonatos = response;}); 
   }
 }
