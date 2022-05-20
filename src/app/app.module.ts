@@ -21,6 +21,7 @@ import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.co
 import { FormsModule } from '@angular/forms';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
+import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
     CampeonatosComponent,
     CrearCampeonatoComponent,
     CarrerasComponent,
-    CrearCarrerasComponent
+    CrearCarrerasComponent,
+    ConfigurarEscuderiaComponent
   ],
   imports: [
     BrowserModule,
