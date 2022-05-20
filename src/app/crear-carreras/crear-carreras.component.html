@@ -59,8 +59,8 @@
             <div class="col-md-6">
               <label  *ngIf="missingName" class="form-label" style="color: red;">Nombre de la carrera*</label>
               <label  *ngIf="!missingName" class="form-label" style="color: black;">Nombre de la carrera*</label>
-              <mat-form-field hintLabel="5-30 caracteres" appearance="fill">
-                <input matInput #inputName maxlength="30" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" >
+              <mat-form-field hintLabel="5-30 caracteres" appearance="fill" >
+                <input  matInput #inputName maxlength="30" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}" >
                 <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
               </mat-form-field>
             </div>
@@ -107,8 +107,8 @@
               <label for="inputCity" class="form-label" *ngIf="!missingFechaInicio" style="margin-right: 20px; color: black">Fecha de inicio*</label>
               <mat-form-field appearance="outline">
                 <input matInput [matDatepicker]="inicio" [(ngModel)]="fechaInicio" [ngModelOptions]="{standalone: true}" style="width: 200px;"  [min]="fechaMin" 
-                [max]="fechaMax">
-                <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
+                [max]="fechaMax" [matDatepickerFilter]="filtroFechas">
+                <mat-datepicker-toggle matSuffix [for]="inicio" ></mat-datepicker-toggle >
                 <mat-datepicker #inicio></mat-datepicker>
               </mat-form-field>
             
@@ -173,8 +173,8 @@
                   </div>               
 
             <div class="col-6">
-              <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>
-              <button type="submit" class="btn btn-primary" (click)="cancelar()"style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
+              <button type="button" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;" >Crear</button>
+              <button type="button" class="btn btn-primary" (click)="cancelar()"style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
             </div>
           </form>
     </div>

@@ -10,7 +10,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { first, range } from 'rxjs';
 import { DatePipe } from '@angular/common'
@@ -54,7 +53,9 @@ export class CrearCampeonatoComponent implements OnInit {
   formatoFechaFin : any;
   fechaMin!: Date;
   fechaMax!: Date;
-  fechasOcupadas = [];
+  fechasOcupadas = new Array();
+  fechasCampeonatosCreados !: any;
+  filtroFechas !: any;
 
   campeonato!: Campeonato;
   
@@ -63,11 +64,24 @@ export class CrearCampeonatoComponent implements OnInit {
   opcionesHora = new Array(25).fill(0).map((x, i)=> i);
   opcionesMinutos = new Array(61).fill(0).map((x, i)=> i);
   
+  
   constructor(private campeonatoSrv: CampeonatosService, private route : Router) { }
 
   ngOnInit(): void {
     this.fechaMin = new Date();
     this.opcionesPresupuesto.shift();
+
+    this.campeonatoSrv.getFechasUtilizadas().pipe(first()).subscribe(response =>
+      {this.fechasCampeonatosCreados = response;
+        this.getFechasNoDisponibles(this.fechasCampeonatosCreados);
+      });
+      this.filtroFechas = (d: Date): boolean => {
+        let time=d.getTime();
+        return !this.fechasOcupadas.find(x=>x.getTime()==time)
+      }
+    
+      
+    
   }
 
   /**
@@ -139,7 +153,7 @@ export class CrearCampeonatoComponent implements OnInit {
     ;
     
     this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe();
-    this.route.navigate(['/campeonatos']);
+    location.href = "http://localhost:4200/campeonatos"
     
   }
 
@@ -153,7 +167,7 @@ export class CrearCampeonatoComponent implements OnInit {
   }
 
   /**
-   * Restaura las banderas al valor original que tenían antes de hacer las validaciones
+   * <p> Restaura las banderas al valor original que tenían antes de hacer las validaciones</p>
    */
   restaurarBanderas(){
     this.missingName = false;
@@ -167,5 +181,36 @@ export class CrearCampeonatoComponent implements OnInit {
   
     this.missingMessage = false;
   }
+
+  /**
+   * <p> Llama al servicio de campeonatos para obtener las fechas de los campeonatos ya creados para 
+   * que estas no puedan ser seleccionadas al momento de crear un nuevo campeonato </p>
+   * @param fechas es un json con la lista de las fechas de inicio y fin de cada uno de los campeonatos
+   */
+  getFechasNoDisponibles(fechas : any){
+    var auxFechas = new Array();
+    
+    for(let fecha of fechas){
+      auxFechas = this.crearListaFechas(fecha.fechaInicio, fecha.fechaFin);
+      this.fechasOcupadas = this.fechasOcupadas.concat(auxFechas);
+      
+    }
+  }
+
+   /**
+   * <p> Crea una lista de fechas tomando a partir de una fecha de inicio y una fecha final </p>
+   * @param incio es la fecha de inicio de la lista
+   * @param fin es la fecha final de la lista
+   */
+  crearListaFechas = function(inicio: any, fin: any) {
+    var arr = new Array();
+    var dt = new Date(inicio);
+    var endDt = new Date(fin);
+    while (dt <= endDt) {
+        arr.push(new Date(dt));
+        dt.setDate(dt.getDate() + 1);
+    }
+    return arr;
+}
 
 }

@@ -26,8 +26,7 @@
       "@app/*": ["src/app/*"],
       "@environments/*": ["src/environments/*"]
   },
-  "types": [ "node" ],
-"typeRoots": [ "../node_modules/@types" ]
+
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

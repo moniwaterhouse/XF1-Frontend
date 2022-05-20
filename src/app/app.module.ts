@@ -21,6 +21,7 @@ import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.co
 import { FormsModule } from '@angular/forms';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
     CampeonatosComponent,
     CrearCampeonatoComponent,
     CarrerasComponent,
-    CrearCarrerasComponent
+    CrearCarrerasComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,8 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
     MatInputModule,
     FormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
     
   ],
   exports:[
