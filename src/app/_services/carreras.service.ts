@@ -16,7 +16,7 @@ export class CarrerasService {
   constructor(private http: HttpClient) { }
 
   getCarreras() {
-    return this.http.get<Carrera[]>(`${environment.apiUrl}/Carrera`);
+    return this.http.get<Carrera[]>(`${environment.apiUrl}/Carrera/NombreCampeonato`);
   }
 
   crearCarrera(carrera : Carrera){

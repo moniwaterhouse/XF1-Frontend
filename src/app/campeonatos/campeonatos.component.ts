@@ -23,6 +23,8 @@ export class CampeonatosComponent implements OnInit {
   constructor( private campeonatoSrv: CampeonatosService) { }
 
   ngOnInit(): void {
+    
+
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response =>
       {this.campeonatos = response;}); 
   }
