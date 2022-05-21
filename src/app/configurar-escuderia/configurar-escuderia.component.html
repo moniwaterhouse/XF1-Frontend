@@ -30,11 +30,12 @@
     <form class="row g-3">
       <div class="col-md-4">
         <label *ngIf="!faltaNombreEsc" class="form-label" style="color: black;">Nombre de mi escudería*</label>
-        <label *ngIf="faltaNombreEsc" class="form-label" style="color: red;">Nombre de mi escudería*</label>
+        <label *ngIf="faltaNombreEsc" class="form-label" style="color: red;">Nombre de mi escudería*  </label>
         <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
           <input matInput #inputName maxlength="30" [(ngModel)]="nombreEsc" [ngModelOptions]="{standalone: true}">
           <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
+        <label *ngIf="nombreEscTomado" class="form-label" style="color: red;">**Nombre en uso**</label>
       </div>
       <div class="col-md-4">
         <label *ngIf="!faltaNombreE1" class="form-label" style="color: black;">Nombre de mi equipo 1*</label>
@@ -113,9 +114,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let escuderia of escuderias">
-                <th scope="col">{{escuderia}}</th>
-                <th scope="col">{{escuderia}}</th>
-                <th scope="col">10</th>
+                <th scope="col">{{escuderia.urlLogo}}</th>
+                <th scope="col">{{escuderia.marca}}</th>
+                <th scope="col">{{escuderia.precio}}</th>
                 <th scope="col">
                   <div class="form-check" *ngIf="escuderia==escuderiaE1">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
@@ -139,15 +140,17 @@
                 <th scope="col">Nacionalidad</th>
                 <th scope="col">Equipo</th>
                 <th scope="col">Precio</th>
-                <th scope="col">Selección</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Selección (5)</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let piloto of pilotos" class="container vertical-scrollable">
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">10</th>
+                <th scope="col">{{piloto.nombre}}</th>
+                <th scope="col">{{piloto.pais}}</th>
+                <th scope="col">{{piloto.equipoReal}}</th>
+                <th scope="col">{{piloto.precio}}</th>
+                <th scope="col">{{piloto.urlLogo}}</th>
                 <th scope="col">
                   <div *ngIf="!pilotosE1completos">
                     <div class="form-check" *ngIf="pilotosE1.includes(piloto)">
@@ -206,9 +209,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let escuderia of escuderias">
-                <th scope="col">{{escuderia}}</th>
-                <th scope="col">{{escuderia}}</th>
-                <th scope="col">10</th>
+                <th scope="col">{{escuderia.urlLogo}}</th>
+                <th scope="col">{{escuderia.marca}}</th>
+                <th scope="col">{{escuderia.precio}}</th>
                 <th scope="col">
                   <div class="form-check" *ngIf="escuderia==escuderiaE2">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
@@ -232,15 +235,17 @@
                 <th scope="col">Nacionalidad</th>
                 <th scope="col">Equipo</th>
                 <th scope="col">Precio</th>
-                <th scope="col">Selección</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Selección (5)</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let piloto of pilotos" class="container vertical-scrollable">
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">{{piloto}}</th>
-                <th scope="col">10</th>
+                <th scope="col">{{piloto.nombre}}</th>
+                <th scope="col">{{piloto.pais}}</th>
+                <th scope="col">{{piloto.equipoReal}}</th>
+                <th scope="col">{{piloto.precio}}</th>
+                <th scope="col">{{piloto.urlLogo}}</th>
                 <th scope="col">
                   <div *ngIf="!pilotosE2completos">
                     <div class="form-check" *ngIf="pilotosE2.includes(piloto)">
