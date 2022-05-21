@@ -11,13 +11,11 @@
 
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Carrera } from '@app/_interfaces/carreras';
 import { CarrerasService } from '@app/_services/carreras.service';
 import { first } from 'rxjs';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { Router } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
 import { PAISES } from '../_data/paises';
 
 @Component({
