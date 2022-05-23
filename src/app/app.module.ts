@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
 
 
@@ -32,6 +33,7 @@ import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.co
     CrearCampeonatoComponent,
     CarrerasComponent,
     CrearCarrerasComponent,
+    ConfigurarEscuderiaComponent, 
     RegistroJugadorComponent
   ],
   imports: [

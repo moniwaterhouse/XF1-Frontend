@@ -15,6 +15,7 @@ import { Jugador } from '@app/_interfaces/jugador';
 import { UsuarioService } from '@app/_services/usuario';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
+import { EscuderiasService } from '@app/_services/escuderias.service';
 
 @Component({
   selector: 'app-registro-jugador',
@@ -46,7 +47,7 @@ export class RegistroJugadorComponent implements OnInit {
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises : any;
 
-  constructor( private usuarioSrv : UsuarioService, private route : Router ) { 
+  constructor( private usuarioSrv : UsuarioService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
 
     this.listaPaises = PAISES;
     this.letters = /^[a-zA-Z]+$/;
@@ -106,7 +107,7 @@ export class RegistroJugadorComponent implements OnInit {
         console.log(this.letters);
         console.log(this.numbers);
         this.contrasenaInvalida;
-        this.missingMessage = true;
+        //this.missingMessage = true;
       }
     }
 
@@ -114,7 +115,8 @@ export class RegistroJugadorComponent implements OnInit {
       console.log("Valores con errores")
     }
     else{
-      console.log("Correcto")
+      this.escuderiasSrv.setUser(this.nombreUsuario);
+      this.route.navigate(['/configurar-escuderia']);
     }   
   }
 
