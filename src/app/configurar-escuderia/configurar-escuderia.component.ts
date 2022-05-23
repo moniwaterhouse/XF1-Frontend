@@ -20,6 +20,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   escuderiaE2!: Escuderia;
   pilotosE1: Array<Piloto> = [];
   pilotosE2: Array<Piloto> = [];
+  nombreUsuario !: string;
 
   // Variable para seleccionar entre equipos, si es verdadera es equipo 1 si es falsa es equipo 2
   equipo: boolean = true;
@@ -50,9 +51,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     this.escuderiasSrv.getEscuderias().pipe(first()).subscribe(response => { this.escuderias = response; });
     this.escuderiasSrv.getNombresEscuderias().pipe(first()).subscribe(response => { this.nombresEscuderias = response; });
     this.pilotosSrv.getPilotos().pipe(first()).subscribe(response => { this.pilotos = response; });
+    this.escuderiasSrv.userAux.subscribe(u=>{this.nombreUsuario = u});
+    
 
   }
-
 
   selecEsc(escu: Escuderia) {
     if (this.equipo) {
@@ -179,6 +181,6 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     }
   }
   cancelar() {
-
+    console.log("Usuario: " + this.nombreUsuario);
   }
 }

@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'campeonatos', component: CampeonatosComponent},
   { path: 'crear-carrera', component: CrearCarrerasComponent},
   { path: 'carreras', component: CarrerasComponent},
-  { path: 'registro-jugador', component: RegistroJugadorComponent }
+  { path: 'registro-jugador', component: RegistroJugadorComponent },
   { path: 'configurar-escuderia', component: ConfigurarEscuderiaComponent }
 ];
 
