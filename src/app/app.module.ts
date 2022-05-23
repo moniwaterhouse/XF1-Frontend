@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CrearCampeonatoComponent,
     CarrerasComponent,
     CrearCarrerasComponent,
+    RegistroJugadorComponent
   ],
   imports: [
     BrowserModule,
