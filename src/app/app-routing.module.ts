@@ -11,6 +11,7 @@ import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
+import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 
 const routes: Routes = [
   { path: 'crear-campeonato', component: CrearCampeonatoComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'crear-carrera', component: CrearCarrerasComponent},
   { path: 'carreras', component: CarrerasComponent},
   { path: 'registro-jugador', component: RegistroJugadorComponent }
+  { path: 'configurar-escuderia', component: ConfigurarEscuderiaComponent }
 ];
 
 @NgModule({

@@ -23,6 +23,7 @@ import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
+import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.co
     CarrerasComponent,
     CrearCarrerasComponent,
     RegistroJugadorComponent
+    ConfigurarEscuderiaComponent
   ],
   imports: [
     BrowserModule,
