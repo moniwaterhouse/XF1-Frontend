@@ -39,10 +39,14 @@ export class RegistroJugadorComponent implements OnInit {
   missingMessage !: boolean;
   letters !: any;
   numbers !: any;
+  minLetras !: boolean;
+  minNumeros !: boolean;
 
   jugador !: Jugador;
   correos : any;
   escuderias : any;
+
+  hide = true;
 
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises : any;
@@ -103,21 +107,29 @@ export class RegistroJugadorComponent implements OnInit {
       this.missingMessage = true;
     }
     else{
-      if(!this.contrasena.match(this.letters) || !this.contrasena.match(this.numbers)){
-        console.log(this.letters);
-        console.log(this.numbers);
-        this.contrasenaInvalida;
-        //this.missingMessage = true;
+      for (let i = 0; i < this.contrasena.length; i++){
+        if(/[a-zA-Z]/.test(this.contrasena[i])){
+          this.minLetras = true;  
+        }
+        else if(/[0-9]/.test(this.contrasena[i])){
+          this.minNumeros = true;
+        }
+        else{
+          this.contrasenaInvalida = true;
+          break;
+        }
       }
+      
     }
 
-    if(this.missingMessage){
-      console.log("Valores con errores")
+    if(!this.minLetras || !this.minNumeros){
+      this.contrasenaInvalida = true;
     }
-    else{
+
+    if(!(this.missingMessage || this.contrasenaInvalida)){
       this.escuderiasSrv.setUser(this.nombreUsuario);
       this.route.navigate(['/configurar-escuderia']);
-    }   
+    }
   }
 
    /**
@@ -130,6 +142,9 @@ export class RegistroJugadorComponent implements OnInit {
       this.missingContrasena = false;
       this.correoInvalido = false;
       this.contrasenaInvalida = false;
+      this.minLetras = false;
+      this.minNumeros = false;
+      this.missingMessage = false;
     }
 
     /**
@@ -138,7 +153,7 @@ export class RegistroJugadorComponent implements OnInit {
    *  
    */
   cancelar(){
-    this.route.navigate(['/registro-jugador']);
+    window.location.reload();
   }
 
 }

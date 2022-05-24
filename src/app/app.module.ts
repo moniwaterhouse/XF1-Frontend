@@ -24,6 +24,7 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
+import { MatIconModule } from "@angular/material/icon";
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.co
     FormsModule,
     MatOptionModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
     
   ],
   exports:[
