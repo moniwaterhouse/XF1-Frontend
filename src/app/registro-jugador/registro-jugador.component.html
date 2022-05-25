@@ -55,16 +55,19 @@
                         <mat-form-field appearance="fill" >
                           <input  matInput #inputCorreo [(ngModel)]="correo" [ngModelOptions]="{standalone: true}">
                           <mat-hint align="end"  *ngIf="correoInvalido" style="color: red;">Correo inválido</mat-hint>
+                          <mat-hint align="end"  *ngIf="correoNoDisponible" style="color: red;">Correo ya está utilizado</mat-hint>
                         </mat-form-field>
                       </div>
                       <div class="col-md-4" style="margin-left: 2%;">
                         <label  *ngIf="missingContrasena || contrasenaInvalida" class="form-label" style="color: red;">Contraseña*</label>
-                        <label  *ngIf="!missingContrasena && !contrasenaInvalida" class="form-label" style="color: black;">Contraseña*</label>
+                        <label  *ngIf="!missingContrasena && !contrasenaInvalida" class="form-label" style="color: black; margin-right: 100px;">Contraseña*</label>
                         <mat-form-field hintLabel="8 caracteres alfanuméricos" appearance="fill" >
-                          <input  matInput #inputContrasena maxlength="8" [(ngModel)]="contrasena" [ngModelOptions]="{standalone: true}">
+                            <input matInput #inputContrasena maxlength="8" [(ngModel)]="contrasena" [type]="hide ? 'password' : 'text'" required [ngModelOptions]="{standalone: true}">
+                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            
                           <mat-hint align="end">{{inputContrasena.value?.length || 0}}/8</mat-hint>
-                          <mat-hint align="end"  *ngIf="contrasenaInvalida">Correo inválido</mat-hint>
                         </mat-form-field>
+                        <h5 *ngIf="contrasenaInvalida" style="color: red;"> Debe contener solo números y letras. Debe ser estrictamente de 8 caracteres y mínimo contener 1 número y 1 letra.</h5>
                       </div>
         
         

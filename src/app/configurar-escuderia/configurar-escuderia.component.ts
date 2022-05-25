@@ -4,6 +4,12 @@ import { PilotosService } from '../_services/pilotos.service';
 import { first } from 'rxjs';
 import { Escuderia } from '../_interfaces/escuderias';
 import { Piloto } from '../_interfaces/pilotos';
+import { Jugador } from '@app/_interfaces/jugador';
+import { JugadorService } from '@app/_services/jugador.service';
+import { Router } from '@angular/router';
+import { EquipoService } from '@app/_services/equipo.service';
+import { Equipo } from '@app/_interfaces/equipo';
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-configurar-escuderia',
@@ -20,7 +26,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   escuderiaE2!: Escuderia;
   pilotosE1: Array<Piloto> = [];
   pilotosE2: Array<Piloto> = [];
-  nombreUsuario !: string;
+  jugador !: Jugador;
 
   // Variable para seleccionar entre equipos, si es verdadera es equipo 1 si es falsa es equipo 2
   equipo: boolean = true;
@@ -44,16 +50,23 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   incompletoE2: boolean = false;
   pilotosE1completos: boolean = false;
   pilotosE2completos: boolean = false;
+  cuentaCreada: boolean = false;
 
-  constructor(private escuderiasSrv: EscuderiasService, private pilotosSrv: PilotosService) { }
+
+  // Objetos para hacer los posts para la creación de la cuenta de jugador
+  equipo1 !: Equipo;
+  equipo2 !: Equipo;
+  idEquipo1 !: any;
+  idEquipo2 !: any;
+
+
+  constructor(private escuderiasSrv: EscuderiasService, private pilotosSrv: PilotosService, private jugadorSrv: JugadorService, private equipoSrv : EquipoService, private route : Router) { }
 
   ngOnInit(): void {
     this.escuderiasSrv.getEscuderias().pipe(first()).subscribe(response => { this.escuderias = response; });
     this.escuderiasSrv.getNombresEscuderias().pipe(first()).subscribe(response => { this.nombresEscuderias = response; });
     this.pilotosSrv.getPilotos().pipe(first()).subscribe(response => { this.pilotos = response; });
-    this.escuderiasSrv.userAux.subscribe(u=>{this.nombreUsuario = u});
-    
-
+    this.jugadorSrv.jugadorAux.subscribe((u: Jugador)=>{this.jugador = u});
   }
 
   selecEsc(escu: Escuderia) {
@@ -177,10 +190,22 @@ export class ConfigurarEscuderiaComponent implements OnInit {
       this.incompletoE2 = true;
     } else { this.incompletoE2 = false; }
     if (!this.faltaNombreEsc && !this.faltaNombreE1 && !this.faltaNombreE2 && !this.incompletoE1 && !this.incompletoE2 && !this.nombreEscTomado) {
-      console.log("Cuenta creada")
+      this.equipo1 = {marcaEscuderia : this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2 : this.pilotosE1[1].nombre, nombrePiloto3 : this.pilotosE1[2].nombre, NombrePiloto4 : this.pilotosE1[3].nombre, nombrePiloto5 : this.pilotosE1[4].nombre, puntajePublica : 0, costo : this.presupuestoE1};
+      this.equipo2 = {marcaEscuderia : this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2 : this.pilotosE2[1].nombre, nombrePiloto3 : this.pilotosE2[2].nombre, NombrePiloto4 : this.pilotosE2[3].nombre, nombrePiloto5 : this.pilotosE2[4].nombre, puntajePublica : 0, costo : this.presupuestoE2};
+      this.equipoSrv.crearEquipo(this.equipo1).pipe(first()).subscribe(response => {this.idEquipo1 = response;
+        console.log(this.idEquipo1);
+        this.equipoSrv.crearEquipo(this.equipo2).pipe(first()).subscribe(response => {this.idEquipo2 = response;
+          console.log(this.idEquipo2);
+          this.jugador.nombreEscuderia = this.nombreEsc;
+          this.jugador.idEquipo1 = this.idEquipo1;
+          this.jugador.idEquipo2 = this.idEquipo2;
+          this.jugadorSrv.crearJugador(this.jugador).pipe(first()).subscribe();});});
+          this.cuentaCreada = true;
+        
+        
     }
   }
   cancelar() {
-    console.log("Usuario: " + this.nombreUsuario);
+    this.route.navigate(['/registro-jugador']);
   }
 }

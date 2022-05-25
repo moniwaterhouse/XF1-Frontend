@@ -18,7 +18,7 @@
       <a class="navbar-brand"><img class="img-responsive" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
 
       <div class="topnav-right">
-        <a>Iniciar Sesión</a>
+        <a>Registro de jugador</a>
       </div>
     </div>
   </nav>
@@ -57,7 +57,7 @@
   </section>
   <br />
 
-  <section id="seleccion">
+  <div style="margin-left: 5%; margin-right: 5%">
     <!-- A tab bar that helps to choose between team 1 and team 2 -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -66,7 +66,7 @@
           <button *ngIf="!equipo" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
         </div>
         <div *ngIf="incompletoE1">
-          <button *ngIf="equipo" style="color:red" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+          <button *ngIf="equipo" style="color:black" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
           <button *ngIf="!equipo" style="color:red" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
         </div>
       </li>
@@ -76,7 +76,7 @@
           <button *ngIf="!equipo" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
         </div>
         <div *ngIf="incompletoE2">
-          <button *ngIf="equipo" style="color:red" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+          <button *ngIf="equipo" style="color:black" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
           <button *ngIf="!equipo" style="color:red" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
         </div>
 </ul>
@@ -114,7 +114,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let escuderia of escuderias">
-                <th scope="col">{{escuderia.urlLogo}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{escuderia.urlLogo}}></a></th>
                 <th scope="col">{{escuderia.marca}}</th>
                 <th scope="col">{{escuderia.precio}}</th>
                 <th scope="col">
@@ -150,7 +150,7 @@
                 <th scope="col">{{piloto.pais}}</th>
                 <th scope="col">{{piloto.equipoReal}}</th>
                 <th scope="col">{{piloto.precio}}</th>
-                <th scope="col">{{piloto.urlLogo}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{piloto.urlLogo}}></a></th>
                 <th scope="col">
                   <div *ngIf="!pilotosE1completos">
                     <div class="form-check" *ngIf="pilotosE1.includes(piloto)">
@@ -209,7 +209,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let escuderia of escuderias">
-                <th scope="col">{{escuderia.urlLogo}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{escuderia.urlLogo}}></a></th>
                 <th scope="col">{{escuderia.marca}}</th>
                 <th scope="col">{{escuderia.precio}}</th>
                 <th scope="col">
@@ -245,7 +245,7 @@
                 <th scope="col">{{piloto.pais}}</th>
                 <th scope="col">{{piloto.equipoReal}}</th>
                 <th scope="col">{{piloto.precio}}</th>
-                <th scope="col">{{piloto.urlLogo}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{piloto.urlLogo}}></a>A</th>
                 <th scope="col">
                   <div *ngIf="!pilotosE2completos">
                     <div class="form-check" *ngIf="pilotosE2.includes(piloto)">
@@ -277,7 +277,10 @@
       <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;">Crear</button>
     </div>
     <br />
-  </section>
+    <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
+      La cuenta se ha creado correctamente <a href="#" class="alert-link">Click aquí para regresar al inicio.</a>
+    </div>
+  </div>
 
 
 

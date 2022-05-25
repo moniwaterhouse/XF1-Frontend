@@ -12,7 +12,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PAISES } from '@app/_data/paises';
 import { Jugador } from '@app/_interfaces/jugador';
-import { UsuarioService } from '@app/_services/usuario';
+import { JugadorService } from '@app/_services/jugador.service';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
 import { EscuderiasService } from '@app/_services/escuderias.service';
@@ -30,6 +30,7 @@ export class RegistroJugadorComponent implements OnInit {
   correo !: string;
   contrasena !: string;
 
+  // Banderas
   missingNombreUsuario !: boolean;
   missingPais !: boolean;
   missingCorreo !: boolean;
@@ -39,24 +40,29 @@ export class RegistroJugadorComponent implements OnInit {
   missingMessage !: boolean;
   letters !: any;
   numbers !: any;
+  minLetras !: boolean;
+  minNumeros !: boolean;
+  correoNoDisponible !: boolean;
 
   jugador !: Jugador;
   correos : any;
   escuderias : any;
 
+  hide = true;
+
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises : any;
 
-  constructor( private usuarioSrv : UsuarioService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
+  constructor( private jugadorSrv : JugadorService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
 
     this.listaPaises = PAISES;
     this.letters = /^[a-zA-Z]+$/;
     this.numbers = /^[0-9]+$/;
 
-    this.usuarioSrv.getCorreosUtilizados().pipe(first()).subscribe(response =>
+    this.jugadorSrv.getCorreosUtilizados().pipe(first()).subscribe(response =>
       {this.correos = response;});
   
-    this.usuarioSrv.getEscuderiasUtilizadas().pipe(first()).subscribe(response =>
+    this.jugadorSrv.getEscuderiasUtilizadas().pipe(first()).subscribe(response =>
       {this.escuderias = response;});
     
   }
@@ -103,21 +109,38 @@ export class RegistroJugadorComponent implements OnInit {
       this.missingMessage = true;
     }
     else{
-      if(!this.contrasena.match(this.letters) || !this.contrasena.match(this.numbers)){
-        console.log(this.letters);
-        console.log(this.numbers);
-        this.contrasenaInvalida;
-        //this.missingMessage = true;
+      for (let i = 0; i < this.contrasena.length; i++){
+        if(/[a-zA-Z]/.test(this.contrasena[i])){
+          this.minLetras = true;  
+        }
+        else if(/[0-9]/.test(this.contrasena[i])){
+          this.minNumeros = true;
+        }
+        else{
+          this.contrasenaInvalida = true;
+          break;
+        }
+      }
+      
+    }
+
+    
+    for(let i = 0; i < this.correos.length; i++){
+      if (this.correos[i].correo === this.correo){
+        
+          this.correoNoDisponible = true;
       }
     }
 
-    if(this.missingMessage){
-      console.log("Valores con errores")
+    if(!this.minLetras || !this.minNumeros){
+      this.contrasenaInvalida = true;
     }
-    else{
-      this.escuderiasSrv.setUser(this.nombreUsuario);
+
+    if(!(this.missingMessage || this.contrasenaInvalida || this.correoNoDisponible || this.correoInvalido)){
+      this.jugador = {nombreUsuario: this.nombreUsuario, correo: this.correo, pais: this.pais, contrasena: this.contrasena, nombreEscuderia: '', idEquipo1: 0, idEquipo2: 0};
+      this.jugadorSrv.setJugador(this.jugador);
       this.route.navigate(['/configurar-escuderia']);
-    }   
+    }
   }
 
    /**
@@ -130,6 +153,10 @@ export class RegistroJugadorComponent implements OnInit {
       this.missingContrasena = false;
       this.correoInvalido = false;
       this.contrasenaInvalida = false;
+      this.minLetras = false;
+      this.minNumeros = false;
+      this.missingMessage = false;
+      this.correoNoDisponible = false;
     }
 
     /**
@@ -138,7 +165,7 @@ export class RegistroJugadorComponent implements OnInit {
    *  
    */
   cancelar(){
-    this.route.navigate(['/registro-jugador']);
+    window.location.reload();
   }
 
 }
