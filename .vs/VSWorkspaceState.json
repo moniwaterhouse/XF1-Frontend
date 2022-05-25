@@ -3,11 +3,10 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\campeonatos",
     "\\src\\app\\configurar-escuderia",
     "\\src\\app\\_interfaces",
     "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\configurar-escuderia\\configurar-escuderia.component.ts",
+  "SelectedNode": "\\src\\app\\configurar-escuderia\\configurar-escuderia.component.spec.ts",
   "PreviewInSolutionExplorer": false
 }
