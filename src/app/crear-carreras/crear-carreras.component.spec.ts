@@ -15,6 +15,7 @@ describe('CrearCarrerasComponent', () => {
   let campeonatosService: CampeonatosService;
 
   beforeEach(async () => {
+    window.onbeforeunload = () => 'Oh no!';
     await TestBed.configureTestingModule({
       declarations: [CrearCarrerasComponent],
       imports: [
