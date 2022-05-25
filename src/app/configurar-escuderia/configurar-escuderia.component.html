@@ -277,6 +277,9 @@
       <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;">Crear</button>
     </div>
     <br />
+    <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
+      La cuenta se ha creado correctamente <a href="#" class="alert-link">Click aquí para regresar al inicio.</a>
+    </div>
   </div>
 
 

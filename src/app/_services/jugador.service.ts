@@ -8,11 +8,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Jugador } from '@app/_interfaces/jugador';
 import { environment } from '@environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class JugadorService {
+
+  jugador !: Jugador;
+
+  jugadorAux: BehaviorSubject<Jugador> = new BehaviorSubject(this.jugador);
 
   constructor(private http: HttpClient) {}
 
@@ -26,5 +31,13 @@ export class UsuarioService {
 
   getEscuderiasUtilizadas(){
     return this.http.get(`${environment.apiUrl}/Usuario/Escuderias`);
+  }
+
+  setJugador(jugador : Jugador){
+
+    this.jugador = jugador;
+
+    this.jugadorAux.next(this.jugador);
+
   }
 }

@@ -12,7 +12,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PAISES } from '@app/_data/paises';
 import { Jugador } from '@app/_interfaces/jugador';
-import { UsuarioService } from '@app/_services/usuario';
+import { JugadorService } from '@app/_services/jugador.service';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
 import { EscuderiasService } from '@app/_services/escuderias.service';
@@ -30,6 +30,7 @@ export class RegistroJugadorComponent implements OnInit {
   correo !: string;
   contrasena !: string;
 
+  // Banderas
   missingNombreUsuario !: boolean;
   missingPais !: boolean;
   missingCorreo !: boolean;
@@ -41,6 +42,7 @@ export class RegistroJugadorComponent implements OnInit {
   numbers !: any;
   minLetras !: boolean;
   minNumeros !: boolean;
+  correoNoDisponible !: boolean;
 
   jugador !: Jugador;
   correos : any;
@@ -51,16 +53,16 @@ export class RegistroJugadorComponent implements OnInit {
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises : any;
 
-  constructor( private usuarioSrv : UsuarioService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
+  constructor( private jugadorSrv : JugadorService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
 
     this.listaPaises = PAISES;
     this.letters = /^[a-zA-Z]+$/;
     this.numbers = /^[0-9]+$/;
 
-    this.usuarioSrv.getCorreosUtilizados().pipe(first()).subscribe(response =>
+    this.jugadorSrv.getCorreosUtilizados().pipe(first()).subscribe(response =>
       {this.correos = response;});
   
-    this.usuarioSrv.getEscuderiasUtilizadas().pipe(first()).subscribe(response =>
+    this.jugadorSrv.getEscuderiasUtilizadas().pipe(first()).subscribe(response =>
       {this.escuderias = response;});
     
   }
@@ -122,12 +124,21 @@ export class RegistroJugadorComponent implements OnInit {
       
     }
 
+    
+    for(let i = 0; i < this.correos.length; i++){
+      if (this.correos[i].correo === this.correo){
+        
+          this.correoNoDisponible = true;
+      }
+    }
+
     if(!this.minLetras || !this.minNumeros){
       this.contrasenaInvalida = true;
     }
 
-    if(!(this.missingMessage || this.contrasenaInvalida)){
-      this.escuderiasSrv.setUser(this.nombreUsuario);
+    if(!(this.missingMessage || this.contrasenaInvalida || this.correoNoDisponible || this.correoInvalido)){
+      this.jugador = {nombreUsuario: this.nombreUsuario, correo: this.correo, pais: this.pais, contrasena: this.contrasena, nombreEscuderia: '', idEquipo1: 0, idEquipo2: 0};
+      this.jugadorSrv.setJugador(this.jugador);
       this.route.navigate(['/configurar-escuderia']);
     }
   }
@@ -145,6 +156,7 @@ export class RegistroJugadorComponent implements OnInit {
       this.minLetras = false;
       this.minNumeros = false;
       this.missingMessage = false;
+      this.correoNoDisponible = false;
     }
 
     /**
