@@ -165,7 +165,6 @@ export class CrearCarrerasComponent implements OnInit {
    */
   validarCamposRequeridos(){
     this.restaurarBanderas();
-    console.log(this.campeonato.id);
 
     if(this.nombre == null || this.nombre.length < 5){
       this.missingName = true;

@@ -133,14 +133,16 @@ export class ConfigurarEscuderiaComponent implements OnInit {
       for (let i of this.pilotosE1) {
         paux = paux + i.precio;
       }
-      paux = paux + this.escuderiaE1.precio;
+      if (this.escuderiaE1 != null)
+        paux = paux + this.escuderiaE1.precio;
       this.presupuestoE1 = this.presupuesto - paux;
     }
     if (!this.equipo) {
       for (let i of this.pilotosE2) {
         paux = paux + i.precio;
       }
-      paux = paux + this.escuderiaE2.precio;
+      if (this.escuderiaE2 != null)
+        paux = paux + this.escuderiaE2.precio;
       this.presupuestoE2 = this.presupuesto - paux;
     }
   }

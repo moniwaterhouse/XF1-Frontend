@@ -1,30 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CrearCarrerasComponent } from './crear-carreras.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CrearCampeonatoComponent } from './crear-campeonato.component';
+import { CarrerasService } from '@app/_services/carreras.service';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
-import { CampeonatosComponent } from '@app/campeonatos/campeonatos.component';
 import { Campeonato } from '@app/_interfaces/campeonatos';
+import { CarrerasComponent } from '@app/carreras/carreras.component';
 
-describe('CrearCampeonatoComponent', () => {
-  let component: CrearCampeonatoComponent;
-  let fixture: ComponentFixture<CrearCampeonatoComponent>;
+describe('CrearCarrerasComponent', () => {
+  let component: CrearCarrerasComponent;
+  let fixture: ComponentFixture<CrearCarrerasComponent>;
 
-  let campeonatoService: CampeonatosService;
+  let carrerasService: CarrerasService;
+  let campeonatosService: CampeonatosService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CrearCampeonatoComponent],
+      declarations: [CrearCarrerasComponent],
       imports: [
         HttpClientTestingModule,
-        RouterModule.forRoot([{ path: 'campeonatos', component: CampeonatosComponent }])],
-      providers: [CampeonatosService]
+        RouterModule.forRoot([{ path: 'carreras', component: CarrerasComponent }]),],
+      providers: [CampeonatosService, CarrerasService]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrearCampeonatoComponent);
+    fixture = TestBed.createComponent(CrearCarrerasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -38,11 +40,20 @@ describe('CrearCampeonatoComponent', () => {
     expect(component.missingName).toBeTrue();
   });
 
-  it('Verifica cuando no se ha asignado el Presupuesto', () => {
+  it('Verifica cuando no se ha asignado el Pais', () => {
     component.validarCamposRequeridos()
-    expect(component.missingPresupuesto).toBeTrue();
+    expect(component.missingPais).toBeTrue();
   });
 
+  it('Verifica cuando no se ha asignado la Pista', () => {
+    component.validarCamposRequeridos()
+    expect(component.missingPista).toBeTrue();
+  });
+
+  it('Verifica cuando no se ha asignado el Campeonato', () => {
+    component.validarCamposRequeridos()
+    expect(component.missingCampeonato).toBeTrue();
+  });
 
   it('Verifica cuando no se ha asignado la Fecha de Inicio', () => {
     component.validarCamposRequeridos()
@@ -83,7 +94,9 @@ describe('CrearCampeonatoComponent', () => {
     component.validarCamposRequeridos()
     component.restaurarBanderas()
     expect(component.missingName).toBeFalse();
-    expect(component.missingPresupuesto).toBeFalse();
+    expect(component.missingPais).toBeFalse();
+    expect(component.missingPista).toBeFalse();
+    expect(component.missingCampeonato).toBeFalse();
     expect(component.missingFechaInicio).toBeFalse();
     expect(component.missingHoraInicio).toBeFalse();
     expect(component.missingMinInicio).toBeFalse();
@@ -92,17 +105,30 @@ describe('CrearCampeonatoComponent', () => {
     expect(component.missingMinFin).toBeFalse();
   });
 
+
   it('Verifica que se cree la carrera con los datos correctos', () => {
     component.nombre = "Prueba";
-    component.presupuesto = 100;
+    const campeonato: Campeonato = { "id": "1", "nombre": "prueba", "presupuesto": 100, "fechaInicio": "2000-01-01", "horaInicio": "10:20", "fechaFin": "2000-02-02", "horaFin": "11:20", "reglasPuntuacion": "prueba" }
+    component.campeonato = campeonato;
+    component.pais = "Prueba";
+    component.pista = "Prueba";
     component.fechaInicio = new Date("2000-02-02");
     component.horaInicio = 10;
     component.minInicio = 15;
     component.horaFin = 11;
     component.minFin = 15;
-    component.reglasPuntuacion = "prueba"
     component.fechaFin = new Date("2000-02-03");
     component.validarCamposRequeridos()
-    expect(component.campeonato).toEqual({ "id": "", "nombre": "Prueba", "presupuesto": 100, "fechaInicio": '2000-02-01', "horaInicio": "10:15", "fechaFin": '2000-02-02', "horaFin": "11:15", "reglasPuntuacion":"prueba" })
+    expect(component.carrera).toEqual({ "nombre": "Prueba", "idCampeonato": "1", "nombrePais": "Prueba", "nombrePista": "Prueba", "fechaInicio": '2000-02-01', "horaInicio": "10:15", "fechaFin": '2000-02-02', "horaFin":"11:15"})
   });
+
+  it('Verifica que se obtengan las fechas del campeonato correctamente y se avise que un campeonato fue seleccionado', () => {
+    const campeonato: Campeonato = { "id": "1", "nombre": "prueba", "presupuesto": 100, "fechaInicio": "2000-01-01", "horaInicio": "10:20", "fechaFin": "2000-02-02", "horaFin": "11:20", "reglasPuntuacion": "prueba" }
+    component.campeonato = campeonato;
+    component.onCampeonatoSeleccionado();
+    expect(component.campeonato).toBeTrue;
+    expect(component.fechaMin.toString()).toEqual("2000-01-01")
+    expect(component.fechaMax.toString()).toEqual("2000-02-02")
+  });
+
 });
