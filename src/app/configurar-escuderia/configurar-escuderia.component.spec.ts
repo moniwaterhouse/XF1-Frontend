@@ -70,20 +70,6 @@ describe('ConfigurarEscuderiaComponent', () => {
     expect(component.nombreEscTomado).toBeTrue();
   })
 
-  it("Verifica cuando el presupuesto del equipo 1 es menor a 0", () => {
-    component.nombresEscuderias = [{ "nombreEscuderia": "EscuderiaTest" }]
-    component.presupuestoE1 = -1
-    component.validarCamposRequeridos()
-    expect(component.incompletoE1).toBeTrue();
-  })
-
-  it("Verifica cuando el presupuesto del equipo 2 es menor a 0", () => {
-    component.nombresEscuderias = [{ "nombreEscuderia": "EscuderiaTest" }]
-    component.presupuestoE2 = -1
-    component.validarCamposRequeridos()
-    expect(component.incompletoE2).toBeTrue();
-  })
-
 
   it("Verifica que se asigne la escuderia al equipo 1", () => {
     const esc: Escuderia = { "marca": "prueba", "precio": 50, "urlLogo": "prueba" }
