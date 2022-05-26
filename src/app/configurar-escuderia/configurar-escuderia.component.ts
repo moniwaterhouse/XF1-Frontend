@@ -5,6 +5,7 @@ import { first } from 'rxjs';
 import { Escuderia } from '../_interfaces/escuderias';
 import { Piloto } from '../_interfaces/pilotos';
 import { Jugador } from '@app/_interfaces/jugador';
+import { Campeonato } from '../_interfaces/campeonatos';
 import { JugadorService } from '@app/_services/jugador.service';
 import { Router } from '@angular/router';
 import { EquipoService } from '@app/_services/equipo.service';
@@ -34,9 +35,9 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   escOPil: boolean = true;
 
   // Variables donde se almacena la informacion obtenida del servidor
-  presupuesto: number = 100;
-  presupuestoE1: number = this.presupuesto;
-  presupuestoE2: number = this.presupuesto;
+  presupuesto!: number;
+  presupuestoE1!: number;
+  presupuestoE2!: number;
   escuderias: any;
   pilotos: any;
   nombresEscuderias: any;
@@ -65,8 +66,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   ngOnInit(): void {
     this.escuderiasSrv.getEscuderias().pipe(first()).subscribe(response => { this.escuderias = response; });
     this.escuderiasSrv.getNombresEscuderias().pipe(first()).subscribe(response => { this.nombresEscuderias = response; });
+    this.escuderiasSrv.getPresupuesto().pipe(first()).subscribe(response => { this.presupuesto = response[0].presupuesto; this.presupuestoE1 = this.presupuesto; this.presupuestoE2 = this.presupuesto; });
     this.pilotosSrv.getPilotos().pipe(first()).subscribe(response => { this.pilotos = response; });
-    this.jugadorSrv.jugadorAux.subscribe((u: Jugador)=>{this.jugador = u});
+    this.jugadorSrv.jugadorAux.subscribe((u: Jugador) => { this.jugador = u });
+    
   }
 
   selecEsc(escu: Escuderia) {
@@ -77,6 +80,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     if (!this.equipo) {
       this.escuderiaE2 = escu;
       this.calcPresupuesto()
+
     }
   }
 
@@ -95,7 +99,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
         this.pilotosE1completos = false;
       }
       this.calcPresupuesto()
-      console.log(this.pilotosE1)
+
     }
     if (!this.equipo) {
       if (this.pilotosE2.includes(piloto)) {
@@ -111,7 +115,6 @@ export class ConfigurarEscuderiaComponent implements OnInit {
         this.pilotosE2completos = false;
       }
       this.calcPresupuesto()
-      console.log(this.pilotosE2)
     }
     
   }
@@ -148,14 +151,16 @@ export class ConfigurarEscuderiaComponent implements OnInit {
       for (let i of this.pilotosE1) {
         paux = paux + i.precio;
       }
-      paux = paux + this.escuderiaE1.precio;
+      if (this.escuderiaE1 != null)
+        paux = paux + this.escuderiaE1.precio;
       this.presupuestoE1 = this.presupuesto - paux;
     }
     if (!this.equipo) {
       for (let i of this.pilotosE2) {
         paux = paux + i.precio;
       }
-      paux = paux + this.escuderiaE2.precio;
+      if (this.escuderiaE2 != null)
+        paux = paux + this.escuderiaE2.precio;
       this.presupuestoE2 = this.presupuesto - paux;
     }
   }
@@ -185,13 +190,13 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     } else { this.faltaNombreE2 = false; }
     if (!this.pilotosE1completos || this.escuderiaE1 == null || this.presupuestoE1 < 0) {
       this.incompletoE1 = true;
-    } else { this.incompletoE1 = false;}
+    } else { this.incompletoE1 = false; }
     if (!this.pilotosE2completos || this.escuderiaE2 == null || this.presupuestoE2 < 0) {
       this.incompletoE2 = true;
     } else { this.incompletoE2 = false; }
     if (!this.faltaNombreEsc && !this.faltaNombreE1 && !this.faltaNombreE2 && !this.incompletoE1 && !this.incompletoE2 && !this.nombreEscTomado) {
-      this.equipo1 = {marcaEscuderia : this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2 : this.pilotosE1[1].nombre, nombrePiloto3 : this.pilotosE1[2].nombre, NombrePiloto4 : this.pilotosE1[3].nombre, nombrePiloto5 : this.pilotosE1[4].nombre, puntajePublica : 0, costo : this.presupuestoE1};
-      this.equipo2 = {marcaEscuderia : this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2 : this.pilotosE2[1].nombre, nombrePiloto3 : this.pilotosE2[2].nombre, NombrePiloto4 : this.pilotosE2[3].nombre, nombrePiloto5 : this.pilotosE2[4].nombre, puntajePublica : 0, costo : this.presupuestoE2};
+      this.equipo1 = { marcaEscuderia: this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2: this.pilotosE1[1].nombre, nombrePiloto3: this.pilotosE1[2].nombre, NombrePiloto4: this.pilotosE1[3].nombre, nombrePiloto5: this.pilotosE1[4].nombre, puntajePublica: 0, costo: this.presupuestoE1 };
+      this.equipo2 = { marcaEscuderia: this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2: this.pilotosE2[1].nombre, nombrePiloto3: this.pilotosE2[2].nombre, NombrePiloto4: this.pilotosE2[3].nombre, nombrePiloto5: this.pilotosE2[4].nombre, puntajePublica: 0, costo: this.presupuestoE2 };
       this.equipoSrv.crearEquipo(this.equipo1).pipe(first()).subscribe(response => {this.idEquipo1 = response;
         console.log(this.idEquipo1);
         this.equipoSrv.crearEquipo(this.equipo2).pipe(first()).subscribe(response => {this.idEquipo2 = response;

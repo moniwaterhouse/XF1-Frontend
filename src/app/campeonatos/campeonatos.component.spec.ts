@@ -1,14 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterModule } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CampeonatosComponent } from './campeonatos.component';
+import { CampeonatosService } from '../_services/campeonatos.service';
 
 describe('CampeonatosComponent', () => {
   let component: CampeonatosComponent;
   let fixture: ComponentFixture<CampeonatosComponent>;
 
+  let campeonatosService: CampeonatosService;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CampeonatosComponent ]
+      declarations: [CampeonatosComponent],
+      imports: [
+        HttpClientTestingModule,
+        RouterModule.forRoot([])],
+      providers: [CampeonatosService]
     })
     .compileComponents();
   });

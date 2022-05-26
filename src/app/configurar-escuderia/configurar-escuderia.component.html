@@ -66,7 +66,7 @@
           <button *ngIf="!equipo" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
         </div>
         <div *ngIf="incompletoE1">
-          <button *ngIf="equipo" style="color:black" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+          <button *ngIf="equipo" style="color:red" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
           <button *ngIf="!equipo" style="color:red" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
         </div>
       </li>
@@ -76,10 +76,10 @@
           <button *ngIf="!equipo" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
         </div>
         <div *ngIf="incompletoE2">
-          <button *ngIf="equipo" style="color:black" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+          <button *ngIf="equipo" style="color:red" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
           <button *ngIf="!equipo" style="color:red" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
         </div>
-</ul>
+    </ul>
 
     <br />
     <!-- This shows the info about Team 1 -->
@@ -175,7 +175,7 @@
         </div>
       </div>
     </div>
-   
+
 
     <!-- This shows the info about Team 2 -->
     <div *ngIf="!equipo">
@@ -270,7 +270,7 @@
         </div>
       </div>
     </div>
-   
+
     <br />
     <div class="col-6" style="margin-left:715px">
       <button type="submit" class="btn btn-primary" (click)="cancelar()" style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
