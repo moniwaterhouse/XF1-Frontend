@@ -140,8 +140,8 @@
 
               <div class="col-md-6" *ngIf="campeonatoSeleccionado">
                 
-                <label for="inputCity" class="form-label" *ngIf="missingHoraFin" style="margin-right: 20px; color: red;">Fecha de fin*</label>
-                <label for="inputCity" class="form-label" *ngIf="!missingHoraFin" style="margin-right: 20px; color: black;">Fecha de fin*</label>
+                <label for="inputCity" class="form-label" *ngIf="missingFechaFin" style="margin-right: 20px; color: red;">Fecha de fin*</label>
+                <label for="inputCity" class="form-label" *ngIf="!missingFechaFin" style="margin-right: 20px; color: black;">Fecha de fin*</label>
                 <mat-form-field appearance="outline">
                     <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaInicio" 
                     [max]="fechaMax">
@@ -151,8 +151,8 @@
                 
                 </div>
                 <div class="col-md-4" *ngIf="campeonatoSeleccionado">
-                    <label for="inputEmail4" class="form-label"  *ngIf="missingHoraInicio || missingMinInicio" style="color: red; width: 200px;">Hora de fin (PST)*</label>
-                    <label for="inputEmail4" class="form-label"  *ngIf="!missingHoraInicio && !missingMinInicio" style="color: black; width: 200px;">Hora de fin (PST)*</label>
+                    <label for="inputEmail4" class="form-label"  *ngIf="missingHoraFin || missingMinFin" style="color: red; width: 200px;">Hora de fin (PST)*</label>
+                    <label for="inputEmail4" class="form-label"  *ngIf="!missingHoraFin && !missingMinFin" style="color: black; width: 200px;">Hora de fin (PST)*</label>
                     <mat-form-field appearance="fill" style="width:70px;">
                         <mat-label>h</mat-label>
                         <mat-select [(ngModel)]="horaFin" name="horaInicio">

@@ -50,8 +50,8 @@
                       </div>
 
                       <div class="col-md-4">
-                        <label  *ngIf="missingCorreo || correoInvalido" class="form-label" style="color: red;">Correo electrónico*</label>
-                        <label  *ngIf="!missingCorreo && !correoInvalido" class="form-label" style="color: black;">Correo electrónico*</label>
+                        <label  *ngIf="missingCorreo || correoInvalido || correoNoDisponible" class="form-label" style="color: red;">Correo electrónico*</label>
+                        <label  *ngIf="!missingCorreo && !correoInvalido && !correoNoDisponible" class="form-label" style="color: black;">Correo electrónico*</label>
                         <mat-form-field appearance="fill" >
                           <input  matInput #inputCorreo [(ngModel)]="correo" [ngModelOptions]="{standalone: true}">
                           <mat-hint align="end"  *ngIf="correoInvalido" style="color: red;">Correo inválido</mat-hint>

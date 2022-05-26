@@ -170,9 +170,9 @@ export class CrearCarrerasComponent implements OnInit {
     this.carrera = 
       {nombre: this.nombre, idCampeonato: this.campeonato.id, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
     
-    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe();
+    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe(response => { location.href = "http://localhost:4200/carreras";});
 
-    location.href = "http://localhost:4200/carreras"
+   
     
   }
 

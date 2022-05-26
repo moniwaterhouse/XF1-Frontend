@@ -41,16 +41,16 @@
         <label *ngIf="!faltaNombreE1" class="form-label" style="color: black;">Nombre de mi equipo 1*</label>
         <label *ngIf="faltaNombreE1" class="form-label" style="color: red;">Nombre de mi equipo 1*</label>
         <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
-          <input matInput #inputName maxlength="30" [(ngModel)]="nombreE1" [ngModelOptions]="{standalone: true}">
-          <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+          <input matInput #inputEquipo1 maxlength="30" [(ngModel)]="nombreE1" [ngModelOptions]="{standalone: true}">
+          <mat-hint align="end">{{inputEquipo1.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <label *ngIf="!faltaNombreE2" class="form-label" style="color: black;">Nombre de mi equipo 2*</label>
         <label *ngIf="faltaNombreE2" class="form-label" style="color: red;">Nombre de mi equipo 2*</label>
         <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
-          <input matInput #inputName maxlength="30" [(ngModel)]="nombreE2" [ngModelOptions]="{standalone: true}">
-          <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+          <input matInput #inputEquipo2 maxlength="30" [(ngModel)]="nombreE2" [ngModelOptions]="{standalone: true}">
+          <mat-hint align="end">{{inputEquipo2.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
       </div>
     </form>
@@ -278,7 +278,7 @@
     </div>
     <br />
     <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
-      La cuenta se ha creado correctamente <a href="#" class="alert-link">Click aquí para regresar al inicio.</a>
+      La cuenta se ha creado correctamente <a href="/registro-jugador" class="alert-link">Click aquí para regresar al inicio.</a>
     </div>
   </div>
 

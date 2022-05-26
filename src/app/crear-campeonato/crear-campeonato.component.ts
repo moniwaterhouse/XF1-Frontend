@@ -152,8 +152,8 @@ export class CrearCampeonatoComponent implements OnInit {
       {id: "", nombre: this.nombre, presupuesto: this.presupuesto, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin, reglasPuntuacion: this.reglasPuntuacion}
     ;
     
-    this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe();
-    location.href = "http://localhost:4200/campeonatos"
+    this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe(response => {location.href = "http://localhost:4200/campeonatos";});
+    
     
   }
 
