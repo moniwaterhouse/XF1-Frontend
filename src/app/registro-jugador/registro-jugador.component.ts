@@ -1,5 +1,5 @@
 /**
- * RegistroJugador es un companente que proporciona en el UI un formulario para la creación de las carreras. Utiliza diferentes banderas para poder verificar
+ * RegistroJugador es un companente que proporciona en el UI un formulario para la creación de las cuentas. Utiliza diferentes banderas para poder verificar
  * que los campos requeridos estén completados y que se cumpla con el mínimo de caracteres de los campos que así lo ameritan. Además, proporciona la lógica para
  * evitar que los usuarios traten de crear cuentas con correos ya existentes y verifica que la contraseña sea alfanumerica. Además,
  * permite al usuario cancelar la creación del formulario de creacion de la cuenta en caso de que así lo quiera.

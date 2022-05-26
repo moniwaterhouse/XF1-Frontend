@@ -1,3 +1,13 @@
+/**
+ * Configurar escuderia es un companente que proporciona en el UI un formulario para la creación y configuracion de los equipos. Utiliza diferentes banderas para poder verificar
+ * que los campos requeridos estén completados. Además, proporciona la lógica para
+ * evitar que los usuarios traten de crear escuderias con nombres de escuderias ya existentes o seleccionen mas de 5 pilotos o mas de 1 escuderia. Además,
+ * permite al usuario cancelar la creación de los equipos en caso de que así lo quiera.
+ *
+ * @author Steven Badilla
+ * @version V1.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { EscuderiasService } from '../_services/escuderias.service';
 import { PilotosService } from '../_services/pilotos.service';
@@ -54,6 +64,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   cuentaCreada: boolean = false;
 
 
+  // variables para manejar que los presupuestos de los equipos no puedan ser menores a 0
+  precioEscE1: number = 0;
+  precioEscE2: number = 0;
+
   // Objetos para hacer los posts para la creación de la cuenta de jugador
   equipo1 !: Equipo;
   equipo2 !: Equipo;
@@ -72,18 +86,39 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     
   }
 
+
+
+  /**
+   * <p> Este método permite almacenar la escuderia seleccionada por
+   * el usuario desde la interfaz en una variable segun el equipo
+   * para el que estuviera seleccioanando ademas
+   * llama a la funcion calcPresupuesto() para ectualizar el presupuesto del equipo
+   * Entradas: escu de tipo escuderia </p>
+   */
   selecEsc(escu: Escuderia) {
     if (this.equipo) {
       this.escuderiaE1 = escu;
+      this.precioEscE1 = escu.precio;
       this.calcPresupuesto()
     }
     if (!this.equipo) {
       this.escuderiaE2 = escu;
+      this.precioEscE2 = escu.precio;
       this.calcPresupuesto()
 
     }
   }
 
+
+  /**
+   * <p> Este método permite almacenar el piloto seleccionado por
+   * el usuario desde la interfaz en una lista segun el equipo
+   * para el que estuviera seleccioanando, en caso de ser un piloto
+   * ya seleccionado entonces permite deseleccionarlo, ademas
+   * verifica cuando el equipo esta completo para poder evitar la seleccion de mas pilotos
+   * y llama a la funcion calcPresupuesto() para ectualizar el presupuesto del equipo
+   * Entradas: piloto de tipo Piloto</p>
+   */
   selecPilotos(piloto: Piloto) {
     if (this.equipo) {
       if (this.pilotosE1.includes(piloto)) {
@@ -99,7 +134,6 @@ export class ConfigurarEscuderiaComponent implements OnInit {
         this.pilotosE1completos = false;
       }
       this.calcPresupuesto()
-
     }
     if (!this.equipo) {
       if (this.pilotosE2.includes(piloto)) {
@@ -119,13 +153,19 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     
   }
 
+
+  /**
+ * <p> Este método permite seleccionar al equipo 1 ademas cambia a la vista de escuderias</p>
+ */
   selecEquipo1() {
     if (!this.equipo) {
       this.equipo = true;
       this.escOPil = true;
     }
   }
-
+  /**
+* <p> Este método permite seleccionar al equipo 2 ademas cambia a la vista de escuderias</p>
+*/
   selecEquipo2() {
   if (this.equipo) {
     this.equipo = false;
@@ -133,18 +173,29 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     }
   }
 
+  /**
+* <p> Este método permite cambiar a la vista de escuderias</p>
+*/
   selecEscu() {
     if (!this.escOPil) {
       this.escOPil = true;
       }
   }
 
+  /**
+* <p> Este método permite cambiar a la vista de pilotos</p>
+*/
   selecPiloto() {
     if (this.escOPil) {
       this.escOPil = false;
     }
   }
 
+
+  /**
+  * <p> Este método permite calcular el presupuesto para el equipo seleccionado y almacenarlo en una variable
+  * segun los pilotos y la escuderia que haya seleccionado</p>
+  */
   calcPresupuesto() {
     var paux: number = 0;
     if (this.equipo) {
@@ -165,6 +216,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     }
   }
 
+  /**
+  * <p> Este método permite verificar si el nombre de la escuderia ya esta tomado
+  * mediante una lista con los nombres de las escuderias en la base de datos</p>
+  */
   verificarNombresEsc() {
     for (let i of this.nombresEscuderias) {
       if (i.nombreEscuderia === this.nombreEsc) {
@@ -177,6 +232,11 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     }
   }
 
+  /**
+ * <p> Este método permite verificar que todos los espacios requeridos estén completados. Si las validaciones pasan, se envian ambos equipos y la informacion de la cuenta del jugador para
+ * almacenarla en la base de datos, ademas de cambiar la bandera de la cuenta creada para mostrarlo al usuario</p>
+ *
+ */
   validarCamposRequeridos() {
     this.verificarNombresEsc()
     if (this.nombreEsc == null || this.nombreEsc == "") {
@@ -188,10 +248,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
     if (this.nombreE2 == null || this.nombreE2 == "") {
       this.faltaNombreE2 = true;
     } else { this.faltaNombreE2 = false; }
-    if (!this.pilotosE1completos || this.escuderiaE1 == null || this.presupuestoE1 < 0) {
+    if (!this.pilotosE1completos || this.escuderiaE1 == null ) {
       this.incompletoE1 = true;
     } else { this.incompletoE1 = false; }
-    if (!this.pilotosE2completos || this.escuderiaE2 == null || this.presupuestoE2 < 0) {
+    if (!this.pilotosE2completos || this.escuderiaE2 == null ) {
       this.incompletoE2 = true;
     } else { this.incompletoE2 = false; }
     if (!this.faltaNombreEsc && !this.faltaNombreE1 && !this.faltaNombreE2 && !this.incompletoE1 && !this.incompletoE2 && !this.nombreEscTomado) {
@@ -210,6 +270,10 @@ export class ConfigurarEscuderiaComponent implements OnInit {
         
     }
   }
+  /**
+* <p> Este método permite en caso de querer cancelar la seleccion
+ * volver a la vista de registro de jugador</p>
+*/
   cancelar() {
     this.route.navigate(['/registro-jugador']);
   }

@@ -11,8 +11,7 @@
 
 </head>
 <body>
-  <!-- Grey with black text -->
-  <!-- A grey horizontal navbar that becomes vertical on small screens -->
+  <!-- Header con el logo de la XFIA -->
   <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
       <a class="navbar-brand"><img class="img-responsive" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
@@ -24,6 +23,8 @@
   </nav>
   <br />
 
+  <!-- Form para asignar los nombres a los equipos y a la escueria. Dependiendo de las banderas de validacion, los colores de los labels de cada uno de los inputs va a cambiar.Ademas de
+    mostrar un mensaje en caso de que el nombre de la escuderia este tomado-->
   <section style="margin-left: 3%">
     <h1>Mi escudería</h1>
     <h5 style="margin-bottom: 50px;">*Espacios requeridos</h5>
@@ -57,8 +58,9 @@
   </section>
   <br />
 
+
+  <!-- Permite seleccionar entre equipo 1 y equipo 2-->
   <div style="margin-left: 5%; margin-right: 5%">
-    <!-- A tab bar that helps to choose between team 1 and team 2 -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <div *ngIf="!incompletoE1">
@@ -82,9 +84,9 @@
     </ul>
 
     <br />
-    <!-- This shows the info about Team 1 -->
+    <!-- Mustra la informacion del equipo 1 -->
     <div *ngIf="equipo">
-      <!-- A button group that helps to choose between drivers and teams -->
+      <!-- Permite la seleccion entre pilotos o escuderias -->
       <div style="margin-left:3%;">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
           <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="selecEscu()">
@@ -98,9 +100,8 @@
           </div>
         </div>
       </div>
-      <!-- A table to see teams information -->
+      <!-- Muestra la informacion de las escuderias -->
       <br />
-
       <div style=" max-height:380px; overflow-y:scroll;">
         <div class="col-9" *ngIf="escOPil">
           <table class="table table-striped">
@@ -122,7 +123,8 @@
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
                   </div>
                   <div class="form-check" *ngIf="escuderia!=escuderiaE1">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE1+precioEscE1 - escuderia.precio >= 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE1+precioEscE1 - escuderia.precio < 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled>
                   </div>
                 </th>
               </tr>
@@ -130,7 +132,7 @@
           </table>
         </div>
       </div>
-      <!-- A table to see drivers information -->
+      <!-- Muestra la informacion de los pilotos -->
       <div style=" max-height:380px; overflow-y:scroll;">
         <div class="col-9" *ngIf="!escOPil">
           <table class="table table-striped">
@@ -157,7 +159,8 @@
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
                     </div>
                     <div class="form-check" *ngIf="!pilotosE1.includes(piloto)">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE1-piloto.precio >= 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE1-piloto.precio < 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
                     </div>
                   </div>
                   <div *ngIf="pilotosE1completos">
@@ -177,9 +180,9 @@
     </div>
 
 
-    <!-- This shows the info about Team 2 -->
+    <!-- Mustra la informacion del equipo 2 -->
     <div *ngIf="!equipo">
-      <!-- A button group that helps to choose between drivers and teams -->
+      <!-- Permite la seleccion entre pilotos o escuderias -->
       <div style="margin-left:3%;" *ngIf="!equipo">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
           <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="selecEscu()">
@@ -193,7 +196,7 @@
           </div>
         </div>
       </div>
-      <!-- A table to see teams information -->
+      <!-- Muestra la informacion de las escuderias -->
       <br />
 
       <div style=" max-height:380px; overflow-y:scroll;">
@@ -217,7 +220,8 @@
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
                   </div>
                   <div class="form-check" *ngIf="escuderia!=escuderiaE2">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE2+precioEscE2 -escuderia.precio >= 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE2+precioEscE2 -escuderia.precio < 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled>
                   </div>
                 </th>
               </tr>
@@ -225,7 +229,7 @@
           </table>
         </div>
       </div>
-      <!-- A table to see drivers information -->
+      <!-- Muestra la informacion de los pilotos -->
       <div style=" max-height:380px; overflow-y:scroll;">
         <div class="col-9" *ngIf="!escOPil">
           <table class="table table-striped">
@@ -252,7 +256,8 @@
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
                     </div>
                     <div class="form-check" *ngIf="!pilotosE2.includes(piloto)">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE2-piloto.precio >= 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE2-piloto.precio < 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
                     </div>
                   </div>
                   <div *ngIf="pilotosE2completos">
@@ -272,11 +277,13 @@
     </div>
 
     <br />
+    <!-- Muestra los botones de crear o cancelar -->
     <div class="col-6" style="margin-left:715px">
       <button type="submit" class="btn btn-primary" (click)="cancelar()" style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
       <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;">Crear</button>
     </div>
     <br />
+    <!-- Muestra un mensaje al crear la cuenta -->
     <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
       La cuenta se ha creado correctamente <a href="/registro-jugador" class="alert-link">Click aquí para regresar al inicio.</a>
     </div>
