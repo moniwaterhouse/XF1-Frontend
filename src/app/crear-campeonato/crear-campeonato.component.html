@@ -66,14 +66,10 @@
             <div class="col-md-6">
               <label  *ngIf="missingPresupuesto" class="form-label" style="color: red; width: 200px;">Presupuesto*</label>
               <label  *ngIf="!missingPresupuesto" class="form-label" style="color: black; width: 200px;">Presupuesto*</label>
-                <mat-form-field appearance="fill">
-                    <mat-label>millones de $</mat-label>
-                    <mat-select [(ngModel)]="presupuesto" name="presupuesto">
-                      <mat-option *ngFor="let numero of opcionesPresupuesto" [value]="numero">
-                        {{numero}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+              <mat-form-field appearance="fill">
+                <input matInput #inputPresupuesto [(ngModel)]="presupuesto" [ngModelOptions]="{standalone: true}" type="number">
+                <mat-hint align="end">Millones de dólares</mat-hint>
+              </mat-form-field>
                  
               </div>
             
@@ -118,7 +114,7 @@
                 <label  *ngIf="missingFechaFin" class="form-label" style="color: red;">Fecha de fin*</label>
               <label  *ngIf="!missingFechaFin" class="form-label" style="color: black;">Fecha de fin*</label>
                 <mat-form-field appearance="outline">
-                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaInicio">
+                    <input matInput [matDatepicker]="fin" [(ngModel)]="fechaFin" [ngModelOptions]="{standalone: true}" style="width: 200px;" [min]="fechaInicio" [matDatepickerFilter]="filtroFechas">
                   <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
                   <mat-datepicker #fin></mat-datepicker>
                 </mat-form-field>
