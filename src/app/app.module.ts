@@ -25,6 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
 import { MatIconModule } from "@angular/material/icon";
+import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
+import { RankingPrivadoComponent } from './ranking-privado/ranking-privado.component';
 
 
 @NgModule({
@@ -35,7 +37,7 @@ import { MatIconModule } from "@angular/material/icon";
     CarrerasComponent,
     CrearCarrerasComponent,
     ConfigurarEscuderiaComponent, 
-    RegistroJugadorComponent
+    RegistroJugadorComponent, RankingPublicoComponent, RankingPrivadoComponent
   ],
   imports: [
     BrowserModule,
