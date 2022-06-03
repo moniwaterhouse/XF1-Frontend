@@ -2,8 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app"
+    "\\src\\app",
+    "\\src\\app\\carreras",
+    "\\src\\app\\configurar-escuderia",
+    "\\src\\app\\ranking-privado",
+    "\\src\\app\\ranking-publico",
+    "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\tsconfig.json",
+  "SelectedNode": "\\src\\app\\ranking-publico\\ranking-publico.component.html",
   "PreviewInSolutionExplorer": false
 }

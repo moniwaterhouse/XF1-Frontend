@@ -12,6 +12,8 @@ import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.co
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
 import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
+import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
+import { RankingPrivadoComponent } from './ranking-privado/ranking-privado.component';
 
 const routes: Routes = [
   { path: 'crear-campeonato', component: CrearCampeonatoComponent},
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'crear-carrera', component: CrearCarrerasComponent},
   { path: 'carreras', component: CarrerasComponent},
   { path: 'registro-jugador', component: RegistroJugadorComponent },
-  { path: 'configurar-escuderia', component: ConfigurarEscuderiaComponent }
+  { path: 'configurar-escuderia', component: ConfigurarEscuderiaComponent },
+  { path: 'ranking-publico', component: RankingPublicoComponent },
+  { path: 'ranking-privado', component: RankingPrivadoComponent }
 ];
 
 @NgModule({
