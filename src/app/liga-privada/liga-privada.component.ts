@@ -13,7 +13,8 @@ import { UsuarioLiga } from '../_interfaces/usuario-liga'
 import { Router } from '@angular/router';
 import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
-import { LigaPrivada } from '@app/_interfaces/liga-privada';
+import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-ranking-privado',
@@ -43,6 +44,15 @@ export class LigaPrivadaComponent implements OnInit {
   nuevaLigaPrivada !: LigaPrivada;
   nombreLiga !: string;
 
+  // Variables relacionadas con unirse a una liga privada
+  ligaPrivadaId !: LigaPrivadaId;
+  missingLlave !: boolean;
+  llavePrivada !: string;
+  ligasCreadas : any;
+  llaveErronea !: boolean;
+  limiteAlcanzado !: boolean;
+  cantidadMiembros : any;
+
   constructor(private ligasSrv: LigasService, private route: Router) { 
     this.crearLiga = false;
     this.unirseLiga = false;
@@ -51,6 +61,8 @@ export class LigaPrivadaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // Llamado al serivicio de ligas para creación de lógica de visualización del ranking privado
     this.ligasSrv.getPuntajesPrivada().pipe(first()).subscribe(response => { this.puntajes = response; });
     this.ligasSrv.getMiEscuderia().pipe(first()).subscribe(response => { this.nombreUsuario = response[0].jugador });
     this.ligasSrv.getUsuariosPrivada().pipe(first()).subscribe(response => { this.usuarios = response; });
@@ -65,6 +77,11 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                         this.miembroLiga = false;
                                                                                         this.ocultarOpciones = false;
                                                                                       }});
+    
+    this.ligasSrv.getLigasPrivadas().pipe(first()).subscribe(response => { this.ligasCreadas = response});
+    
+
+    
   }
 
   /**
@@ -105,6 +122,41 @@ export class LigaPrivadaComponent implements OnInit {
       console.log(this.correoJugador);
       this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {window.location.reload();});
     }
+  }
+
+  unirseLigaPrivada(){
+
+    this.resetLlaves();
+
+    if(this.llavePrivada == null){
+      this.missingLlave = true;
+    }
+    else{
+      this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
+      for(let i = 0; i < this.ligasCreadas.length; i++){
+        if(this.ligasCreadas[i].id == this.llavePrivada){
+          this.ligasSrv.getCantidadMiembrosLigaPrivada("KL9HY6-WEF567").pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
+                                                                                                              if(this.cantidadMiembros > 38){
+                                                                                                                this.limiteAlcanzado = true;
+                                                                                                              }
+                                                                                                            else{
+                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
+                                                                                                              window.location.reload();
+                                                                                                            }});
+        }
+        else{
+          this.llaveErronea = true;
+        }
+        
+      }
+      
+    }
+  }
+
+  resetLlaves(){
+    this.missingLlave = false;
+    this.llaveErronea = false;
+    this.limiteAlcanzado = false;
   }
 
 
