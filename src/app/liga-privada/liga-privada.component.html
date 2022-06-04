@@ -28,9 +28,9 @@
     </div>
   </nav>
   <br />
-  <section>
+  <section *ngIf="miembroLiga">
 
-    <div>
+    <div >
       <h1 style="margin-left:10%; display:inline" >Liga Privada</h1>
       <div *ngIf="info.activa==0" style="margin-left:12%">
         <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -90,4 +90,33 @@
       </div>
     </div>
   </section>
+
+  <div *ngIf="!miembroLiga && !ocultarOpciones" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Liga Privada</h1>
+    <button style="margin-top:10px;" type="button" class="btn btn-outline-primary btn-sm" (click)="mostrarCrearLigaPrivadaForm()">Crear liga privada</button>
+    <br />
+    <button style="margin-top:20px" type="button" class="btn btn-outline-primary btn-sm" (click)="mostrarUnirseLigaPrivadaForm()">Unirse a una liga privada</button>
+  </div>
+
+  <div *ngIf="crearLiga" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Formar liga privada</h1>
+      <label class="form-label" style="color: black; margin-top: 25px;" >Nombre de la liga privada*</label>
+      <br/>
+      <mat-form-field hintLabel="máximo 30 caracteres" appearance="fill" >
+        <input  matInput #inputName maxlength="30" >
+        <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+      <br />
+      <button style="margin-top:20px; text-align: center;" type="button" class="btn btn-primary  btn-cancelar" (click)="cancelar()">Cancelar </button>
+      <button style="margin-top:20px; margin-left: 50px;" type="button" class="btn btn-primary btn-crear">Crear</button>
+  
+   
+  </div>
+
+  <div *ngIf="unirseLiga" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Liga Privada</h1>
+    <button style="margin-top:10px; text-align: center;" type="button" class="btn btn-outline-primary btn-sm">Crear liga privada</button>
+    <br />
+    <button style="margin-top:20px" type="button" class="btn btn-outline-primary btn-sm">Unirse a una liga privada</button>
+  </div>
 </body>

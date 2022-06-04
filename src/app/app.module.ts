@@ -26,7 +26,7 @@ import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-
 import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
 import { MatIconModule } from "@angular/material/icon";
 import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
-import { RankingPrivadoComponent } from './ranking-privado/ranking-privado.component';
+import { LigaPrivadaComponent } from './liga-privada/liga-privada.component';
 
 
 @NgModule({
@@ -37,7 +37,7 @@ import { RankingPrivadoComponent } from './ranking-privado/ranking-privado.compo
     CarrerasComponent,
     CrearCarrerasComponent,
     ConfigurarEscuderiaComponent, 
-    RegistroJugadorComponent, RankingPublicoComponent, RankingPrivadoComponent
+    RegistroJugadorComponent, RankingPublicoComponent, LigaPrivadaComponent
   ],
   imports: [
     BrowserModule,
