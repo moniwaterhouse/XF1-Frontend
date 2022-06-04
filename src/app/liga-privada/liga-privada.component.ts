@@ -46,6 +46,12 @@ export class LigaPrivadaComponent implements OnInit {
 
   // Variables relacionadas con unirse a una liga privada
   ligaPrivadaId !: LigaPrivadaId;
+  missingLlave !: boolean;
+  llavePrivada !: string;
+  ligasCreadas : any;
+  llaveErronea !: boolean;
+  limiteAlcanzado !: boolean;
+  cantidadMiembros : any;
 
   constructor(private ligasSrv: LigasService, private route: Router) { 
     this.crearLiga = false;
@@ -72,10 +78,8 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                         this.ocultarOpciones = false;
                                                                                       }});
     
-    this.ligasSrv.getCantidadMiembrosLigaPrivada("KL9HY6-WEF567").pipe(first()).subscribe(response => { console.log(response.cantidad);});
-    this.ligasSrv.getLigasPrivadas().pipe(first()).subscribe(response => { console.log(response[0].id);});
-    this.ligaPrivadaId = {id : "KL9HY6-WEF567", correo : "steven@gmail.com"};
-    this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
+    this.ligasSrv.getLigasPrivadas().pipe(first()).subscribe(response => { this.ligasCreadas = response});
+    
 
     
   }
@@ -118,6 +122,41 @@ export class LigaPrivadaComponent implements OnInit {
       console.log(this.correoJugador);
       this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {window.location.reload();});
     }
+  }
+
+  unirseLigaPrivada(){
+
+    this.resetLlaves();
+
+    if(this.llavePrivada == null){
+      this.missingLlave = true;
+    }
+    else{
+      this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
+      for(let i = 0; i < this.ligasCreadas.length; i++){
+        if(this.ligasCreadas[i].id == this.llavePrivada){
+          this.ligasSrv.getCantidadMiembrosLigaPrivada("KL9HY6-WEF567").pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
+                                                                                                              if(this.cantidadMiembros > 38){
+                                                                                                                this.limiteAlcanzado = true;
+                                                                                                              }
+                                                                                                            else{
+                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
+                                                                                                              window.location.reload();
+                                                                                                            }});
+        }
+        else{
+          this.llaveErronea = true;
+        }
+        
+      }
+      
+    }
+  }
+
+  resetLlaves(){
+    this.missingLlave = false;
+    this.llaveErronea = false;
+    this.limiteAlcanzado = false;
   }
 
 

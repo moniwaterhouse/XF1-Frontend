@@ -120,10 +120,20 @@
    
   </div>
 
+  <!--Cuando se da click en el botón de crear una liga, se habilita este form que permite unirse a una liga-->
   <div *ngIf="unirseLiga" style="text-align: center;">
-    <h1 style="margin-top: 30px;" >Liga Privada</h1>
-    <button style="margin-top:10px; text-align: center;" type="button" class="btn btn-outline-primary btn-sm">Crear liga privada</button>
-    <br />
-    <button style="margin-top:20px" type="button" class="btn btn-outline-primary btn-sm">Unirse a una liga privada</button>
+    <h1 style="margin-top: 30px;" >Unirse a una liga privada</h1>
+      <label  *ngIf="missingLlave || limiteAlcanzado || llaveErronea" class="form-label" style="color: red; margin-top: 25px;">Llave de la liga privada</label>
+      <label  *ngIf="!missingLlave && !limiteAlcanzado && !llaveErronea" class="form-label" style="color: black; margin-top: 25px;">Llave de la liga privada</label>
+      <br/>
+      <mat-form-field appearance="fill" >
+        <input  matInput  maxlength="30" [(ngModel)]="llavePrivada" [ngModelOptions]="{standalone: true}">
+        <mat-hint *ngIf="missingLlave" style="color: red;">Ingrese llave de la liga privada</mat-hint>
+        <mat-hint *ngIf="llaveErronea" style="color: red;">La llave ingresada no existe</mat-hint>
+        <mat-hint *ngIf="limiteAlcanzado" style="color: red;">La liga ha alcanzado la máxima cantidad de miembros permitida</mat-hint>
+      </mat-form-field>
+      <br />
+      <button style="margin-top:20px; text-align: center;" type="button" class="btn btn-primary  btn-cancelar" (click)="cancelar()">Cancelar </button>
+      <button style="margin-top:20px; margin-left: 50px;" type="button" class="btn btn-primary btn-crear" (click)="unirseLigaPrivada()">Unirme</button>
   </div>
 </body>
