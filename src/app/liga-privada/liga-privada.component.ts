@@ -128,7 +128,7 @@ export class LigaPrivadaComponent implements OnInit {
 
     this.resetLlaves();
 
-    if(this.llavePrivada == null){
+    if(this.llavePrivada == null || this.llavePrivada.length < 1){
       this.missingLlave = true;
     }
     else{
