@@ -13,7 +13,8 @@ import { UsuarioLiga } from '../_interfaces/usuario-liga'
 import { Router } from '@angular/router';
 import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
-import { LigaPrivada } from '@app/_interfaces/liga-privada';
+import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-ranking-privado',
@@ -43,6 +44,9 @@ export class LigaPrivadaComponent implements OnInit {
   nuevaLigaPrivada !: LigaPrivada;
   nombreLiga !: string;
 
+  // Variables relacionadas con unirse a una liga privada
+  ligaPrivadaId !: LigaPrivadaId;
+
   constructor(private ligasSrv: LigasService, private route: Router) { 
     this.crearLiga = false;
     this.unirseLiga = false;
@@ -51,6 +55,8 @@ export class LigaPrivadaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // Llamado al serivicio de ligas para creación de lógica de visualización del ranking privado
     this.ligasSrv.getPuntajesPrivada().pipe(first()).subscribe(response => { this.puntajes = response; });
     this.ligasSrv.getMiEscuderia().pipe(first()).subscribe(response => { this.nombreUsuario = response[0].jugador });
     this.ligasSrv.getUsuariosPrivada().pipe(first()).subscribe(response => { this.usuarios = response; });
@@ -65,6 +71,13 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                         this.miembroLiga = false;
                                                                                         this.ocultarOpciones = false;
                                                                                       }});
+    
+    this.ligasSrv.getCantidadMiembrosLigaPrivada("KL9HY6-WEF567").pipe(first()).subscribe(response => { console.log(response.cantidad);});
+    this.ligasSrv.getLigasPrivadas().pipe(first()).subscribe(response => { console.log(response[0].id);});
+    this.ligaPrivadaId = {id : "KL9HY6-WEF567", correo : "steven@gmail.com"};
+    this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
+
+    
   }
 
   /**

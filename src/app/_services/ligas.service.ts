@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UsuarioLiga } from '../_interfaces/usuario-liga'
-import { LigaPrivada } from '@app/_interfaces/liga-privada';
+import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
 import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 
@@ -36,6 +36,18 @@ export class LigasService {
 
   getCuentaMiembrosLigaPrivada(){
     return this.http.get<number>(`${environment.apiUrl}/Liga/CantidadJugador/` + this.correo);
+  }
+
+  getLigasPrivadas(){
+    return this.http.get<any[]>(`${environment.apiUrl}/Liga/IdPrivadas/`);
+  }
+
+  getCantidadMiembrosLigaPrivada(llavePrivada : string){
+    return this.http.get<any>(`${environment.apiUrl}/Liga/CantidadJugadorPorId/` + "'" + llavePrivada + "'");
+  }
+
+  anadirMiembroLigaPrivada(ligaPrivada : LigaPrivadaId){
+    return this.http.put(`${environment.apiUrl}/Liga`, ligaPrivada);
   }
 
   crearLigaPrivada(nuevaLiga : LigaPrivada){
