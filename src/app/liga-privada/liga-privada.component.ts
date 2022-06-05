@@ -15,6 +15,7 @@ import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
 import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
 import { ThisReceiver } from '@angular/compiler';
+import { JugadorService } from '@app/_services/jugador.service';
 
 @Component({
   selector: 'app-ranking-privado',
@@ -53,7 +54,7 @@ export class LigaPrivadaComponent implements OnInit {
   limiteAlcanzado !: boolean;
   cantidadMiembros : any;
 
-  constructor(private ligasSrv: LigasService, private route: Router) { 
+  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService) { 
     this.crearLiga = false;
     this.unirseLiga = false;
     this.correoJugador = this.ligasSrv.correo;
@@ -119,7 +120,6 @@ export class LigaPrivadaComponent implements OnInit {
       this.missingName = true;
     }
     else{
-      console.log(this.correoJugador);
       this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {window.location.reload();});
     }
   }
@@ -157,6 +157,16 @@ export class LigaPrivadaComponent implements OnInit {
     this.missingLlave = false;
     this.llaveErronea = false;
     this.limiteAlcanzado = false;
+  }
+
+
+  /**
+   * Esta función conduce al perfil de jugador cuyo perfil se quiere visualizar.
+   * @param correo es el correo del usuario a revisar el perfil
+   */
+  verPerfil(correo: string) {
+    this.jugadorSrv.setCorreoPerfil(correo);
+    this.route.navigate(['/perfil-jugador']);
   }
 
 
