@@ -19,6 +19,9 @@ export class JugadorService {
 
   jugadorAux: BehaviorSubject<Jugador> = new BehaviorSubject(this.jugador);
 
+  correoPerfil !: string;
+  correoPerfilAux : BehaviorSubject<string> = new BehaviorSubject(this.correoPerfil);
+
   constructor(private http: HttpClient) {}
 
   crearJugador(jugador : Jugador){
@@ -33,11 +36,20 @@ export class JugadorService {
     return this.http.get(`${environment.apiUrl}/Usuario/Escuderias`);
   }
 
+  getPerfil(correo : string){
+    return this.http.get(`${environment.apiUrl}/Usuario/Perfil/` + "'" + correo + "'");
+  }
+
   setJugador(jugador : Jugador){
 
     this.jugador = jugador;
 
     this.jugadorAux.next(this.jugador);
 
+  }
+
+  setCorreoPerfil(correo : string){
+    this.correoPerfil = correo;
+    this.correoPerfilAux.next(this.correoPerfil);
   }
 }
