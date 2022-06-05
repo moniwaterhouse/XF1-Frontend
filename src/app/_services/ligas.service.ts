@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LigasService {
 
-  correo: string = '\'jose@gmail.com\''
+  correo: string = '\'monica@gmail.com\''
 
   constructor(private http: HttpClient, private router: Router) { }
 

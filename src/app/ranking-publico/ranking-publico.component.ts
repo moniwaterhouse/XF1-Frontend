@@ -19,7 +19,7 @@ export class RankingPublicoComponent implements OnInit {
   nombreUsuario!: string;
   
 
-  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService ) { }
+  constructor(private ligasSrv: LigasService, private route: Router) { }
 
   ngOnInit(): void {
     this.ligasSrv.getUsuariosPublica().pipe(first()).subscribe(response => { this.usuarios = response;});
