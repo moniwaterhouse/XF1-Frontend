@@ -33,6 +33,10 @@ export class JugadorService {
     return this.http.get(`${environment.apiUrl}/Usuario/Escuderias`);
   }
 
+  getPerfil(correo : string){
+    return this.http.get(`${environment.apiUrl}/Usuario/Perfil/` + "'" + correo + "'");
+  }
+
   setJugador(jugador : Jugador){
 
     this.jugador = jugador;
