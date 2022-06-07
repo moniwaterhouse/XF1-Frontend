@@ -135,7 +135,7 @@ export class LigaPrivadaComponent implements OnInit {
       this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
       for(let i = 0; i < this.ligasCreadas.length; i++){
         if(this.ligasCreadas[i].id == this.llavePrivada){
-          this.ligasSrv.getCantidadMiembrosLigaPrivada("KL9HY6-WEF567").pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
+          this.ligasSrv.getCantidadMiembrosLigaPrivada(this.llavePrivada).pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
                                                                                                               if(this.cantidadMiembros > 38){
                                                                                                                 this.limiteAlcanzado = true;
                                                                                                               }

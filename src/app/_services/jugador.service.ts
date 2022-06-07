@@ -48,6 +48,10 @@ export class JugadorService {
 
   }
 
+  /**
+   * Esta función permite compartir el correo seleccionado en las tablas de ranking para poder ser compartido entre componentes.
+   * @param correo es el correo seleccionado en la tablas de rankings para poder ser usado para ir al perfil de ese jugador
+   */
   setCorreoPerfil(correo : string){
     this.correoPerfil = correo;
     this.correoPerfilAux.next(this.correoPerfil);

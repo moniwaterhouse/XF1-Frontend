@@ -129,8 +129,8 @@
       <mat-form-field appearance="fill" >
         <input  matInput  maxlength="30" [(ngModel)]="llavePrivada" [ngModelOptions]="{standalone: true}">
         <mat-hint *ngIf="missingLlave" style="color: red;">Ingrese llave de la liga privada</mat-hint>
-        <mat-hint *ngIf="llaveErronea" style="color: red;">La llave ingresada no existe</mat-hint>
-        <mat-hint *ngIf="limiteAlcanzado" style="color: red;">La liga ha alcanzado la máxima cantidad de miembros permitida</mat-hint>
+        <mat-hint *ngIf="llaveErronea && !limiteAlcanzado" style="color: red;">La llave ingresada no existe</mat-hint>
+        <mat-hint *ngIf="limiteAlcanzado" style="color: red;">La liga cuenta con la cantidad máxima de miembros</mat-hint>
       </mat-form-field>
       <br />
       <button style="margin-top:20px; text-align: center;" type="button" class="btn btn-primary  btn-cancelar" (click)="cancelar()">Cancelar </button>
