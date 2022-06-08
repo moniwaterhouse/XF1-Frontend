@@ -21,7 +21,7 @@ export class EscuderiasService {
   }
 
   getPresupuesto() {
-    return this.http.get<Campeonato[]>(`${environment.apiUrl}/Campeonato`)
+    return this.http.get<any>(`${environment.apiUrl}/Campeonato/Presupuesto`);
   }
 
 }

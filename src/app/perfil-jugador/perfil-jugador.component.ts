@@ -29,8 +29,8 @@ export class PerfilJugadorComponent implements OnInit {
   pais !: string;
   nombreEscuderia !: string;
   perfil : any;
-  equipo1 : any;
-  equipo2 : any;
+  equipo1 !: any;
+  equipo2 !: any;
   posEquipo1 : any;
   posEquipo2 : any;
   puntajeEquipo1 : any;

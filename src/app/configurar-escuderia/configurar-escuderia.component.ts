@@ -80,7 +80,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
   ngOnInit(): void {
     this.escuderiasSrv.getEscuderias().pipe(first()).subscribe(response => { this.escuderias = response; });
     this.escuderiasSrv.getNombresEscuderias().pipe(first()).subscribe(response => { this.nombresEscuderias = response; });
-    this.escuderiasSrv.getPresupuesto().pipe(first()).subscribe(response => { this.presupuesto = response[0].presupuesto; this.presupuestoE1 = this.presupuesto; this.presupuestoE2 = this.presupuesto; });
+    this.escuderiasSrv.getPresupuesto().pipe(first()).subscribe(response => { this.presupuesto = response.presupuesto; this.presupuestoE1 = this.presupuesto; this.presupuestoE2 = this.presupuesto; });
     this.pilotosSrv.getPilotos().pipe(first()).subscribe(response => { this.pilotos = response; });
     this.jugadorSrv.jugadorAux.subscribe((u: Jugador) => { this.jugador = u });
     

@@ -26,6 +26,7 @@ export class CampeonatosService {
     return this.http.get<Campeonato[]>(`${environment.apiUrl}/Campeonato`);
   }
 
+
   crearCampeonato(campeonato : Campeonato){
     return this.http.post(`${environment.apiUrl}/Campeonato`, campeonato);
   }
