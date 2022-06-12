@@ -15,12 +15,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select'
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CampeonatosComponent } from './campeonatos/campeonatos.component';
 import { CrearCampeonatoComponent } from './crear-campeonato/crear-campeonato.component';
 import { FormsModule } from '@angular/forms';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-escuderia.component';
+import { RegistroJugadorComponent } from './registro-jugador/registro-jugador.component';
+import { MatIconModule } from "@angular/material/icon";
+import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
+import { LigaPrivadaComponent } from './liga-privada/liga-privada.component';
+import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
 
 
 @NgModule({
@@ -29,7 +36,9 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
     CampeonatosComponent,
     CrearCampeonatoComponent,
     CarrerasComponent,
-    CrearCarrerasComponent
+    CrearCarrerasComponent,
+    ConfigurarEscuderiaComponent, 
+    RegistroJugadorComponent, RankingPublicoComponent, LigaPrivadaComponent, PerfilJugadorComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +51,9 @@ import { CrearCarrerasComponent } from './crear-carreras/crear-carreras.componen
     MatInputModule,
     FormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatIconModule
     
   ],
   exports:[

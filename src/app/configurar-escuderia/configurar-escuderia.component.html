@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+</head>
+<body>
+  <!-- Header con el logo de la XFIA -->
+  <nav class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand"><img class="img-responsive" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
+
+      <div class="topnav-right">
+        <a>Registro de jugador</a>
+      </div>
+    </div>
+  </nav>
+  <br />
+
+  <!-- Form para asignar los nombres a los equipos y a la escueria. Dependiendo de las banderas de validacion, los colores de los labels de cada uno de los inputs va a cambiar.Ademas de
+    mostrar un mensaje en caso de que el nombre de la escuderia este tomado-->
+  <section style="margin-left: 3%">
+    <h1>Mi escudería</h1>
+    <h5 style="margin-bottom: 50px;">*Espacios requeridos</h5>
+    <form class="row g-3">
+      <div class="col-md-4">
+        <label *ngIf="!faltaNombreEsc" class="form-label" style="color: black;">Nombre de mi escudería*</label>
+        <label *ngIf="faltaNombreEsc" class="form-label" style="color: red;">Nombre de mi escudería*  </label>
+        <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
+          <input matInput #inputName maxlength="30" [(ngModel)]="nombreEsc" [ngModelOptions]="{standalone: true}">
+          <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+        </mat-form-field>
+        <label *ngIf="nombreEscTomado" class="form-label" style="color: red;">**Nombre en uso**</label>
+      </div>
+      <div class="col-md-4">
+        <label *ngIf="!faltaNombreE1" class="form-label" style="color: black;">Nombre de mi equipo 1*</label>
+        <label *ngIf="faltaNombreE1" class="form-label" style="color: red;">Nombre de mi equipo 1*</label>
+        <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
+          <input matInput #inputEquipo1 maxlength="30" [(ngModel)]="nombreE1" [ngModelOptions]="{standalone: true}">
+          <mat-hint align="end">{{inputEquipo1.value?.length || 0}}/30</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <label *ngIf="!faltaNombreE2" class="form-label" style="color: black;">Nombre de mi equipo 2*</label>
+        <label *ngIf="faltaNombreE2" class="form-label" style="color: red;">Nombre de mi equipo 2*</label>
+        <mat-form-field hintLabel="1-30 caracteres" appearance="fill">
+          <input matInput #inputEquipo2 maxlength="30" [(ngModel)]="nombreE2" [ngModelOptions]="{standalone: true}">
+          <mat-hint align="end">{{inputEquipo2.value?.length || 0}}/30</mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
+  </section>
+  <br />
+
+
+  <!-- Permite seleccionar entre equipo 1 y equipo 2-->
+  <div style="margin-left: 5%; margin-right: 5%">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <div *ngIf="!incompletoE1">
+          <button *ngIf="equipo" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+          <button *ngIf="!equipo" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+        </div>
+        <div *ngIf="incompletoE1">
+          <button *ngIf="equipo" style="color:red" class="nav-link active" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+          <button *ngIf="!equipo" style="color:red" class="nav-link" id="equipo1-tab" data-bs-toggle="tab" data-bs-target="#equipo1-tab-pane" type="button" role="tab" aria-controls="equipo1-tab-pane" aria-selected="true" (click)="selecEquipo1()">Equipo 1</button>
+        </div>
+      </li>
+      <li class="nav-item" role="presentation">
+        <div *ngIf="!incompletoE2">
+          <button *ngIf="equipo" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+          <button *ngIf="!equipo" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+        </div>
+        <div *ngIf="incompletoE2">
+          <button *ngIf="equipo" style="color:red" class="nav-link" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+          <button *ngIf="!equipo" style="color:red" class="nav-link active" id="equipo2-tab" data-bs-toggle="tab" data-bs-target="#equipo2-tab-pane" type="button" role="tab" aria-controls="equipo2-tab-pane" aria-selected="false" (click)="selecEquipo2()">Equipo 2 </button>
+        </div>
+    </ul>
+
+    <br />
+    <!-- Mustra la informacion del equipo 1 -->
+    <div *ngIf="equipo">
+      <!-- Permite la seleccion entre pilotos o escuderias -->
+      <div style="margin-left:3%;">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="selecEscu()">
+          <label class="btn btn-outline-primary" for="btnradio1">Escuderías</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="selecPiloto()">
+          <label class="btn btn-outline-primary" for="btnradio2">Pilotos</label>
+          <div style="max-height: 10px;margin-left:500px">
+            <a>Presupuesto total:  {{presupuesto}}M$</a>
+            <br />
+            <a>Presupuesto actual:  {{presupuestoE1}}M$</a>
+          </div>
+        </div>
+      </div>
+      <!-- Muestra la informacion de las escuderias -->
+      <br />
+      <div style=" max-height:380px; overflow-y:scroll;">
+        <div class="col-9" *ngIf="escOPil">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Selección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let escuderia of escuderias">
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{escuderia.urlLogo}}></a></th>
+                <th scope="col">{{escuderia.marca}}</th>
+                <th scope="col">{{escuderia.precio}}</th>
+                <th scope="col">
+                  <div class="form-check" *ngIf="escuderia==escuderiaE1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                  </div>
+                  <div class="form-check" *ngIf="escuderia!=escuderiaE1">
+                    <input *ngIf="presupuestoE1+precioEscE1 - escuderia.precio >= 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE1+precioEscE1 - escuderia.precio < 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled>
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Muestra la informacion de los pilotos -->
+      <div style=" max-height:380px; overflow-y:scroll;">
+        <div class="col-9" *ngIf="!escOPil">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Nacionalidad</th>
+                <th scope="col">Equipo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Selección (5)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let piloto of pilotos" class="container vertical-scrollable">
+                <th scope="col">{{piloto.nombre}}</th>
+                <th scope="col">{{piloto.pais}}</th>
+                <th scope="col">{{piloto.equipoReal}}</th>
+                <th scope="col">{{piloto.precio}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{piloto.urlLogo}}></a></th>
+                <th scope="col">
+                  <div *ngIf="!pilotosE1completos">
+                    <div class="form-check" *ngIf="pilotosE1.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
+                    </div>
+                    <div class="form-check" *ngIf="!pilotosE1.includes(piloto)">
+                      <input *ngIf="presupuestoE1-piloto.precio >= 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE1-piloto.precio < 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                    </div>
+                  </div>
+                  <div *ngIf="pilotosE1completos">
+                    <div class="form-check" *ngIf="pilotosE1.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
+                    </div>
+                    <div class="form-check" *ngIf="!pilotosE1.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Mustra la informacion del equipo 2 -->
+    <div *ngIf="!equipo">
+      <!-- Permite la seleccion entre pilotos o escuderias -->
+      <div style="margin-left:3%;" *ngIf="!equipo">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="selecEscu()">
+          <label class="btn btn-outline-primary" for="btnradio1">Escuderías</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="selecPiloto()">
+          <label class="btn btn-outline-primary" for="btnradio2">Pilotos</label>
+          <div style="max-height: 10px;margin-left:500px">
+            <a>Presupuesto total:  {{presupuesto}}M$</a>
+            <br />
+            <a>Presupuesto actual:  {{presupuestoE2}}M$</a>
+          </div>
+        </div>
+      </div>
+      <!-- Muestra la informacion de las escuderias -->
+      <br />
+
+      <div style=" max-height:380px; overflow-y:scroll;">
+        <div class="col-9" *ngIf="escOPil">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Selección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let escuderia of escuderias">
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{escuderia.urlLogo}}></a></th>
+                <th scope="col">{{escuderia.marca}}</th>
+                <th scope="col">{{escuderia.precio}}</th>
+                <th scope="col">
+                  <div class="form-check" *ngIf="escuderia==escuderiaE2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                  </div>
+                  <div class="form-check" *ngIf="escuderia!=escuderiaE2">
+                    <input *ngIf="presupuestoE2+precioEscE2 -escuderia.precio >= 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="selecEsc(escuderia)">
+                    <input *ngIf="presupuestoE2+precioEscE2 -escuderia.precio < 0" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled>
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Muestra la informacion de los pilotos -->
+      <div style=" max-height:380px; overflow-y:scroll;">
+        <div class="col-9" *ngIf="!escOPil">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Nacionalidad</th>
+                <th scope="col">Equipo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Selección (5)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let piloto of pilotos" class="container vertical-scrollable">
+                <th scope="col">{{piloto.nombre}}</th>
+                <th scope="col">{{piloto.pais}}</th>
+                <th scope="col">{{piloto.equipoReal}}</th>
+                <th scope="col">{{piloto.precio}}</th>
+                <th scope="col"><a class="navbar-brand"><img class="img-responsive" id="logo" src={{piloto.urlLogo}}></a></th>
+                <th scope="col">
+                  <div *ngIf="!pilotosE2completos">
+                    <div class="form-check" *ngIf="pilotosE2.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
+                    </div>
+                    <div class="form-check" *ngIf="!pilotosE2.includes(piloto)">
+                      <input *ngIf="presupuestoE2-piloto.precio >= 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)">
+                      <input *ngIf="presupuestoE2-piloto.precio < 0" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                    </div>
+                  </div>
+                  <div *ngIf="pilotosE2completos">
+                    <div class="form-check" *ngIf="pilotosE2.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="selecPilotos(piloto)" checked>
+                    </div>
+                    <div class="form-check" *ngIf="!pilotosE2.includes(piloto)">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <!-- Muestra los botones de crear o cancelar -->
+    <div class="col-6" style="margin-left:715px">
+      <button type="submit" class="btn btn-primary" (click)="cancelar()" style="margin-right: 30px; background-color: red; border-color: red;">Cancelar</button>
+      <button type="submit" class="btn btn-primary" (click)="validarCamposRequeridos()" style="margin-right: 30px; background-color: green; border-color: green;">Crear</button>
+    </div>
+    <br />
+    <!-- Muestra un mensaje al crear la cuenta -->
+    <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
+      La cuenta se ha creado correctamente <a href="/registro-jugador" class="alert-link">Click aquí para regresar al inicio.</a>
+    </div>
+  </div>
+
+
+
+
+
+</body>
+
+ 

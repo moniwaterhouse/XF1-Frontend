@@ -11,13 +11,12 @@
 
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Carrera } from '@app/_interfaces/carreras';
 import { CarrerasService } from '@app/_services/carreras.service';
 import { first } from 'rxjs';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { Router } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
+import { PAISES } from '../_data/paises';
 
 @Component({
   selector: 'app-crear-carreras',
@@ -57,14 +56,17 @@ export class CrearCarrerasComponent implements OnInit {
   errorMinNombre !: boolean;
   errorMinPista !: boolean;
   campeonatoSeleccionado !: boolean;
+  idCampeonato !: any;
 
   // Declaracion de variables relacionadas la validacion de fechas y formato de fechas
   formatoFechaInicio : any;
   formatoFechaFin : any;
-  fechasOcupadas = [];
   fechaMin!: Date;
   fechaMax!: Date;
   fechasCampeonato : any;
+  fechasOcupadas = new Array();
+  fechasCarrerasCreadss !: any;
+  filtroFechas !: any;
   
   // Este grupo de variables de tipo Array son utilizadas como insumo de los dropdowns.
   opcionesHora = new Array(25).fill(0).map((x, i)=> i);
@@ -73,87 +75,22 @@ export class CrearCarrerasComponent implements OnInit {
 
   campeonatosExistentes : any; // Variable para utilizar como insumo en el dropdown of 
   
-
   carrera!: Carrera; // Variable que va a ser posteriormente utilizada como body para realizar el post request de una carrera
 
   // Variable para ser utilizada como insumo del dropdown de países
-  listaPaises = [
+  listaPaises = PAISES;
 
-    "Argentina",
-    "Aruba",
-    "Australia",
-    "Austria",
-    "Bahamas (the)",
-    "Bahrain",
-    "Belgium",
-    "Belize",
-    "Brazil",
-    "Bulgaria",
-    "Cambodia",
-    "Cameroon",
-    "Canada",
-    "Chile",
-    "China",
-    "Colombia",
-    "Costa Rica",
-    "Croatia",
-    "Cuba",
-    "Czechia",
-    "Ecuador",
-    "Egypt",
-    "El Salvador",
-    "Finland",
-    "France",
-    "Germany",
-    "Ghana",
-    "Greece",
-    "Greenland",
-    "Guatemala",
-    "Haiti",
-    "Honduras",
-    "Hong Kong",
-    "Hungary",
-    "Iceland",
-    "India",
-    "Ireland",
-    "Italy",
-    "Jamaica",
-    "Japan",
-    "Luxembourg",
-    "Malaysia",
-    "Maldives",
-    "Mexico",
-    "Monaco",
-    "New Zealand",
-    "Nicaragua",
-    "Norway",
-    "Panama",
-    "Paraguay",
-    "Peru",
-    "Poland",
-    "Portugal",
-    "Puerto Rico",
-    "Qatar",
-    "Slovakia",
-    "Slovenia",
-    "South Africa",
-    "Spain",
-    "Sweden",
-    "Switzerland",
-    "Thailand",
-    "Turkey",
-    "United States of America",
-    "Uruguay",
-    "Venezuela",
-  ];
 
   constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router) {
     this.campeonatoSeleccionado = false;
+  
    }
 
   ngOnInit(): void {
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response =>
       {this.campeonatosExistentes = response;});
+    
+
   }
 
    /**
@@ -165,7 +102,6 @@ export class CrearCarrerasComponent implements OnInit {
    */
   validarCamposRequeridos(){
     this.restaurarBanderas();
-    console.log(this.campeonato.id);
 
     if(this.nombre == null || this.nombre.length < 5){
       this.missingName = true;
@@ -222,6 +158,7 @@ export class CrearCarrerasComponent implements OnInit {
     }    
   }
 
+
   /**
    * <p> Este método asigna los valores correspondientes a cada uno de los atributos de la variable carrera de acuerdo
    * a lo ingresado por el usuario en los inputs y posteriormente esta se pasa como parámtro al método de crearCarrera del servicio de 
@@ -233,9 +170,9 @@ export class CrearCarrerasComponent implements OnInit {
     this.carrera = 
       {nombre: this.nombre, idCampeonato: this.campeonato.id, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
     
-    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe();
+    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe(response => { location.href = "http://localhost:4200/carreras";});
 
-    this.route.navigate(['/carreras']);
+   
     
   }
 
@@ -279,7 +216,48 @@ export class CrearCarrerasComponent implements OnInit {
     this.campeonatoSeleccionado = true;
     this.fechaMin = this.campeonato.fechaInicio;
     this.fechaMax = this.campeonato.fechaFin;
+    this.idCampeonato = this.campeonato.id;
+    this.carreraSrv.getFechasUtilizadas(this.idCampeonato).pipe(first()).subscribe(response =>
+      {this.fechasCarrerasCreadss = response;
+        this.getFechasNoDisponibles(this.fechasCarrerasCreadss);
+      });
+      this.filtroFechas = (d: Date): boolean => {
+        let time=d.getTime();
+        return !this.fechasOcupadas.find(x=>x.getTime()==time)
+      }
+    
       
   }
+
+  /**
+   * <p> Llama al servicio de carreras para obtener las fechas de las carreras ya existentes en un campeonato para 
+   * que estas no puedan ser seleccionadas al momento de crear un nuevo campeonato </p>
+   * @param fechas es un json con la lista de las fechas de inicio y fin de cada uno de los campeonatos
+   */
+   getFechasNoDisponibles(fechas : any){
+    var auxFechas = new Array();
+    
+    for(let fecha of fechas){
+      auxFechas = this.crearListaFechas(fecha.fechaInicio, fecha.fechaFin);
+      this.fechasOcupadas = this.fechasOcupadas.concat(auxFechas);
+      
+    }
+  }
+
+   /**
+   * <p> Crea una lista de fechas tomando a partir de una fecha de inicio y una fecha final </p>
+   * @param incio es la fecha de inicio de la lista
+   * @param fin es la fecha final de la lista
+   */
+  crearListaFechas = function(inicio: any, fin: any) {
+    var arr = new Array();
+    var dt = new Date(inicio);
+    var endDt = new Date(fin);
+    while (dt <= endDt) {
+        arr.push(new Date(dt));
+        dt.setDate(dt.getDate() + 1);
+    }
+    return arr;
+}
 
 }

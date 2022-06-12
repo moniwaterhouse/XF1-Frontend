@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+      <div class="topnav-left">
+        <a class="navbar-brand"><img class="img-responsive navbar-brand" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" href="/ranking-publico">Liga Pública</a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" href="/liga-privada">Liga Privada</a>
+      </div>
+      <div class="topnav-right" style="margin-right: 2%; cursor: pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+        </svg>
+        <a style="margin-left:10px; " (click)=" verPerfil(correoJugador.slice(1,-1))">{{nombreUsuario}}</a>
+      </div>
+    </div>
+  </nav>
+  <br />
+
+  <!-- Esta sección muestra el ranking de la liga privada cuando el jugador ya pertenece a una liga -->
+  <section *ngIf="miembroLiga">
+
+    <div >
+      <h1 style="margin-left:10%; display:inline">Liga Privada - {{info.nombre}}</h1>
+      <div *ngIf="info.activa==0" style="margin-left:16%">
+        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:red" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+        <a style="color: red;">Inactiva</a>
+      </div>
+      <div *ngIf="info.activa==1" style="margin-left: 16%">
+        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style="color:lawngreen" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+        </svg>
+        <a  style="color: lawngreen;" >Activa</a>
+      </div>
+    </div>
+
+    <br />
+    <div class="container">
+      <div style="max-height:700px; width:95%; overflow-y: scroll; ">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Posición</th>
+              <th scope="col">Jugador</th>
+              <th scope="col">Escuderia</th>
+              <th scope="col">Equipo</th>
+              <th scope="col">Puntos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of puntajes">
+              <th scope="col">{{usuario.posicion}}</th>
+              <th scope="col" style="cursor:pointer" (click)=" verPerfil(usuario.correo)">{{usuario.jugador}}</th>
+              <th scope="col">{{usuario.escuderia}}</th>
+              <th scope="col">{{usuario.equipo}}</th>
+              <th scope="col">{{usuario.puntos}}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="item">
+        <h1>Miembros</h1>
+        <h4 style="flex-direction:column;border-bottom:2px dashed">{{info.cantidad/2}}/20</h4>
+        <div *ngFor="let usuario of usuarios">
+          <a>{{usuario.jugador}} </a>
+        </div>
+        <br />
+        <div style="border-top:2px dashed;margin-bottom:10px">
+          <a>Llave Liga</a>
+          <br />
+          <a>{{info.idLiga}}</a>
+        </div>
+        <div style="border-top:2px dashed;margin-bottom:10px">
+          <button style="margin-top:10px" type="button" class="btn btn-outline-primary btn-sm">Abandonar Liga</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Si el jugador no pertenece a una liga privada, se muestran las opciones de crear una liga o unirse a una liga-->
+  <div *ngIf="!miembroLiga && !ocultarOpciones" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Liga Privada</h1>
+    <button style="margin-top:10px;" type="button" class="btn btn-outline-primary btn-sm" (click)="mostrarCrearLigaPrivadaForm()">Crear liga privada</button>
+    <br />
+    <button style="margin-top:20px" type="button" class="btn btn-outline-primary btn-sm" (click)="mostrarUnirseLigaPrivadaForm()">Unirse a una liga privada</button>
+  </div>
+
+  <!--Cuando se da click en el botón de crear una liga, se habilita este form que permite crear una liga-->
+  <div *ngIf="crearLiga" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Formar liga privada</h1>
+
+    <h5 style="margin-bottom: 20px;">*Espacios requeridos</h5>
+      <label  *ngIf="missingName" class="form-label" style="color: red; margin-top: 25px;">Nombre de la liga privada*</label>
+      <label  *ngIf="!missingName" class="form-label" style="color: black; margin-top: 25px;">Nombre de la liga privada*</label>
+      <br/>
+      <mat-form-field hintLabel="máximo 30 caracteres" appearance="fill" >
+        <input  matInput #inputName maxlength="30" [(ngModel)]="nombreLiga" [ngModelOptions]="{standalone: true}">
+        <mat-hint align="end">{{inputName.value?.length || 0}}/30</mat-hint>
+      </mat-form-field>
+      <br />
+      <button style="margin-top:20px; text-align: center;" type="button" class="btn btn-primary  btn-cancelar" (click)="cancelar()">Cancelar </button>
+      <button style="margin-top:20px; margin-left: 50px;" type="button" class="btn btn-primary btn-crear" (click)="formarLiga()">Crear</button>
+  
+   
+  </div>
+
+  <!--Cuando se da click en el botón de crear una liga, se habilita este form que permite unirse a una liga-->
+  <div *ngIf="unirseLiga" style="text-align: center;">
+    <h1 style="margin-top: 30px;" >Unirse a una liga privada</h1>
+      <label  *ngIf="missingLlave || limiteAlcanzado || llaveErronea" class="form-label" style="color: red; margin-top: 25px;">Llave de la liga privada</label>
+      <label  *ngIf="!missingLlave && !limiteAlcanzado && !llaveErronea" class="form-label" style="color: black; margin-top: 25px;">Llave de la liga privada</label>
+      <br/>
+      <mat-form-field appearance="fill" >
+        <input  matInput  maxlength="30" [(ngModel)]="llavePrivada" [ngModelOptions]="{standalone: true}">
+        <mat-hint *ngIf="missingLlave" style="color: red;">Ingrese llave de la liga privada</mat-hint>
+        <mat-hint *ngIf="llaveErronea && !limiteAlcanzado" style="color: red;">La llave ingresada no existe</mat-hint>
+        <mat-hint *ngIf="limiteAlcanzado" style="color: red;">La liga cuenta con la cantidad máxima de miembros</mat-hint>
+      </mat-form-field>
+      <br />
+      <button style="margin-top:20px; text-align: center;" type="button" class="btn btn-primary  btn-cancelar" (click)="cancelar()">Cancelar </button>
+      <button style="margin-top:20px; margin-left: 50px;" type="button" class="btn btn-primary btn-crear" (click)="unirseLigaPrivada()">Unirme</button>
+  </div>
+</body>

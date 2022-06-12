@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Campeonato} from '../_interfaces/campeonatos'
 import { environment } from '@environments/environment';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class CampeonatosService {
   //public campeonato!: Observable<Campeonato>;
   //private campeonatoSubject!: BehaviorSubject<Campeonato>;
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient) { 
         //this.campeonatoSubject = this.campeonatoSubject.asObservable();
         //this.campeonatosUB = new BehaviorSubject<Campeonato>(JSON.parse(localStorage.getItem('account')));
         
@@ -26,6 +25,7 @@ export class CampeonatosService {
   getCampeonatos() {
     return this.http.get<Campeonato[]>(`${environment.apiUrl}/Campeonato`);
   }
+
 
   crearCampeonato(campeonato : Campeonato){
     return this.http.post(`${environment.apiUrl}/Campeonato`, campeonato);

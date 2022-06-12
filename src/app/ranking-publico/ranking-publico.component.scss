@@ -1,0 +1,42 @@
+.navbar {
+  background-color: #05063D;
+  color: white;
+}
+
+.img-responsive {
+  height: auto;
+  width: auto;
+  max-height: 50px;
+  max-width: 200px;
+  margin-right: 20px;
+}
+
+.table {
+  align-self: center;
+  max-width: 1500px;
+}
+
+.item {
+  padding-left: 1%;
+  border-left: solid #05063D;
+  padding-right: 1%;
+  border-right: solid #05063D;
+  text-align: center;
+  width: 30%;
+  margin-left: 1%
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  overflow: hidden
+}
+
+.circulo {
+  border: 2px solid #05063D;
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  display: inline-block
+}
