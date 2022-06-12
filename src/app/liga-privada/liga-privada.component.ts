@@ -58,10 +58,12 @@ export class LigaPrivadaComponent implements OnInit {
     this.crearLiga = false;
     this.unirseLiga = false;
     this.correoJugador = this.ligasSrv.correo;
+    
 
   }
 
   ngOnInit(): void {
+    
 
     // Llamado al serivicio de ligas para creación de lógica de visualización del ranking privado
     this.ligasSrv.getPuntajesPrivada().pipe(first()).subscribe(response => { this.puntajes = response; });
@@ -80,6 +82,7 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                       }});
     
     this.ligasSrv.getLigasPrivadas().pipe(first()).subscribe(response => { this.ligasCreadas = response});
+    this.resetLlaves();
     
 
     
@@ -133,7 +136,6 @@ export class LigaPrivadaComponent implements OnInit {
     }
     else{
       this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
-      console.log(this.ligaPrivadaId)
       for(let i = 0; i < this.ligasCreadas.length; i++){
         if(this.ligasCreadas[i].id == this.llavePrivada){
           this.ligasSrv.getCantidadMiembrosLigaPrivada(this.llavePrivada).pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
@@ -141,10 +143,10 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                                                 this.limiteAlcanzado = true;
                                                                                                               }
                                                                                                             else{
-                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
-                                                                                                              console.log(this.ligaPrivadaId);
+                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe(response=>{window.location.reload();});
+                                                                                                              
                                                                                                             }});
-                                                                                                            //window.location.reload();
+                                                                                                            
         }
         
         else{
