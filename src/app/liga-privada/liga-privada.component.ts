@@ -133,6 +133,7 @@ export class LigaPrivadaComponent implements OnInit {
     }
     else{
       this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
+      console.log(this.ligaPrivadaId)
       for(let i = 0; i < this.ligasCreadas.length; i++){
         if(this.ligasCreadas[i].id == this.llavePrivada){
           this.ligasSrv.getCantidadMiembrosLigaPrivada(this.llavePrivada).pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
@@ -141,9 +142,11 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                                               }
                                                                                                             else{
                                                                                                               this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe();
-                                                                                                              window.location.reload();
+                                                                                                              console.log(this.ligaPrivadaId);
                                                                                                             }});
+                                                                                                            //window.location.reload();
         }
+        
         else{
           this.llaveErronea = true;
         }
@@ -167,6 +170,8 @@ export class LigaPrivadaComponent implements OnInit {
   verPerfil(correo: string) {
     this.jugadorSrv.setCorreoPerfil(correo);
     this.route.navigate(['/perfil-jugador']);
+
+    
   }
 
 

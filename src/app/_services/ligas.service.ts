@@ -23,7 +23,7 @@ export class LigasService {
   }
 
   getInfoPrivada() {
-    return this.http.get<any>(`${environment.apiUrl}/Liga/InfoPrivada/` + this.correo);
+    return this.http.get(`${environment.apiUrl}/Liga/InfoPrivada/` + this.correo);
   }
 
   getPuntajesPrivada() {
