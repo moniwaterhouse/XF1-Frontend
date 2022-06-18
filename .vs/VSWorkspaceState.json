@@ -3,12 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\carreras",
-    "\\src\\app\\configurar-escuderia",
-    "\\src\\app\\ranking-privado",
-    "\\src\\app\\ranking-publico",
+    "\\src\\app\\crear-carreras",
     "\\src\\app\\_services"
   ],
-  "SelectedNode": "\\src\\app\\ranking-publico\\ranking-publico.component.html",
+  "SelectedNode": "\\src\\app\\crear-carreras\\crear-carreras.component.scss",
   "PreviewInSolutionExplorer": false
 }

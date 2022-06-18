@@ -258,7 +258,7 @@ export class ConfigurarEscuderiaComponent implements OnInit {
       this.equipo1 = { marcaEscuderia: this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2: this.pilotosE1[1].nombre, nombrePiloto3: this.pilotosE1[2].nombre, NombrePiloto4: this.pilotosE1[3].nombre, nombrePiloto5: this.pilotosE1[4].nombre, puntajePublica: 0, costo: this.presupuestoE1 };
       this.equipo2 = { marcaEscuderia: this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2: this.pilotosE2[1].nombre, nombrePiloto3: this.pilotosE2[2].nombre, NombrePiloto4: this.pilotosE2[3].nombre, nombrePiloto5: this.pilotosE2[4].nombre, puntajePublica: 0, costo: this.presupuestoE2 };
       this.equipoSrv.crearEquipo(this.equipo1).pipe(first()).subscribe(response => {this.idEquipo1 = response;
-        console.log(this.idEquipo1);
+        console.log(this.equipo1);
         this.equipoSrv.crearEquipo(this.equipo2).pipe(first()).subscribe(response => {this.idEquipo2 = response;
           console.log(this.idEquipo2);
           this.jugador.nombreEscuderia = this.nombreEsc;
@@ -266,8 +266,6 @@ export class ConfigurarEscuderiaComponent implements OnInit {
           this.jugador.idEquipo2 = this.idEquipo2;
           this.jugadorSrv.crearJugador(this.jugador).pipe(first()).subscribe();});});
           this.cuentaCreada = true;
-        
-        
     }
   }
   /**

@@ -23,11 +23,11 @@
       "dom"
     ],
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@environments/*": ["src/environments/*"]
-  },
-  "types": [ "node" , "jasmine" ],
-"typeRoots": [ "../node_modules/@types" ]
+      "@app/*": [ "src/app/*" ],
+      "@environments/*": [ "src/environments/*" ]
+    },
+    "types": [ "node", "jasmine" ],
+    "typeRoots": [ "../node_modules/@types" ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
