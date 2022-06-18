@@ -27,4 +27,8 @@ export class CarrerasService {
     return this.http.get(`${environment.apiUrl}/Carrera/Fechas/${id}`);
   }
 
+  subirResultados(resultados: JSON[]) {
+    return this.http.post(`${environment.apiUrl}/Puntaje`, resultados);
+  }
+
 }
