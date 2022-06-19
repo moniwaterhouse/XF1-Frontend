@@ -9,12 +9,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { UsuarioLiga } from '../_interfaces/usuario-liga'
+import { CorreoJugador } from '@app/_interfaces/jugador';
 import { Router } from '@angular/router';
 import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
 import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
-import { ThisReceiver } from '@angular/compiler';
 import { JugadorService } from '@app/_services/jugador.service';
 
 @Component({
@@ -32,6 +31,7 @@ export class LigaPrivadaComponent implements OnInit {
   usuarios: any;
   info: any;
   nombreUsuario!: string;
+  correoJson !: CorreoJugador;
   
   // Variables relacionadas con el manejo de las  opciones de crear o unirse a una liga privada
   crearLiga !: boolean;
@@ -169,11 +169,17 @@ export class LigaPrivadaComponent implements OnInit {
    * Esta función conduce al perfil de jugador cuyo perfil se quiere visualizar.
    * @param correo es el correo del usuario a revisar el perfil
    */
-  verPerfil(correo: string) {
+  verPerfil(correo : string) {
     this.jugadorSrv.setCorreoPerfil(correo);
     this.route.navigate(['/perfil-jugador']);
 
     
+  }
+
+  abandonarLigaPrivada(){
+    this.correoJson = {"correo" :  this.correoJugador.slice(1,-1)};
+    this.jugadorSrv.abadonarLiga(this.correoJson).pipe(first()).subscribe(response => {window.location.reload(); });
+
   }
 
 
