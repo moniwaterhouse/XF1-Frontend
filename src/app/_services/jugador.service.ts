@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Jugador } from '@app/_interfaces/jugador';
+import { CorreoJugador, Jugador } from '@app/_interfaces/jugador';
 import { environment } from '@environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
@@ -38,6 +38,10 @@ export class JugadorService {
 
   getPerfil(correo : string){
     return this.http.get(`${environment.apiUrl}/Usuario/Perfil/` + "'" + correo + "'");
+  }
+
+  abadonarLiga(correo : CorreoJugador){
+    return this.http.put(`${environment.apiUrl}/Usuario/Abandonar`, correo);
   }
 
   setJugador(jugador : Jugador){
