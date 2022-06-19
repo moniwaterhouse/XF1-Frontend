@@ -15,7 +15,6 @@ import { Jugador } from '@app/_interfaces/jugador';
 import { JugadorService } from '@app/_services/jugador.service';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
-import { EscuderiasService } from '@app/_services/escuderias.service';
 
 @Component({
   selector: 'app-registro-jugador',
@@ -53,7 +52,7 @@ export class RegistroJugadorComponent implements OnInit {
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises : any;
 
-  constructor( private jugadorSrv : JugadorService, private route : Router, private escuderiasSrv :  EscuderiasService) { 
+  constructor( private jugadorSrv : JugadorService, private route : Router) { 
 
     this.listaPaises = PAISES;
     this.letters = /^[a-zA-Z]+$/;

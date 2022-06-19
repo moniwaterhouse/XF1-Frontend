@@ -29,23 +29,30 @@
                 <form class="row g-3">
 
                       <div class="col-md-4">
-                        <label class="form-label" style="color: black;">Correo electrónico*</label>
+                        <label  *ngIf="missingCorreo || correoInvalido" class="form-label" style="color: red;">Correo electrónico*</label>
+                        <label  *ngIf="!missingCorreo && !correoInvalido" class="form-label" style="color: black;">Correo electrónico*</label>
                         <mat-form-field appearance="fill" >
-                          <input  matInput #inputCorreo>
+                          <input  matInput #inputCorreo [(ngModel)]="correo" [ngModelOptions]="{standalone: true}">
+                          <mat-hint align="end"  *ngIf="correoInvalido" style="color: red;">El correo ingresado no existe</mat-hint>
+                          <mat-hint align="end"  *ngIf="missingCorreo" style="color: red;">Ingrese su correo</mat-hint>
                         </mat-form-field>
                       </div>
                       <div class="col-md-4" style="margin-left: 2%;">
-                        <label class="form-label" style="color: black; margin-right: 100px;">Contraseña*</label>
+                        <label  *ngIf="missingContrasena || contrasenaInvalida" class="form-label" style="color: red;">Contraseña*</label>
+                        <label  *ngIf="!missingContrasena && !contrasenaInvalida" class="form-label" style="color: black; margin-right: 100px;">Contraseña*</label>
                         <mat-form-field hintLabel="8 caracteres alfanuméricos" appearance="fill" >
-                            <input matInput #inputContrasena maxlength="8"><mat-hint align="end">{{inputContrasena.value?.length || 0}}/8</mat-hint>
+                            <input matInput #inputContrasena maxlength="8" [(ngModel)]="contrasena" [type]="hide ? 'password' : 'text'" required [ngModelOptions]="{standalone: true}">
+                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </mat-form-field>
+                        <h5 *ngIf="contrasenaInvalida" style="color: red;"> Contraseña incorrecta</h5>
+                        <h5 *ngIf="missingContrasena" style="color: red;"> Ingrese la contraseña de su cuenta</h5>
                       </div>
                       <div class="col-6" >
                         <h5 style="margin-bottom: 50px;">¿No tienes una cuenta? <a href="/registro-jugador"> Registrarme</a></h5>
                       </div>
         
                     <div class="col-6" >
-                      <button type="button" class="btn btn-primary"  style="margin-left: 30px; background-color: green; border-color: green;" >Ingresar</button>
+                      <button type="button" class="btn btn-primary"  style="margin-left: 30px; background-color: green; border-color: green;" (click)="login()">Ingresar</button>
                     </div>
                   </form>
         </div>
