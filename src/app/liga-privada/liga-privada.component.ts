@@ -17,12 +17,20 @@ import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
 import { JugadorService } from '@app/_services/jugador.service';
 import { AuthGuardService } from '@app/_services/auth-guard.service';
 
+
 @Component({
   selector: 'app-ranking-privado',
   templateUrl: './liga-privada.component.html',
   styleUrls: ['./liga-privada.component.scss']
 })
+
+
 export class LigaPrivadaComponent implements OnInit {
+
+
+
+
+
 
   // Si esta variable es 0, se indica que el jugador no pertenece a una liga privada.
   cantidadJugadores : any;
@@ -53,7 +61,9 @@ export class LigaPrivadaComponent implements OnInit {
   ligasCreadas : any;
   llaveErronea !: boolean;
   limiteAlcanzado !: boolean;
-  cantidadMiembros : any;
+  cantidadMiembros: any;
+
+
 
   constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService, private auth : AuthGuardService) { 
     this.crearLiga = false;
@@ -92,6 +102,11 @@ export class LigaPrivadaComponent implements OnInit {
 
     
   }
+
+
+
+
+
 
   /**
    * Controla las banderas para mostrar solamente el form de crear una liga privada

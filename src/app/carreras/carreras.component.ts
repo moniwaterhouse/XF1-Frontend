@@ -79,7 +79,7 @@ export class CarrerasComponent implements OnInit {
         const data: JSON[] = XLSX.utils.sheet_to_json(ws, { raw: false })
         if (Object.keys(data[0]).length == 16 && data.length >= 1) {
           this.archivoIncorrecto = false
-          this.carrerasSrv.subirResultados(data).pipe(first()).subscribe(response => { location.reload(); })
+          this.carrerasSrv.subirResultados(data).pipe(first()).subscribe(response => { this.ngOnInit() })
           console.log(data)
           this.archivoSubido = true
         } else {
