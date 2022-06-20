@@ -123,11 +123,14 @@ export class LigaPrivadaComponent implements OnInit {
    * Valida el nombre de la liga privada y llama al servicio que crea una nueva liga privada.
    */
   formarLiga(){
+    this.ocultarOpciones = true;
+    this.crearLiga = false;
     this.nuevaLigaPrivada = {nombre : this.nombreLiga, correo : this.correoJugador};
     if(this.nombreLiga == null || this.nombreLiga.length < 1){
       this.missingName = true;
     }
     else{
+      
       this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {this.ngOnInit()});
     }
   }
@@ -135,6 +138,8 @@ export class LigaPrivadaComponent implements OnInit {
   unirseLigaPrivada(){
 
     this.resetLlaves();
+    this.ocultarOpciones = true;
+    this.unirseLiga = false;
 
     if(this.llavePrivada == null || this.llavePrivada.length < 1){
       this.missingLlave = true;

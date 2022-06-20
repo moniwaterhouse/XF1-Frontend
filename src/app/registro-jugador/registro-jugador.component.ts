@@ -60,9 +60,6 @@ export class RegistroJugadorComponent implements OnInit {
 
     this.jugadorSrv.getCorreosUtilizados().pipe(first()).subscribe(response =>
       {this.correos = response;});
-  
-    this.jugadorSrv.getEscuderiasUtilizadas().pipe(first()).subscribe(response =>
-      {this.escuderias = response;});
     
   }
 

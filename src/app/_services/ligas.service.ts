@@ -41,7 +41,7 @@ export class LigasService {
   }
 
   getCantidadMiembrosLigaPrivada(llavePrivada : string){
-    return this.http.get<any>(`${environment.apiUrl}/Liga/CantidadJugadorPorId/` + "'" + llavePrivada + "'");
+    return this.http.get<any>(`${environment.apiUrl}/Liga/CantidadJugadorPorId/` + llavePrivada);
   }
 
   anadirMiembroLigaPrivada(ligaPrivada : LigaPrivadaId){

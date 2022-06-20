@@ -65,4 +65,15 @@ export class PerfilJugadorComponent implements OnInit {
     });
   }
 
+  /**
+   * Esta función conduce al perfil de jugador cuyo perfil se quiere visualizar.
+   * @param correo es el correo del usuario a revisar el perfil
+   */
+   verPerfil() {
+    this.jugadorSrv.setCorreoPerfil(this.correoLogueado);
+    this.ngOnInit();
+
+    
+  }
+
 }

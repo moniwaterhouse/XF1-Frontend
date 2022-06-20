@@ -265,16 +265,15 @@ export class ConfigurarEscuderiaComponent implements OnInit {
       this.incompletoE2 = true;
     } else { this.incompletoE2 = false; }
     if (!this.faltaNombreEsc && !this.faltaNombreE1 && !this.faltaNombreE2 && !this.incompletoE1 && !this.incompletoE2 && !this.nombreEscTomado) {
-      this.equipo1 = { marcaEscuderia: this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2: this.pilotosE1[1].nombre, nombrePiloto3: this.pilotosE1[2].nombre, NombrePiloto4: this.pilotosE1[3].nombre, nombrePiloto5: this.pilotosE1[4].nombre, puntajePublica: 0, costo: this.presupuestoE1 };
-      this.equipo2 = { marcaEscuderia: this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2: this.pilotosE2[1].nombre, nombrePiloto3: this.pilotosE2[2].nombre, NombrePiloto4: this.pilotosE2[3].nombre, nombrePiloto5: this.pilotosE2[4].nombre, puntajePublica: 0, costo: this.presupuestoE2 };
+      this.equipo1 = { nombre : this.nombreE1, marcaEscuderia: this.escuderiaE1.marca, nombrePiloto1: this.pilotosE1[0].nombre, nombrePiloto2: this.pilotosE1[1].nombre, nombrePiloto3: this.pilotosE1[2].nombre, NombrePiloto4: this.pilotosE1[3].nombre, nombrePiloto5: this.pilotosE1[4].nombre, puntajePublica: 0, costo: this.presupuestoE1 };
+      this.equipo2 = {nombre : this.nombreE2, marcaEscuderia: this.escuderiaE2.marca, nombrePiloto1: this.pilotosE2[0].nombre, nombrePiloto2: this.pilotosE2[1].nombre, nombrePiloto3: this.pilotosE2[2].nombre, NombrePiloto4: this.pilotosE2[3].nombre, nombrePiloto5: this.pilotosE2[4].nombre, puntajePublica: 0, costo: this.presupuestoE2 };
       this.equipoSrv.crearEquipo(this.equipo1).pipe(first()).subscribe(response => {this.idEquipo1 = response;
         this.equipoSrv.crearEquipo(this.equipo2).pipe(first()).subscribe(response => {this.idEquipo2 = response;
           this.jugador.nombreEscuderia = this.nombreEsc;
           this.jugador.idEquipo1 = this.idEquipo1;
           this.jugador.idEquipo2 = this.idEquipo2;
           this.jugadorSrv.crearJugador(this.jugador).pipe(first()).subscribe();
-
-          //this.route.navigate(['/ranking-publico']);
+          this.route.navigate(['/ranking-publico']);
         });});
           this.cuentaCreada = true;
           
