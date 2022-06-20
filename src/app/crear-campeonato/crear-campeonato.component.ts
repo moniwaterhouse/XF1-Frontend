@@ -15,6 +15,7 @@ import { first, range } from 'rxjs';
 import { DatePipe } from '@angular/common'
 import { Campeonato} from '../_interfaces/campeonatos'
 import { Router } from '@angular/router';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-crear-campeonato',
@@ -63,9 +64,17 @@ export class CrearCampeonatoComponent implements OnInit {
   opcionesPresupuesto = new Array(101).fill(0).map((x, i)=> i);
   opcionesHora = new Array(25).fill(0).map((x, i)=> i);
   opcionesMinutos = new Array(61).fill(0).map((x, i)=> i);
+
+  correo !: string;
   
   
-  constructor(private campeonatoSrv: CampeonatosService, private route : Router) { }
+  constructor(private campeonatoSrv: CampeonatosService, private route : Router, private auth : AuthGuardService) {
+    this.auth.correoAux.subscribe((u: string) => { this.correo = u });
+
+    if(this.correo == "" || this.correo == null){
+      this.route.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
     this.fechaMin = new Date();
@@ -152,7 +161,7 @@ export class CrearCampeonatoComponent implements OnInit {
       {id: "", nombre: this.nombre, presupuesto: this.presupuesto, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin, reglasPuntuacion: this.reglasPuntuacion}
     ;
     
-    this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe(response => {location.href = "http://localhost:4200/campeonatos";});
+    this.campeonatoSrv.crearCampeonato(this.campeonato).pipe(first()).subscribe(response => {this.route.navigate(['/campeonatos']);});
     
     
   }

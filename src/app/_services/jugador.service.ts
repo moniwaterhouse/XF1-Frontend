@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Jugador } from '@app/_interfaces/jugador';
+import { CorreoJugador, DatosLogin, Jugador } from '@app/_interfaces/jugador';
 import { environment } from '@environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
@@ -16,11 +16,13 @@ import { BehaviorSubject } from 'rxjs';
 export class JugadorService {
 
   jugador !: Jugador;
-
   jugadorAux: BehaviorSubject<Jugador> = new BehaviorSubject(this.jugador);
 
   correoPerfil !: string;
   correoPerfilAux : BehaviorSubject<string> = new BehaviorSubject(this.correoPerfil);
+
+  correo !: string;
+  correoAux : BehaviorSubject<string> = new BehaviorSubject(this.correo);
 
   constructor(private http: HttpClient) {}
 
@@ -40,10 +42,17 @@ export class JugadorService {
     return this.http.get(`${environment.apiUrl}/Usuario/Perfil/` + "'" + correo + "'");
   }
 
+  abadonarLiga(correo : CorreoJugador){
+    return this.http.put(`${environment.apiUrl}/Usuario/Abandonar`, correo);
+  }
+
+  login(datos : DatosLogin){
+    return this.http.post(`${environment.apiUrl}/Usuario/Login`, datos, {observe: 'response'});
+  }
+
   setJugador(jugador : Jugador){
 
     this.jugador = jugador;
-
     this.jugadorAux.next(this.jugador);
 
   }
@@ -56,4 +65,6 @@ export class JugadorService {
     this.correoPerfil = correo;
     this.correoPerfilAux.next(this.correoPerfil);
   }
+
+  
 }

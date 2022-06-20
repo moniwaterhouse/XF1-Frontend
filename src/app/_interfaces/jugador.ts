@@ -20,3 +20,13 @@ export interface PerfilJugador {
     nombrePiloto4: string,
     nombrePiloto5: string
 }
+
+export interface CorreoJugador{
+    correo : string;
+}
+
+export interface DatosLogin{
+    correo : string;
+    contrasena : string;
+}
+

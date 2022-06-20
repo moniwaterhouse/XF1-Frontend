@@ -15,6 +15,7 @@ import { ConfigurarEscuderiaComponent } from './configurar-escuderia/configurar-
 import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
 import { LigaPrivadaComponent } from './liga-privada/liga-privada.component';
 import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: 'crear-campeonato', component: CrearCampeonatoComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'configurar-escuderia', component: ConfigurarEscuderiaComponent },
   { path: 'ranking-publico', component: RankingPublicoComponent },
   { path: 'liga-privada', component: LigaPrivadaComponent },
-  { path: 'perfil-jugador', component: PerfilJugadorComponent }
+  { path: 'perfil-jugador', component: PerfilJugadorComponent },
+  { path: '', component: LoginComponent}
 ];
 
 @NgModule({

@@ -14,69 +14,79 @@
   <body>
 
     <!-- Navbar que contiene logo y nombre del usuatio que està logueada en ese momento-->
-<nav class="navbar navbar-expand-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand"><img class="img-responsive" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
-  
-      <div class="topnav-right">
-        <a>Daniel Madriz - Admin</a>
+    <nav class="navbar navbar-expand-sm">
+      <div class="container-fluid">
+        <div class="topnav-left">
+          <a class="navbar-brand"><img class="img-responsive navbar-brand" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
+          <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/ranking-publico"  ><b>Liga pública</b></a>
+          <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/campeonatos">Campeonatos</a>
+          <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/carreras">Carreras</a>
+          <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/crear-campeonato">Crear campeonato</a>
+          <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/crear-carrera">Crear carrera</a>
+        </div>
+    
+        <div class="topnav-right">
+          <a>Daniel Madriz - Admin</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
   
   <!-- Sidebar con las opciones que tiene el administrador -->
-  <div class="row">
-    <div class="col-2">
-        <nav class="navbar  bg-light navbar-light">
-            <div class="container-fluid">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/campeonatos">Campeonatos</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" routerLink="/crear-campeonato">Crear Campeonato</a>
-                  </li>
-               <li class="nav-item">
-                  <a class="nav-link" routerLink="/carreras">Carreras</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/crear-carrera">Crear carrera</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+<div class="row">
+
+  <!-- Tabla que muestra las carreras existentes -->
+  <div class="col-9">
+    <div>
+      <h1 style="margin-top: 50px; margin-left: 50px;">Carreras</h1>
+      <br />
+      <div class="input-group-sm mb-3" (change)="leerArchivo($event)" style="margin-left: 50px; max-width: 200px; max-height: 5px; ">
+        <label class="input-group-text" for="inputGroupFile01">Actualizar Resultados</label>
+        <a style="color: red" *ngIf="formatoIncorrecto">*Formato Incorrecto*</a>
+        <a style="color: red" *ngIf="archivoIncorrecto">*Archivo Incorrecto*</a>
+        <input *ngIf="resultadosPendientes" type="file" class="form-control" style="visibility:hidden" id="inputGroupFile01">
+        <input *ngIf="!resultadosPendientes" type="file" class="form-control" style="visibility:hidden" id="inputGroupFile01" disabled>
+      </div>
     </div>
-    <!-- Tabla que muestra las carreras existentes -->
-    <div class="col-9">
-        <h1 style="margin-top: 50px; margin-left: 50px;">Carreras</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Campeonato</th>
-                  <th scope="col">Pais</th>
-                  <th scope="col">Pista</th>
-                  <th scope="col">Fecha de inicio</th>
-                  <th scope="col">Fecha de fin</th>
-                  <th scope="col">Hora de inicio</th>
-                  <th scope="col">Hora de fin</th>
-                  <th scope="col">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let carrera of carreras">
-                  <th scope="row">{{carrera.nombre}}</th>
-                  <td>{{carrera.nombreCampeonato}}</td>
-                  <td>{{carrera.nombrePais}}</td>
-                  <td>{{carrera.nombrePista}}</td>
-                  <td>{{carrera.fechaInicio}}</td>
-                  <td>{{carrera.fechaFin}}</td>
-                  <td>{{carrera.horaInicio}}</td>
-                  <td>{{carrera.horaFin}}</td>
-                  <td>{{carrera.estado}}</td>
-              </tbody>
-          </table>
+    <br />
+    <div class="col-md-6" style="margin-left: 50px;">
+      <mat-form-field appearance="fill">
+        <mat-label>Campeonatos existentes</mat-label>
+        <mat-select [(ngModel)]="campeonato" name="presupuesto">
+          <mat-option *ngFor="let opcionCampeonato of campeonatosExistentes" [value]="opcionCampeonato" (click)="selecCampeonato(opcionCampeonato)">
+            {{opcionCampeonato.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Campeonato</th>
+          <th scope="col">Pais</th>
+          <th scope="col">Pista</th>
+          <th scope="col">Fecha de inicio</th>
+          <th scope="col">Fecha de fin</th>
+          <th scope="col">Hora de inicio</th>
+          <th scope="col">Hora de fin</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let carrera of carreras">
+          <th *ngIf ="carrera.nombreCampeonato == campeonatoNombre" scope="row">{{carrera.nombre}}</th>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.nombreCampeonato}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.nombrePais}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.nombrePista}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.fechaInicio}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.fechaFin}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.horaInicio}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.horaFin}}</td>
+          <td *ngIf ="carrera.nombreCampeonato == campeonatoNombre">{{carrera.estado}}</td>
+      </tbody>
+    </table>
   </div>
+</div>
   </body>
 </html>
