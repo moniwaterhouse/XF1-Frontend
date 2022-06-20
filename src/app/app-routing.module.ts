@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'ranking-publico', component: RankingPublicoComponent },
   { path: 'liga-privada', component: LigaPrivadaComponent },
   { path: 'perfil-jugador', component: PerfilJugadorComponent },
-  { path: 'login', component: LoginComponent}
+  { path: '', component: LoginComponent}
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { JugadorService } from '@app/_services/jugador.service';  
 import { first } from 'rxjs';
 import { DatosLogin } from '@app/_interfaces/jugador';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
   datos !: DatosLogin;
   
 
-  constructor(private jugadorSrv : JugadorService, private route : Router) { }
+  constructor(private jugadorSrv : JugadorService, private route : Router, private auth : AuthGuardService) { }
 
   ngOnInit(): void {
 
@@ -61,10 +62,13 @@ export class LoginComponent implements OnInit {
     }
 
     if(!this.missingContrasena && !this.missingCorreo){
+      this.auth.setCorreo(this.correo);
       this.datos = {correo : this.correo, contrasena : this.contrasena};
       this.jugadorSrv.login(this.datos).pipe(first()).subscribe(
         response => {
-          location.href = "http://localhost:4200/ranking-publico";}, 
+         
+          this.route.navigate(['/ranking-publico']);
+        }, 
         error =>{
           if (error.status == 409){
             this.correoInvalido = true;

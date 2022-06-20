@@ -16,11 +16,13 @@ import { BehaviorSubject } from 'rxjs';
 export class JugadorService {
 
   jugador !: Jugador;
-
   jugadorAux: BehaviorSubject<Jugador> = new BehaviorSubject(this.jugador);
 
   correoPerfil !: string;
   correoPerfilAux : BehaviorSubject<string> = new BehaviorSubject(this.correoPerfil);
+
+  correo !: string;
+  correoAux : BehaviorSubject<string> = new BehaviorSubject(this.correo);
 
   constructor(private http: HttpClient) {}
 
@@ -51,7 +53,6 @@ export class JugadorService {
   setJugador(jugador : Jugador){
 
     this.jugador = jugador;
-
     this.jugadorAux.next(this.jugador);
 
   }
@@ -64,4 +65,6 @@ export class JugadorService {
     this.correoPerfil = correo;
     this.correoPerfilAux.next(this.correoPerfil);
   }
+
+  
 }

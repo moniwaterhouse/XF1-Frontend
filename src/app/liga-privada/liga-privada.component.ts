@@ -15,6 +15,7 @@ import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
 import { LigaPrivada, LigaPrivadaId } from '@app/_interfaces/liga-privada';
 import { JugadorService } from '@app/_services/jugador.service';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-ranking-privado',
@@ -54,10 +55,14 @@ export class LigaPrivadaComponent implements OnInit {
   limiteAlcanzado !: boolean;
   cantidadMiembros : any;
 
-  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService) { 
+  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService, private auth : AuthGuardService) { 
     this.crearLiga = false;
     this.unirseLiga = false;
-    this.correoJugador = this.ligasSrv.correo;
+    this.auth.correoAux.subscribe((u: string) => { this.correoJugador = u });
+
+    if(this.correoJugador == "" || this.correoJugador == null){
+      this.route.navigate(['/']);
+    }
     
 
   }
@@ -66,13 +71,13 @@ export class LigaPrivadaComponent implements OnInit {
     
 
     // Llamado al serivicio de ligas para creación de lógica de visualización del ranking privado
-    this.ligasSrv.getPuntajesPrivada().pipe(first()).subscribe(response => { this.puntajes = response; });
-    this.ligasSrv.getMiEscuderia().pipe(first()).subscribe(response => { this.nombreUsuario = response[0].jugador });
-    this.ligasSrv.getUsuariosPrivada().pipe(first()).subscribe(response => { this.usuarios = response; });
-    this.ligasSrv.getInfoPrivada().pipe(first()).subscribe(response => { this.info = response; });
+    this.ligasSrv.getPuntajesPrivada(this.correoJugador).pipe(first()).subscribe(response => { this.puntajes = response; });
+    this.ligasSrv.getMiEscuderia(this.correoJugador).pipe(first()).subscribe(response => { this.nombreUsuario = response[0].jugador });
+    this.ligasSrv.getUsuariosPrivada(this.correoJugador).pipe(first()).subscribe(response => { this.usuarios = response; });
+    this.ligasSrv.getInfoPrivada(this.correoJugador).pipe(first()).subscribe(response => { this.info = response; });
 
     // Verifica si el jugador pertenece o no a una liga privada y setea la bandera respectiva para mostrar el ranking de la liga o permitirle crear o unirse a una.
-    this.ligasSrv.getCuentaMiembrosLigaPrivada().pipe(first()).subscribe(response => {this.cantidadJugadores = response; 
+    this.ligasSrv.getCuentaMiembrosLigaPrivada(this.correoJugador).pipe(first()).subscribe(response => {this.cantidadJugadores = response; 
                                                                                       if(this.cantidadJugadores.cantidad > 0){
                                                                                         this.miembroLiga = true;
                                                                                       }
@@ -118,12 +123,12 @@ export class LigaPrivadaComponent implements OnInit {
    * Valida el nombre de la liga privada y llama al servicio que crea una nueva liga privada.
    */
   formarLiga(){
-    this.nuevaLigaPrivada = {nombre : this.nombreLiga, correo : this.correoJugador.slice(1, -1)};
+    this.nuevaLigaPrivada = {nombre : this.nombreLiga, correo : this.correoJugador};
     if(this.nombreLiga == null || this.nombreLiga.length < 1){
       this.missingName = true;
     }
     else{
-      this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {window.location.reload();});
+      this.ligasSrv.crearLigaPrivada(this.nuevaLigaPrivada).pipe(first()).subscribe(response => {this.ngOnInit()});
     }
   }
 
@@ -135,7 +140,7 @@ export class LigaPrivadaComponent implements OnInit {
       this.missingLlave = true;
     }
     else{
-      this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador.slice(1,-1)};
+      this.ligaPrivadaId = {id : this.llavePrivada, correo : this.correoJugador};
       for(let i = 0; i < this.ligasCreadas.length; i++){
         if(this.ligasCreadas[i].id == this.llavePrivada){
           this.ligasSrv.getCantidadMiembrosLigaPrivada(this.llavePrivada).pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
@@ -143,7 +148,7 @@ export class LigaPrivadaComponent implements OnInit {
                                                                                                                 this.limiteAlcanzado = true;
                                                                                                               }
                                                                                                             else{
-                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe(response=>{window.location.reload();});
+                                                                                                              this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe(response=>{this.ngOnInit()});
                                                                                                               
                                                                                                             }});
                                                                                                             
@@ -177,8 +182,8 @@ export class LigaPrivadaComponent implements OnInit {
   }
 
   abandonarLigaPrivada(){
-    this.correoJson = {"correo" :  this.correoJugador.slice(1,-1)};
-    this.jugadorSrv.abadonarLiga(this.correoJson).pipe(first()).subscribe(response => {window.location.reload(); });
+    this.correoJson = {"correo" :  this.correoJugador};
+    this.jugadorSrv.abadonarLiga(this.correoJson).pipe(first()).subscribe(response => {this.ngOnInit()});
 
   }
 
