@@ -153,8 +153,7 @@ export class LigaPrivadaComponent implements OnInit {
   unirseLigaPrivada(){
 
     this.resetLlaves();
-    this.ocultarOpciones = true;
-    this.unirseLiga = false;
+    
 
     if(this.llavePrivada == null || this.llavePrivada.length < 1){
       this.missingLlave = true;
@@ -165,9 +164,12 @@ export class LigaPrivadaComponent implements OnInit {
         if(this.ligasCreadas[i].id == this.llavePrivada){
           this.ligasSrv.getCantidadMiembrosLigaPrivada(this.llavePrivada).pipe(first()).subscribe(response => { this.cantidadMiembros = response.cantidad;
                                                                                                               if(this.cantidadMiembros > 38){
+                                                                                                                console.log(this.cantidadMiembros);
                                                                                                                 this.limiteAlcanzado = true;
                                                                                                               }
                                                                                                             else{
+                                                                                                              this.ocultarOpciones = true;
+                                                                                                              this.unirseLiga = false;
                                                                                                               this.ligasSrv.anadirMiembroLigaPrivada(this.ligaPrivadaId).pipe(first()).subscribe(response=>{this.ngOnInit()});
                                                                                                               
                                                                                                             }});

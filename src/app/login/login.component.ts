@@ -34,13 +34,18 @@ export class LoginComponent implements OnInit {
   contrasenaInvalida !: boolean;
   error !: boolean;
   hide = true;
+  correoAdmin !: string;
+  contrasenaAdmin !: string;
 
   // Variables usadas con los requests
   correos : any;
   datos !: DatosLogin;
   
 
-  constructor(private jugadorSrv : JugadorService, private route : Router, private auth : AuthGuardService) { }
+  constructor(private jugadorSrv : JugadorService, private route : Router, private auth : AuthGuardService) { 
+    this.correoAdmin = "admin@xfia.com";
+    this.contrasenaAdmin = "hola1234";
+  }
 
   ngOnInit(): void {
 
@@ -66,7 +71,6 @@ export class LoginComponent implements OnInit {
       this.datos = {correo : this.correo, contrasena : this.contrasena};
       this.jugadorSrv.login(this.datos).pipe(first()).subscribe(
         response => {
-         
           this.route.navigate(['/ranking-publico']);
         }, 
         error =>{
@@ -80,6 +84,16 @@ export class LoginComponent implements OnInit {
             this.error = true;
           }
         })
+    }
+
+    if(this.correo == this.correoAdmin && this.contrasena == this.contrasenaAdmin){
+      this.auth.setCorreo(this.correo);
+      this.route.navigate(['/ranking-publico']);
+
+    }
+    else{
+      this.correoInvalido = true;
+      this.contrasenaInvalida = true;
     }
     
   }

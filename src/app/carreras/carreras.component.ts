@@ -44,7 +44,7 @@ export class CarrerasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carrerasSrv.getCarreras().pipe(first()).subscribe(response => { this.carreras = response; });
+    this.carrerasSrv.getCarreras().pipe(first()).subscribe(response => { this.carreras = response; this.resPendientes()});
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response => { this.campeonatosExistentes = response; });
   }
 
@@ -58,7 +58,11 @@ export class CarrerasComponent implements OnInit {
     for (let i of this.carreras) {
       if (i.nombreCampeonato == this.campeonatoNombre) {
         if (i.estado == "Calificacion Completada") {
-          this.resultadosPendientes = true
+          this.resultadosPendientes = true;
+          break;
+        }
+        else{
+          this.resultadosPendientes = false;
         }
       }
     }
@@ -79,9 +83,10 @@ export class CarrerasComponent implements OnInit {
         const data: JSON[] = XLSX.utils.sheet_to_json(ws, { raw: false })
         if (Object.keys(data[0]).length == 16 && data.length >= 1) {
           this.archivoIncorrecto = false
-          this.carrerasSrv.subirResultados(data).pipe(first()).subscribe(response => { this.ngOnInit() })
+          this.carrerasSrv.subirResultados(data).pipe(first()).subscribe(response => {this.ngOnInit();})
           console.log(data)
           this.archivoSubido = true
+          
         } else {
           this.archivoIncorrecto = true
         }

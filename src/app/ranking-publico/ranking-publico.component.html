@@ -12,7 +12,7 @@
 </head>
 <body>
   <!-- Header con el logo de la XFIA -->
-  <nav class="navbar navbar-expand-sm">
+  <nav *ngIf="esJugador" class="navbar navbar-expand-sm">
     <div class="container-fluid">
       <div class="topnav-left">
         <a class="navbar-brand"><img class="img-responsive navbar-brand" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
@@ -28,6 +28,24 @@
       </div>
     </div>
   </nav>
+
+  <nav *ngIf="esAdmin" class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+      <div class="topnav-left">
+        <a class="navbar-brand"><img class="img-responsive navbar-brand" id="logo" src="https://i.pinimg.com/564x/22/57/2b/22572b3af03d23d02d0d97af387e3476.jpg"></a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/ranking-publico"  ><b>Liga pública</b></a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/campeonatos">Campeonatos</a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/carreras">Carreras</a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/crear-campeonato">Crear campeonato</a>
+        <a style="margin-right: 20px; text-decoration: none; color: white" routerLink="/crear-carrera">Crear carrera</a>
+      </div>
+  
+      <div class="topnav-right">
+        <a>Daniel Madriz - Admin</a>
+      </div>
+    </div>
+  </nav>
+
   <br />
   <section>
 
@@ -35,6 +53,7 @@
     <br />
     <br />
     <div class="container">
+      
       <div style="max-height:580px; width:95%; overflow-y: scroll; ">
         <table class="table table-striped">
           <thead>
@@ -57,7 +76,7 @@
           </tbody>
         </table>
       </div>
-      <div class="item">
+      <div *ngIf="esJugador" class="item">
         <h1>Mi escuderia</h1>
         <br />
         <div style="border-bottom:2px dashed">

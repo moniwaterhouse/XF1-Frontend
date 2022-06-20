@@ -18,6 +18,9 @@ export class RankingPublicoComponent implements OnInit {
   nombreMiEscuderia!: string;
   nombreUsuario!: string;
   correoJugador !: string;
+
+  esAdmin !: boolean;
+  esJugador !: boolean;
   
 
   constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService, private auth : AuthGuardService) { 
@@ -25,6 +28,12 @@ export class RankingPublicoComponent implements OnInit {
 
     if(this.correoJugador == "" || this.correoJugador == null){
       this.route.navigate(['/']);
+    }
+    else if(this.correoJugador == "admin@xfia.com"){
+      this.esAdmin = true;
+    }
+    else{
+      this.esJugador = true;
     }
   }
 
