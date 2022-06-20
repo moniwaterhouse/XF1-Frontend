@@ -96,7 +96,24 @@ export class CarrerasComponent implements OnInit {
         const wsname: string = wb.SheetNames[0]
         const ws: XLSX.WorkSheet = wb.Sheets[wsname]
         const data: JSON[] = XLSX.utils.sheet_to_json(ws, { raw: false })
-        if (Object.keys(data[0]).length == 16 && data.length >= 1) {
+        if (JSON.stringify(Object.keys(data[0])) === JSON.stringify([
+          "codigoXFIA",
+          "constructor_NaN",
+          "nombre",
+          "tipo",
+          "precio",
+          "posicionCalificacion",
+          "q1",
+          "q2",
+          "q3",
+          "sinCalificarCalificacion",
+          "descalificadoCalificacion",
+          "posicionCarrera",
+          "vueltaMasRapida",
+          "ganoACompaneroDeEquipo",
+          "sinCalificarCarrera",
+          "descalificadoDeCarrera"]) && data.length >= 1) {
+          console.log(Object.keys(data[0]))
           this.archivoIncorrecto = false
           this.carrerasSrv.subirResultados(data).pipe(first()).subscribe(response => {this.ngOnInit();})
           console.log(data)
