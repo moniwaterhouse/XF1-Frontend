@@ -7,6 +7,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 import { first } from 'rxjs';
 import { CampeonatosService } from '../_services/campeonatos.service';
 
@@ -19,8 +21,15 @@ import { CampeonatosService } from '../_services/campeonatos.service';
 export class CampeonatosComponent implements OnInit {
 
   campeonatos: any;
+  correo !: any;
 
-  constructor( private campeonatoSrv: CampeonatosService) { }
+  constructor( private campeonatoSrv: CampeonatosService, private auth : AuthGuardService, private route: Router) { 
+    this.auth.correoAux.subscribe((u: string) => { this.correo = u });
+
+    if(this.correo == "" || this.correo == null){
+      this.route.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
     

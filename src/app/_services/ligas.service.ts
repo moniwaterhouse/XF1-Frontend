@@ -18,24 +18,24 @@ export class LigasService {
     return this.http.get<UsuarioLiga[]>(`${environment.apiUrl}/Liga/PuntajesPublica`);
   }
 
-  getMiEscuderia() {
-    return this.http.get<UsuarioLiga[]>(`${environment.apiUrl}/Liga/PuntajesPublica/` + this.correo );
+  getMiEscuderia(correo : string) {
+    return this.http.get<UsuarioLiga[]>(`${environment.apiUrl}/Liga/PuntajesPublica/` + "'" + correo + "'");
   }
 
-  getInfoPrivada() {
-    return this.http.get(`${environment.apiUrl}/Liga/InfoPrivada/` + this.correo);
+  getInfoPrivada(correo : string) {
+    return this.http.get(`${environment.apiUrl}/Liga/InfoPrivada/` + "'" + correo + "'");
   }
 
-  getPuntajesPrivada() {
-    return this.http.get<UsuarioLiga[]>(`${environment.apiUrl}/Liga/PuntajesPrivada/` + this.correo);
+  getPuntajesPrivada(correo : string) {
+    return this.http.get<UsuarioLiga[]>(`${environment.apiUrl}/Liga/PuntajesPrivada/` + "'" + correo + "'");
   }
 
-  getUsuariosPrivada() {
-    return this.http.get <any[]>(`${environment.apiUrl}/Liga/UsuariosLiga/` + this.correo);
+  getUsuariosPrivada(correo : string) {
+    return this.http.get <any[]>(`${environment.apiUrl}/Liga/UsuariosLiga/` + "'" + correo + "'");
   }
 
-  getCuentaMiembrosLigaPrivada(){
-    return this.http.get<number>(`${environment.apiUrl}/Liga/CantidadJugador/` + this.correo);
+  getCuentaMiembrosLigaPrivada(correo : string){
+    return this.http.get<number>(`${environment.apiUrl}/Liga/CantidadJugador/` + "'" + correo + "'");
   }
 
   getLigasPrivadas(){
@@ -43,7 +43,7 @@ export class LigasService {
   }
 
   getCantidadMiembrosLigaPrivada(llavePrivada : string){
-    return this.http.get<any>(`${environment.apiUrl}/Liga/CantidadJugadorPorId/` + "'" + llavePrivada + "'");
+    return this.http.get<any>(`${environment.apiUrl}/Liga/CantidadJugadorPorId/` + llavePrivada);
   }
 
   anadirMiembroLigaPrivada(ligaPrivada : LigaPrivadaId){

@@ -1,4 +1,5 @@
 export interface Equipo{
+  nombre : string;
   marcaEscuderia: string;
   nombrePiloto1: string;
   nombrePiloto2: string;

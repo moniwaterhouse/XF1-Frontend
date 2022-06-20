@@ -24,3 +24,9 @@ export interface PerfilJugador {
 export interface CorreoJugador{
     correo : string;
 }
+
+export interface DatosLogin{
+    correo : string;
+    contrasena : string;
+}
+

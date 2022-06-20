@@ -10,6 +10,8 @@ import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { first } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { Campeonato } from '../_interfaces/campeonatos';
+import { Router } from '@angular/router';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-carreras',
@@ -28,10 +30,18 @@ export class CarrerasComponent implements OnInit {
   archivoIncorrecto: boolean = false
   archivoSubido: boolean = false
   resultadosPendientes: boolean = false
+
+  correo !: string;
   
   
 
-  constructor(private carrerasSrv: CarrerasService, private campeonatoSrv: CampeonatosService) { }
+  constructor(private carrerasSrv: CarrerasService, private campeonatoSrv: CampeonatosService, private auth : AuthGuardService, private route: Router) { 
+    this.auth.correoAux.subscribe((u: string) => { this.correo = u });
+
+    if(this.correo == "" || this.correo == null){
+      this.route.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
     this.carrerasSrv.getCarreras().pipe(first()).subscribe(response => { this.carreras = response; });

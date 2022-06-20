@@ -10,6 +10,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 import { JugadorService } from '@app/_services/jugador.service';
 import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
@@ -37,14 +38,18 @@ export class PerfilJugadorComponent implements OnInit {
   puntajeEquipo2 : any;
   
 
-  constructor(private jugadorSrv : JugadorService, private ligasSrv: LigasService, private route: Router) { 
-    this.correoLogueado = this.ligasSrv.correo;
+  constructor(private jugadorSrv : JugadorService, private ligasSrv: LigasService, private route: Router, private auth : AuthGuardService) { 
+    this.auth.correoAux.subscribe((u: string) => { this.correoLogueado = u });
+
+    if(this.correoLogueado == "" || this.correoLogueado == null){
+      this.route.navigate(['/']);
+    }
   }
 
   ngOnInit(): void {
     
     this.jugadorSrv.correoPerfilAux.subscribe((u: string) => { this.correo = u });
-    this.ligasSrv.getMiEscuderia().pipe(first()).subscribe(response => { 
+    this.ligasSrv.getMiEscuderia(this.correoLogueado).pipe(first()).subscribe(response => { 
       this.nombreUsuarioLogueado = response[0].jugador;
       this.posEquipo1 = response[0].posicion;
       this.posEquipo2 = response[1].posicion;
@@ -58,6 +63,17 @@ export class PerfilJugadorComponent implements OnInit {
       this.pais = this.equipo1.pais;
       this.nombreEscuderia = this.equipo1.nombreEscuderia;
     });
+  }
+
+  /**
+   * Esta función conduce al perfil de jugador cuyo perfil se quiere visualizar.
+   * @param correo es el correo del usuario a revisar el perfil
+   */
+   verPerfil() {
+    this.jugadorSrv.setCorreoPerfil(this.correoLogueado);
+    this.ngOnInit();
+
+    
   }
 
 }

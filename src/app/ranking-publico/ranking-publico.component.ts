@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioLiga } from '../_interfaces/usuario-liga'
 import { Router } from '@angular/router';
 import { LigasService } from '@app/_services/ligas.service';
 import { first } from 'rxjs';
 import { JugadorService } from '@app/_services/jugador.service';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-ranking-publico',
@@ -20,12 +20,18 @@ export class RankingPublicoComponent implements OnInit {
   correoJugador !: string;
   
 
-  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService) { }
+  constructor(private ligasSrv: LigasService, private route: Router, private jugadorSrv : JugadorService, private auth : AuthGuardService) { 
+    this.auth.correoAux.subscribe((u: string) => { this.correoJugador = u });
+
+    if(this.correoJugador == "" || this.correoJugador == null){
+      this.route.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
+    
     this.ligasSrv.getUsuariosPublica().pipe(first()).subscribe(response => { this.usuarios = response;});
-    this.ligasSrv.getMiEscuderia().pipe(first()).subscribe(response => { this.miEscuderia = response; this.nombreMiEscuderia = response[0].escuderia; this.nombreUsuario = response[0].jugador });
-    this.correoJugador = this.ligasSrv.correo;
+    this.ligasSrv.getMiEscuderia(this.correoJugador).pipe(first()).subscribe(response => { this.miEscuderia = response; this.nombreMiEscuderia = response[0].escuderia; this.nombreUsuario = response[0].jugador });
   }
 
   /**

@@ -17,6 +17,7 @@ import { first } from 'rxjs';
 import { CampeonatosService } from '@app/_services/campeonatos.service';
 import { Router } from '@angular/router';
 import { PAISES } from '../_data/paises';
+import { AuthGuardService } from '@app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-crear-carreras',
@@ -80,9 +81,16 @@ export class CrearCarrerasComponent implements OnInit {
   // Variable para ser utilizada como insumo del dropdown de países
   listaPaises = PAISES;
 
+  correo !: string
 
-  constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router) {
+
+  constructor(private carreraSrv:CarrerasService, private campeonatoSrv:CampeonatosService, private route : Router, private auth : AuthGuardService) {
     this.campeonatoSeleccionado = false;
+    this.auth.correoAux.subscribe((u: string) => { this.correo = u });
+
+    if(this.correo == "" || this.correo == null){
+      this.route.navigate(['/']);
+    }
   
    }
 
@@ -170,7 +178,7 @@ export class CrearCarrerasComponent implements OnInit {
     this.carrera = 
       {nombre: this.nombre, idCampeonato: this.campeonato.id, nombrePais: this.pais, nombrePista: this.pista, fechaInicio: this.formatoFechaInicio, horaInicio: this.tiempoInicio, fechaFin: this.formatoFechaFin, horaFin: this.tiempoFin};
     
-    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe(response => { location.href = "http://localhost:4200/carreras";});
+    this.carreraSrv.crearCarrera(this.carrera).pipe(first()).subscribe(response => { this.route.navigate(['/carreras']);});
 
    
     

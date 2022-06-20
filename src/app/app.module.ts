@@ -28,6 +28,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { RankingPublicoComponent } from './ranking-publico/ranking-publico.component';
 import { LigaPrivadaComponent } from './liga-privada/liga-privada.component';
 import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import { PerfilJugadorComponent } from './perfil-jugador/perfil-jugador.componen
     CarrerasComponent,
     CrearCarrerasComponent,
     ConfigurarEscuderiaComponent, 
-    RegistroJugadorComponent, RankingPublicoComponent, LigaPrivadaComponent, PerfilJugadorComponent
+    RegistroJugadorComponent, RankingPublicoComponent, LigaPrivadaComponent, PerfilJugadorComponent, LoginComponent
   ],
   imports: [
     BrowserModule,
