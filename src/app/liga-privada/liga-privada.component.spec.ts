@@ -66,7 +66,7 @@ describe('RankingPrivadoComponent', () => {
 
   it('Se comprueba que la liga se crea con los valores correctos', () => {
     component.nombreLiga = 'Liga prueba'
-    component.correoJugador ='\'prueba@gmail.com\''
+    component.correoJugador ='prueba@gmail.com'
     component.formarLiga()
     expect(component.nuevaLigaPrivada).toEqual({ 'nombre': 'Liga prueba', 'correo':'prueba@gmail.com'});
   });
@@ -80,7 +80,7 @@ describe('RankingPrivadoComponent', () => {
   it('Se prueba que se usan los valores correctos al unirse a una liga', () => {
     component.ligasCreadas = [{ 'id': 'ABCD-1236' }, { 'id': 'ABCD-1235' }]
     component.llavePrivada = 'ABCD-1234'
-    component.correoJugador = '\'prueba@gmail.com\''
+    component.correoJugador = 'prueba@gmail.com'
     component.unirseLigaPrivada()
     expect(component.ligaPrivadaId).toEqual({ 'id': 'ABCD-1234', 'correo': 'prueba@gmail.com' });
   });
@@ -91,6 +91,12 @@ describe('RankingPrivadoComponent', () => {
     component.correoJugador = 'prueba@gmail.com'
     component.unirseLigaPrivada()
     expect(component.llaveErronea).toBeTrue()
+  });
+
+  it('Se utiliza el correo esperado para abandonar la liga', () => {
+    component.correoJugador = 'prueba@gmail.com'
+    component.abandonarLigaPrivada()
+    expect(component.correoJson).toEqual({ "correo":"prueba@gmail.com"})
   });
 
 

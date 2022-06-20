@@ -48,12 +48,21 @@ export class CarrerasComponent implements OnInit {
     this.campeonatoSrv.getCampeonatos().pipe(first()).subscribe(response => { this.campeonatosExistentes = response; });
   }
 
+  /**
+ * <p> Este método permite seleecionar un campeonato existente para mostrar las carreras de este
+ * </p>
+ */
   selecCampeonato(campeonato: Campeonato) {
     this.campeonatoNombre = campeonato.nombre
     this.resPendientes()
     
   }
 
+  /**
+* <p> Este método permite verificar si existe una carrera con resultados pendientes del campeonato seleccionado
+ * para habilitar el boton de subir resultados
+* </p>
+*/
   resPendientes() {
     for (let i of this.carreras) {
       if (i.nombreCampeonato == this.campeonatoNombre) {
@@ -68,6 +77,12 @@ export class CarrerasComponent implements OnInit {
     }
   }
 
+  /**
+* <p> Este método permite cargar un archivo desde un Input, validar si el archivo cumple con las caracteristicas de formato y tamaño
+ * y en ese caso crea un JSON con la informacion y lo envia al servidor
+ * Entradas: ev:Event evento con el archivo cargado en el Input
+* </p>
+*/
   leerArchivo(ev: Event) {
     console.log(this.campeonato)
     this.reiniciarBanderas()
@@ -96,6 +111,10 @@ export class CarrerasComponent implements OnInit {
     }
   }
 
+  /**
+* <p> Este método permite reiniciar las banderas cuando se necesite
+* </p>
+*/
   reiniciarBanderas() {
     this.formatoIncorrecto = false
     this.archivoSubido = false
