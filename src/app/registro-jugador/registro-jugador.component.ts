@@ -161,7 +161,7 @@ export class RegistroJugadorComponent implements OnInit {
    *  
    */
   cancelar(){
-    window.location.reload();
+    this.route.navigate(['/']);
   }
 
 }

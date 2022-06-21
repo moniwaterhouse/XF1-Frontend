@@ -33,9 +33,8 @@
                         <label  *ngIf="!missingCorreo && !correoInvalido" class="form-label" style="color: black;">Correo electrónico*</label>
                         <mat-form-field appearance="fill" >
                           <input  matInput #inputCorreo [(ngModel)]="correo" [ngModelOptions]="{standalone: true}">
-                          <mat-hint align="end"  *ngIf="correoInvalido" style="color: red;">El correo ingresado no existe</mat-hint>
-                          <mat-hint align="end"  *ngIf="missingCorreo" style="color: red;">Ingrese su correo</mat-hint>
                         </mat-form-field>
+                        <h5 *ngIf="correoInvalido || missingCorreo || missingContrasena || contrasenaInvalida" style="color: red;"> Correo o contraseña inválidos</h5>
                       </div>
                       <div class="col-md-4" style="margin-left: 2%;">
                         <label  *ngIf="missingContrasena || contrasenaInvalida" class="form-label" style="color: red;">Contraseña*</label>
@@ -45,7 +44,6 @@
                             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </mat-form-field>
                         <h5 *ngIf="contrasenaInvalida" style="color: red;"> Contraseña incorrecta</h5>
-                        <h5 *ngIf="missingContrasena" style="color: red;"> Ingrese la contraseña de su cuenta</h5>
                       </div>
                       <div class="col-6" >
                         <h5 style="margin-bottom: 50px;">¿No tienes una cuenta? <a routerLink="/registro-jugador"> Registrarme</a></h5>
